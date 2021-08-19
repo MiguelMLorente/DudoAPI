@@ -22,7 +22,7 @@ io.on('connection', function (socket) {
         console.log(message);
         ResquestHandler_1.handleRequest(message);
         //sendGameStatus();
-        io.emit('message', "hola");
+        io.emit('message', "hola, me has mandado un mensaje");
     });
     // send status update
 });

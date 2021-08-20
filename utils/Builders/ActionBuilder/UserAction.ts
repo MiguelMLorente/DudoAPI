@@ -6,13 +6,15 @@ type Requester = {
 }
 
 type ActionData = {
-    gameId: String;
+    gameId?: String;
     userId: String;
     kickedUser?: String;
     promotedUser?: String;
     selectedOption?: String;
     diceValue: number;
     diceQuantity: number;
+    gameName?: String;
+    gamePassword?: String;
 }
 
 export type UserAction = {

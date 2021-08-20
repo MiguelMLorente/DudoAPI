@@ -24,12 +24,13 @@ io.on('connection', socket => {
     serverData.users.push(createUser(socket))
     socket.send("hello new user")
     // handle new User request
-    socket.on('message', message => {
-        console.log(message);
-        handleRequest(message);  
+    socket.on('action', action => {
+        console.log(action);
+        handleRequest(action, serverData);  
         //sendGameStatus();
-
-        io.emit('message', "hola, me has mandado un mensaje");
+        io.emit('message', "hola, me has mandado una accion");
+        console.log("Nuevo status del servidor: ");
+        console.log(serverData);
     })
     // send status update
     

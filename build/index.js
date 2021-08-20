@@ -18,11 +18,13 @@ io.on('connection', function (socket) {
     serverData.users.push(CreateUser_1.createUser(socket));
     socket.send("hello new user");
     // handle new User request
-    socket.on('message', function (message) {
-        console.log(message);
-        ResquestHandler_1.handleRequest(message);
+    socket.on('action', function (action) {
+        console.log(action);
+        ResquestHandler_1.handleRequest(action, serverData);
         //sendGameStatus();
-        io.emit('message', "hola, me has mandado un mensaje");
+        io.emit('message', "hola, me has mandado una accion");
+        console.log("Nuevo status del servidor: ");
+        console.log(serverData);
     });
     // send status update
 });

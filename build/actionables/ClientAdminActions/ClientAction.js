@@ -24,8 +24,7 @@ var ClientAction = /** @class */ (function (_super) {
     }
     ;
     ClientAction.prototype.validate = function () {
-        _super.prototype.validate.call(this);
-        console.log(this.isValid);
+        this.isValid = this.isValid && (this.requester.UserName !== "");
     };
     return ClientAction;
 }(Action_1.Action));

@@ -5,6 +5,7 @@ var User = /** @class */ (function () {
     function User() {
         this.clientId = "";
         this.userName = "";
+        this.isAdmin = false;
     }
     ;
     Object.defineProperty(User.prototype, "Id", {
@@ -15,9 +16,21 @@ var User = /** @class */ (function () {
         configurable: true
     });
     User.prototype.setUserName = function (name) {
+        if (this.userName === name)
+            return;
         if (this.userName)
             throw new Error("User name already exists, cannot be rewritten");
         this.userName = name;
+    };
+    Object.defineProperty(User.prototype, "UserName", {
+        get: function () {
+            return this.userName;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    User.prototype.grantAdminPermisions = function () {
+        this.isAdmin = true;
     };
     return User;
 }());

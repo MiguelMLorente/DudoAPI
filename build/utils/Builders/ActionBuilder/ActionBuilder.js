@@ -8,8 +8,6 @@ var CreateGameActionBuilder_1 = require("./CreateGameActionBuilder");
 var RaiseActionBuilder_1 = require("./RaiseActionBuilder");
 var ActionBuilder = /** @class */ (function () {
     function ActionBuilder(json, serverData) {
-        console.log(json);
-        console.log(json.requester.uuid);
         this.jsonAction = json;
         this.serverData = serverData;
         this.requester = this.getRequester();
@@ -19,7 +17,6 @@ var ActionBuilder = /** @class */ (function () {
         if (user == null) {
             throw new Error("User not found in database");
         }
-        console.log(user);
         return user;
     };
     ActionBuilder.prototype.build = function () {

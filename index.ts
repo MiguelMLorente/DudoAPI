@@ -27,7 +27,6 @@ io.on('connection', socket => {
     // handle new User request
     socket.on('action', action => {
         console.log(action);
-        console.log(serverData);
         handleRequest(action, serverData);  
         //sendGameStatus();
         io.emit('message', "hola, me has mandado una accion");

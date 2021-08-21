@@ -14,8 +14,6 @@ export class ActionBuilder {
     requester: User;
 
     constructor(json: UserAction, serverData: ServerData) {
-        console.log(json)
-        console.log(json.requester.uuid)
         this.jsonAction = json;
         this.serverData = serverData;
         this.requester = this.getRequester()
@@ -26,7 +24,6 @@ export class ActionBuilder {
         if (user == null) {
             throw new Error("User not found in database");
         }
-        console.log(user);
         return user;
     }
 

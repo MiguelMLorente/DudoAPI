@@ -15,22 +15,7 @@ export abstract class Action {
         this.id = randomUUID();
     };
 
-    validate(): void {
-        // Check that the requester is registered in the data base
-        console.log(this.requester);
-        if (!this.requester.Id || !this.requester.userName) {
-            this.isValid = false;
-            return;
-        }
-        let validUser = false;
-        this.serverData.users.forEach( (user) => {
-            if (validUser) return;
-            if (user.Id === this.requester.Id) {
-                validUser = true;
-            }
-        });
-        this.isValid = validUser;
-    };
+    abstract validate(): void;
 
     abstract launch(): void;
 

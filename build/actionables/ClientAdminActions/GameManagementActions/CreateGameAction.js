@@ -30,6 +30,8 @@ var CreateGameAction = /** @class */ (function (_super) {
     CreateGameAction.prototype.validate = function () {
         console.log("create game action being validated");
         _super.prototype.validate.call(this);
+        // Game name must not be empty
+        this.isValid = (this.isValid && (this.gameName !== ""));
         // User must not be registered in any game in order to create a new game
         this.isValid = (this.isValid && !this.checkUserRegisteredInGame());
         // Print message
@@ -42,7 +44,7 @@ var CreateGameAction = /** @class */ (function (_super) {
         var game = new Game_1.Game(this.gameName, this.gamePassword);
         // Add the game creator as the first player of the game and Admin permissions
         game.gameData.addUser(this.requester);
-        this.requester;
+        this.requester.grantAdminPermisions();
         // Add the game to the game list in the server data base
         this.serverData.games.push(game);
     };

@@ -22,7 +22,7 @@ var NormalUser = /** @class */ (function (_super) {
     __extends(NormalUser, _super);
     function NormalUser(name) {
         var _this = _super.call(this) || this;
-        _this.userName = name || '';
+        _this.userName = name;
         _this.clientId = crypto_1.randomUUID();
         return _this;
     }

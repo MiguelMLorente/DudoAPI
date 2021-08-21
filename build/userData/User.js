@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
+var crypto_1 = require("crypto");
 var User = /** @class */ (function () {
-    function User() {
-        this.clientId = "";
-        this.userName = "";
+    function User(name) {
+        this.clientId = crypto_1.randomUUID();
         this.isAdmin = false;
+        this.userName = name;
     }
     ;
     Object.defineProperty(User.prototype, "Id", {

@@ -1,10 +1,15 @@
-export abstract class User {
-    protected clientId: String = "";
-    protected userName: String = "";
+import { randomUUID } from "crypto";
+
+export class User {
+    protected clientId: String;
+    protected userName: String;
+    
     isAdmin: boolean;
 
-    constructor() {
+    constructor(name: String) {
+        this.clientId = randomUUID();
         this.isAdmin = false
+        this.userName = name;
     };
 
     get Id(): String {

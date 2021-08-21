@@ -2,9 +2,7 @@ import { Action } from "../../../actionables/Action";
 import { CreateGameAction } from "../../../actionables/ClientAdminActions/GameManagementActions/CreateGameAction";
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
-import { NormalUser } from "../../../userData/NormalUser";
 import { User } from "../../../userData/User";
-import { getUser } from "../../Getters/UserGetter";
 import { UserAction } from "./UserAction";
 
 export class CreateGameActionBuilder {

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = void 0;
-var NormalUser_1 = require("../userData/NormalUser");
+var User_1 = require("../userData/User");
 function createUser(socket) {
-    var newUser = new NormalUser_1.NormalUser('');
+    var newUser = new User_1.User('');
     console.log("new user: " + newUser.Id);
     socket.emit('new-user', { userId: newUser.Id });
     return newUser;

@@ -1,6 +1,5 @@
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
-import { AdminUser } from "../../../userData/AdminUser";
 import { User } from "../../../userData/User";
 import { ClientAction } from "../ClientAction";
 

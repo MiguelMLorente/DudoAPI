@@ -16,15 +16,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NormalUser = void 0;
-var crypto_1 = require("crypto");
 var User_1 = require("./User");
 var NormalUser = /** @class */ (function (_super) {
     __extends(NormalUser, _super);
     function NormalUser(name) {
-        var _this = _super.call(this) || this;
-        _this.userName = name;
-        _this.clientId = crypto_1.randomUUID();
-        return _this;
+        return _super.call(this) || this;
     }
     return NormalUser;
 }(User_1.User));

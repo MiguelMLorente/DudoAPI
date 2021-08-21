@@ -9,8 +9,8 @@ var GameData = /** @class */ (function () {
         this.playerList = [];
         this.gameStatus = GameStatus_1.GameStatus.NOT_STARTED;
         this.gameHistory = [];
-        this.gameName = name || '';
-        this.gamePassword = password || '';
+        this.gameName = name;
+        this.gamePassword = password;
     }
     Object.defineProperty(GameData.prototype, "Id", {
         get: function () {
@@ -22,6 +22,20 @@ var GameData = /** @class */ (function () {
     Object.defineProperty(GameData.prototype, "Users", {
         get: function () {
             return this.playerList;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(GameData.prototype, "Password", {
+        get: function () {
+            return this.gamePassword;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(GameData.prototype, "Name", {
+        get: function () {
+            return this.gameName;
         },
         enumerable: false,
         configurable: true

@@ -7,6 +7,7 @@ var User = /** @class */ (function () {
         this.clientId = crypto_1.randomUUID();
         this.isAdmin = false;
         this.userName = name;
+        this.joinedGame = "";
     }
     ;
     Object.defineProperty(User.prototype, "Id", {
@@ -32,6 +33,9 @@ var User = /** @class */ (function () {
     });
     User.prototype.grantAdminPermisions = function () {
         this.isAdmin = true;
+    };
+    User.prototype.joinGame = function (id) {
+        this.joinedGame = id;
     };
     return User;
 }());

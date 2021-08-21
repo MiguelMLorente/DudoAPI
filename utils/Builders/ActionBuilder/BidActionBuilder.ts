@@ -3,6 +3,7 @@ import { BidAction } from "../../../actionables/ClientGameActions/BidAction";
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
+import { getGameByName } from "../../Getters/GameGetter";
 import { UserAction } from "./UserAction";
 
 export class BidActionBuilder{
@@ -25,6 +26,6 @@ export class BidActionBuilder{
     }
 
     public getGame(): Game {
-        return new Game()
+        return getGameByName(this.serverData, "asdf");
     }
 }

@@ -10,13 +10,13 @@ export class GameData {
     private gameName: String;
     private gamePassword: String;
 
-    constructor(name?: String, password?: String) {
+    constructor(name: String, password: String) {
         this.id = randomUUID();
         this.playerList = [];
         this.gameStatus = GameStatus.NOT_STARTED;
         this.gameHistory = []
-        this.gameName = name || '';
-        this.gamePassword = password || '';
+        this.gameName = name;
+        this.gamePassword = password;
     }
 
     get Id(): String {
@@ -26,7 +26,15 @@ export class GameData {
     get Users(): Array<User> {
         return this.playerList;
     }
+
+    get Password(): String {
+        return this.gamePassword;
+    }
     
+    get Name(): String {
+        return this.gameName;
+    }
+
     public addUser(user: User): void {
         this.playerList.push(user);
     }

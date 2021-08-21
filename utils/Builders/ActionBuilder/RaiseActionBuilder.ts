@@ -3,6 +3,7 @@ import { RaiseAction } from "../../../actionables/ClientGameActions/RaiseAction"
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
+import { getGameByName } from "../../Getters/GameGetter";
 import { UserAction } from "./UserAction";
 
 export class RaiseActionBuilder{
@@ -21,7 +22,8 @@ export class RaiseActionBuilder{
             this.serverData,
             this.getGame());
     }
+    
     public getGame(): Game {
-        return new Game()
+        return getGameByName(this.serverData, "asdf");
     }
 } 

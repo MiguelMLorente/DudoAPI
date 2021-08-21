@@ -1,8 +1,9 @@
 import { randomUUID } from "crypto";
 
 export class User {
-    protected clientId: String;
-    protected userName: String;
+    private clientId: String;
+    private userName: String;
+    private joinedGame: String;
     
     isAdmin: boolean;
 
@@ -10,6 +11,7 @@ export class User {
         this.clientId = randomUUID();
         this.isAdmin = false
         this.userName = name;
+        this.joinedGame = "";
     };
 
     get Id(): String {
@@ -28,5 +30,9 @@ export class User {
 
     public grantAdminPermisions(): void {
         this.isAdmin = true;
+    }
+
+    public joinGame(id: String): void {
+        this.joinedGame = id;
     }
 }

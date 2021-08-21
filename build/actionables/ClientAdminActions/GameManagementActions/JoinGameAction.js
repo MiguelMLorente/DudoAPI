@@ -15,42 +15,39 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateGameAction = void 0;
-var Game_1 = require("../../../gameData/Game");
+exports.JoinGameAction = void 0;
 var ClientAction_1 = require("../ClientAction");
-var CreateGameAction = /** @class */ (function (_super) {
-    __extends(CreateGameAction, _super);
-    function CreateGameAction(requester, gameName, gamePassword, serverData) {
+var JoinGameAction = /** @class */ (function (_super) {
+    __extends(JoinGameAction, _super);
+    function JoinGameAction(requester, gameName, gamePassword, serverData, joinedGame) {
         var _this = _super.call(this, requester, serverData) || this;
         _this.gameName = gameName;
         _this.gamePassword = gamePassword;
+        _this.joinedGame = joinedGame;
         return _this;
     }
     ;
-    CreateGameAction.prototype.validate = function () {
-        console.log("create game action being validated");
+    JoinGameAction.prototype.validate = function () {
+        console.log("join game action being validated");
         _super.prototype.validate.call(this);
-        // Game name must not be empty
-        this.isValid = (this.isValid && (this.gameName !== ""));
         // User must not be registered in any game in order to create a new game
         this.isValid = (this.isValid && !this.checkUserRegisteredInGame());
+        // Check valid game
+        this.isValid = (this.isValid && !(this.joinedGame == null));
+        // Check correct password
+        this.isValid = (this.isValid && (this.gamePassword === this.joinedGame.gamePassword));
         // Print message
         var message = this.isValid ? "validated action" : "invalid action";
         console.log(message);
     };
-    CreateGameAction.prototype.launch = function () {
-        console.log("create game action being launched");
-        // Create new game with the given name and password
-        var game = new Game_1.Game(this.gameName, this.gamePassword);
+    JoinGameAction.prototype.launch = function () {
+        console.log("join game action being launched");
         // Add the game creator as the first player of the game and Admin permissions
-        game.gameData.addUser(this.requester);
-        this.requester.grantAdminPermisions();
+        this.joinedGame.gameData.addUser(this.requester);
         // Add game Id to the user data set
-        this.requester.joinGame(game.gameId);
-        // Add the game to the game list in the server data base
-        this.serverData.games.push(game);
+        this.requester.joinGame(this.joinedGame.gameId);
     };
-    CreateGameAction.prototype.checkUserRegisteredInGame = function () {
+    JoinGameAction.prototype.checkUserRegisteredInGame = function () {
         var _this = this;
         // Checks if the user is registered in any game in the server
         var foundUser = false;
@@ -66,6 +63,6 @@ var CreateGameAction = /** @class */ (function (_super) {
         });
         return foundUser;
     };
-    return CreateGameAction;
+    return JoinGameAction;
 }(ClientAction_1.ClientAction));
-exports.CreateGameAction = CreateGameAction;
+exports.JoinGameAction = JoinGameAction;

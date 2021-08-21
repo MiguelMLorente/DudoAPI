@@ -9,6 +9,7 @@ export abstract class ClientAction extends Action {
     };
 
     validate(): void {
+        console.log(this.requester.UserName);
         this.isValid = this.isValid && (this.requester.UserName !== "");
     }
 }

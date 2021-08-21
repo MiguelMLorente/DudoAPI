@@ -5,6 +5,7 @@ import { ActionType } from "../../ActionType";
 import { getUser } from "../../Getters/UserGetter";
 import { BidActionBuilder } from "./BidActionBuilder";
 import { CreateGameActionBuilder } from "./CreateGameActionBuilder";
+import { JoinGameActionBuilder } from "./JoinGameActionBuilder";
 import { RaiseActionBuilder } from "./RaiseActionBuilder";
 import { UserAction } from "./UserAction";
 
@@ -16,7 +17,7 @@ export class ActionBuilder {
     constructor(json: UserAction, serverData: ServerData) {
         this.jsonAction = json;
         this.serverData = serverData;
-        this.requester = this.getRequester()
+        this.requester = this.getRequester();
     }
 
     private getRequester(): User {
@@ -27,6 +28,7 @@ export class ActionBuilder {
         return user;
     }
 
+
     public build(): Action {
         switch (this.jsonAction.actionType) {
             case ActionType.BID:
@@ -35,6 +37,8 @@ export class ActionBuilder {
                 return new RaiseActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             case ActionType.CREATE_GAME:
                 return new CreateGameActionBuilder(this.jsonAction, this.serverData, this.requester).build();
+            case ActionType.JOIN_GAME:
+                return new JoinGameActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             default:
                 return new BidActionBuilder(this.jsonAction, this.serverData, this.requester).build();  
         }

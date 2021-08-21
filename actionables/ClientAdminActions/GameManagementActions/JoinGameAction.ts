@@ -1,41 +1,41 @@
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
+import { getGameByName } from "../../../utils/Getters/GameGetter";
 import { ClientAction } from "../ClientAction";
 
-export class CreateGameAction extends ClientAction {
+export class JoinGameAction extends ClientAction {
     gameName: String;
     gamePassword: String;
+    joinedGame: Game;
 
-    constructor(requester: User, gameName: String, gamePassword: String, serverData: ServerData) {
+    constructor(requester: User, gameName: String, gamePassword: String, serverData: ServerData, joinedGame: Game) {
         super(requester, serverData);
         this.gameName = gameName;
         this.gamePassword = gamePassword;
+        this.joinedGame = joinedGame;
     };
 
     public validate(): void {
-        console.log("create game action being validated");
+        console.log("join game action being validated");
         super.validate();
-        // Game name must not be empty
-        this.isValid = (this.isValid && (this.gameName !==""));
         // User must not be registered in any game in order to create a new game
         this.isValid = (this.isValid && !this.checkUserRegisteredInGame());
+        // Check valid game
+        this.isValid = (this.isValid && !(this.joinedGame == null));
+        // Check correct password
+        this.isValid = (this.isValid && (this.gamePassword === this.joinedGame.gamePassword));
         // Print message
         let message: String = this.isValid ? "validated action" : "invalid action";
         console.log(message);
     }
 
     public launch(): void {
-        console.log("create game action being launched");
-        // Create new game with the given name and password
-        let game: Game = new Game(this.gameName, this.gamePassword);
+        console.log("join game action being launched");
         // Add the game creator as the first player of the game and Admin permissions
-        game.gameData.addUser(this.requester);
-        this.requester.grantAdminPermisions();
+        this.joinedGame.gameData.addUser(this.requester);
         // Add game Id to the user data set
-        this.requester.joinGame(game.gameId);
-        // Add the game to the game list in the server data base
-        this.serverData.games.push(game)
+        this.requester.joinGame(this.joinedGame.gameId);
     }
 
     private checkUserRegisteredInGame(): boolean {

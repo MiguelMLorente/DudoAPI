@@ -1,7 +1,8 @@
+import { User } from "../userData/User";
 import { GameData } from "./GameData";
 
 export class Game {
-    gameData: GameData;
+    public gameData: GameData;
 
     constructor(gameName?: String, password?: String) {
         this.gameData = new GameData(gameName || '', password || '');
@@ -9,5 +10,9 @@ export class Game {
 
     get gameId(): String {
         return this.gameData.Id;
+    }
+
+    get users(): Array<User> {
+        return this.gameData.Users;
     }
 }

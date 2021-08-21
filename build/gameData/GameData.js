@@ -19,6 +19,13 @@ var GameData = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(GameData.prototype, "Users", {
+        get: function () {
+            return this.playerList;
+        },
+        enumerable: false,
+        configurable: true
+    });
     GameData.prototype.addUser = function (user) {
         this.playerList.push(user);
     };

@@ -1,16 +1,15 @@
 import { ServerData } from "../../ServerData";
+import { User } from "../../userData/User";
 import { Action } from "../Action";
 
 export abstract class ClientAction extends Action {
 
-    serverData: ServerData;
-
-    constructor(serverData: ServerData) {
-        super();
-        this.serverData = serverData;
+    constructor(requester: User, serverData: ServerData) {
+        super(requester, serverData);
     };
 
     validate(): void {
-        this.isValid = true;
+        super.validate();
+        console.log(this.isValid);
     }
 }

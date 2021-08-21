@@ -13,6 +13,13 @@ var Game = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Object.defineProperty(Game.prototype, "users", {
+        get: function () {
+            return this.gameData.Users;
+        },
+        enumerable: false,
+        configurable: true
+    });
     return Game;
 }());
 exports.Game = Game;

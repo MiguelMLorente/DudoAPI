@@ -23,9 +23,11 @@ io.on('connection', socket => {
     // create new User
     serverData.users.push(createUser(socket))
     socket.send("hello new user")
+    
     // handle new User request
     socket.on('action', action => {
         console.log(action);
+        console.log(serverData);
         handleRequest(action, serverData);  
         //sendGameStatus();
         io.emit('message', "hola, me has mandado una accion");

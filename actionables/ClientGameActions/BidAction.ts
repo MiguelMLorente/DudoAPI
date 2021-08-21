@@ -1,4 +1,5 @@
 import { Game } from "../../gameData/Game";
+import { ServerData } from "../../ServerData";
 import { User } from "../../userData/User";
 import { GameAction } from "./GameAction";
 
@@ -6,9 +7,8 @@ export class BidAction extends GameAction {
     diceValue: number;
     diceQuantity: number;
 
-    constructor(requester: User, game: Game, diceQuantity: number, diceValue: number) {
-        super(game);
-        this.requester = requester;
+    constructor(requester: User, serverData: ServerData, game: Game, diceQuantity: number, diceValue: number) {
+        super(requester, serverData, game);
         this.diceQuantity = diceQuantity;
         this.diceValue = diceValue;
     };

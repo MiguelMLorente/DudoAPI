@@ -23,6 +23,10 @@ export class GameData {
         return this.id;
     }
 
+    get Users(): Array<User> {
+        return this.playerList;
+    }
+    
     public addUser(user: User): void {
         this.playerList.push(user);
     }

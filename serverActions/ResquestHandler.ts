@@ -6,7 +6,12 @@ export function handleRequest(message: any, serverData: ServerData) {
     try {
         let action: Action = new ActionBuilder(message, serverData).build();
         action.validate();
-        action.launch();
+        if (action.Valid) {
+            action.launch();
+        } else {
+            console.log("Invalid action, try again");
+        }
+        
     } catch(e) {
         console.log(e);
         console.log("Error handling the client request. Malformed json response");

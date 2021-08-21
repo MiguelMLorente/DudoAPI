@@ -19,8 +19,8 @@ exports.GameAction = void 0;
 var Action_1 = require("../Action");
 var GameAction = /** @class */ (function (_super) {
     __extends(GameAction, _super);
-    function GameAction(game) {
-        var _this = _super.call(this) || this;
+    function GameAction(requester, serverData, game) {
+        var _this = _super.call(this, requester, serverData) || this;
         _this.game = game;
         return _this;
     }

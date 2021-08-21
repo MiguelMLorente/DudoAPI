@@ -19,10 +19,8 @@ exports.RaiseAction = void 0;
 var GameAction_1 = require("./GameAction");
 var RaiseAction = /** @class */ (function (_super) {
     __extends(RaiseAction, _super);
-    function RaiseAction(requester, game) {
-        var _this = _super.call(this, game) || this;
-        _this.requester = requester;
-        return _this;
+    function RaiseAction(requester, serverData, game) {
+        return _super.call(this, requester, serverData, game) || this;
     }
     ;
     RaiseAction.prototype.validate = function () {

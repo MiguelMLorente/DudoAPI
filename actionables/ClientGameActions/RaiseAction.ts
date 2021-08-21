@@ -1,11 +1,11 @@
 import { Game } from "../../gameData/Game";
+import { ServerData } from "../../ServerData";
 import { User } from "../../userData/User";
 import { GameAction } from "./GameAction";
 
 export class RaiseAction extends GameAction {
-    constructor(requester: User, game: Game) {
-        super(game);
-        this.requester = requester;
+    constructor(requester: User, serverData: ServerData, game: Game) {
+        super(requester, serverData, game);
     };
 
     public validate(): void {

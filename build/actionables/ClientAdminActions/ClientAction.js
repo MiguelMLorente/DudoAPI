@@ -19,14 +19,13 @@ exports.ClientAction = void 0;
 var Action_1 = require("../Action");
 var ClientAction = /** @class */ (function (_super) {
     __extends(ClientAction, _super);
-    function ClientAction(serverData) {
-        var _this = _super.call(this) || this;
-        _this.serverData = serverData;
-        return _this;
+    function ClientAction(requester, serverData) {
+        return _super.call(this, requester, serverData) || this;
     }
     ;
     ClientAction.prototype.validate = function () {
-        this.isValid = true;
+        _super.prototype.validate.call(this);
+        console.log(this.isValid);
     };
     return ClientAction;
 }(Action_1.Action));

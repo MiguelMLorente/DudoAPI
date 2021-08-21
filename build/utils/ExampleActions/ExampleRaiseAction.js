@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var exampleRaiseAction = {
     "requester": {
-        "UUID": "0xFFFFFFFF00000000",
+        "uuid": "0xFFFFFFFF00000000",
         "name": "Pau"
     },
     "actionType": "RAISE",

@@ -19,9 +19,8 @@ exports.BidAction = void 0;
 var GameAction_1 = require("./GameAction");
 var BidAction = /** @class */ (function (_super) {
     __extends(BidAction, _super);
-    function BidAction(requester, game, diceQuantity, diceValue) {
-        var _this = _super.call(this, game) || this;
-        _this.requester = requester;
+    function BidAction(requester, serverData, game, diceQuantity, diceValue) {
+        var _this = _super.call(this, requester, serverData, game) || this;
         _this.diceQuantity = diceQuantity;
         _this.diceValue = diceValue;
         return _this;

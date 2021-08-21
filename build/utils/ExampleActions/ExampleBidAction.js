@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var exampleBidAction = {
     "requester": {
-        "UUID": "0xFFFFFFFF00000000",
+        "uuid": "0xFFFFFFFF00000000",
         "name": "Pau"
     },
     "actionType": "BID",

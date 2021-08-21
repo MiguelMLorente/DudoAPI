@@ -2,8 +2,8 @@ import { Game } from "./gameData/Game";
 import { User } from "./userData/User";
 
 export class ServerData {
-    games: Array<Game>;
-    users: Array<User>;
+    public games: Array<Game>;
+    public users: Array<User>;
 
     constructor() {
         this.games = [];

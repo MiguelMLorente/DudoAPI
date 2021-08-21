@@ -14,6 +14,11 @@ var User = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    User.prototype.setUserName = function (name) {
+        if (this.userName)
+            throw new Error("User name already exists, cannot be rewritten");
+        this.userName = name;
+    };
     return User;
 }());
 exports.User = User;

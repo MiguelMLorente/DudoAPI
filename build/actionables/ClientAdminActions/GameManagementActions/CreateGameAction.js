@@ -21,24 +21,46 @@ var ClientAction_1 = require("../ClientAction");
 var CreateGameAction = /** @class */ (function (_super) {
     __extends(CreateGameAction, _super);
     function CreateGameAction(requester, gameName, gamePassword, serverData) {
-        var _this = _super.call(this, serverData) || this;
-        _this.requester = requester;
+        var _this = _super.call(this, requester, serverData) || this;
         _this.gameName = gameName;
         _this.gamePassword = gamePassword;
         return _this;
     }
     ;
     CreateGameAction.prototype.validate = function () {
-        console.log("action being validated");
+        console.log("create game action being validated");
         _super.prototype.validate.call(this);
+        // User must not be registered in any game in order to create a new game
+        this.isValid = (this.isValid && !this.checkUserRegisteredInGame());
+        // Print message
         var message = this.isValid ? "validated action" : "invalid action";
         console.log(message);
     };
     CreateGameAction.prototype.launch = function () {
-        console.log("action being launched");
+        console.log("create game action being launched");
+        // Create new game with the given name and password
         var game = new Game_1.Game(this.gameName, this.gamePassword);
+        // Add the game creator as the first player of the game and Admin permissions
         game.gameData.addUser(this.requester);
+        this.requester;
+        // Add the game to the game list in the server data base
         this.serverData.games.push(game);
+    };
+    CreateGameAction.prototype.checkUserRegisteredInGame = function () {
+        var _this = this;
+        // Checks if the user is registered in any game in the server
+        var foundUser = false;
+        this.serverData.games.forEach(function (game) {
+            if (foundUser)
+                return;
+            game.users.forEach(function (user) {
+                if (user.Id === _this.requester.Id) {
+                    foundUser = true;
+                    return;
+                }
+            });
+        });
+        return foundUser;
     };
     return CreateGameAction;
 }(ClientAction_1.ClientAction));

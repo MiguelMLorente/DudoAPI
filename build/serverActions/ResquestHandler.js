@@ -6,7 +6,12 @@ function handleRequest(message, serverData) {
     try {
         var action = new ActionBuilder_1.ActionBuilder(message, serverData).build();
         action.validate();
-        action.launch();
+        if (action.Valid) {
+            action.launch();
+        }
+        else {
+            console.log("Invalid action, try again");
+        }
     }
     catch (e) {
         console.log(e);

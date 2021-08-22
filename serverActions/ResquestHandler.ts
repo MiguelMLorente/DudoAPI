@@ -12,7 +12,7 @@ export function handleRequest(message: any, serverData: ServerData, io: any) {
             action.launch();
         }
         let response: Response = action.response();
-        io.emit(response.channel, response.data);
+        io.to(action.requesterConnectionId).emit(response.channel, response.data);
     } catch(e) {
         console.log(e);
         console.log("Error handling the client request. Malformed json response");

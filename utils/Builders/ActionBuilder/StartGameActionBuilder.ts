@@ -1,5 +1,4 @@
 import { Action } from "../../../actionables/Action";
-import { JoinGameAction } from "../../../actionables/ClientAdminActions/GameManagementActions/JoinGameAction";
 import { StartGameAction } from "../../../actionables/ClientAdminActions/GameManagementActions/StartGameAction";
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";

@@ -1,5 +1,3 @@
-import { type } from "os";
-
 type Requester = {
     uuid: String;
     name: String;

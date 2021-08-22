@@ -28,7 +28,6 @@ export class JoinGameAction extends ClientAction {
         // Check valid game
         this.isValid = (this.isValid && !(this.joinedGame == null));
         // Check correct password
-        console.log(this.isValid)
         this.isValid = (this.isValid && (this.gamePassword === this.joinedGame.password));
         // Print message
         let message: String = this.isValid ? "validated action" : "invalid action";

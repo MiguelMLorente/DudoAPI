@@ -25,4 +25,6 @@ export abstract class Action {
     get Valid(): boolean {
         return this.isValid;
     }
+
+    get requesterConnectionId(): String {return this.requester.connectionId}
 }

@@ -33,7 +33,7 @@ export class StartGameAction extends ClientAction {
     }
 
     public response(): Response {
-        if (this.game !== undefined) {
+        if (!this.isValid) {
             return new Response('message', 'Started game! :)')
         } else {
             return new Response('error', 'Error: Game not started')

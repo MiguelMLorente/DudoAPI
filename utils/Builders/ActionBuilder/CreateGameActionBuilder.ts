@@ -13,13 +13,13 @@ export class CreateGameActionBuilder {
         this.jsonAction = json;
         this.serverData = serverData;
         this.requester = requester;
-        this.requester.setUserName(json.requester.name);
     }
 
     public build(): Action {
         return new CreateGameAction(this.requester,
             this.jsonAction.actionData.gameName as String,
             this.jsonAction.actionData.gamePassword as String,
+            this.jsonAction.requester.name as String,
             this.serverData
             )
     }

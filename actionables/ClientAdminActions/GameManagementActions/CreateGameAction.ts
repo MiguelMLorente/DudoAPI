@@ -7,19 +7,23 @@ import { ClientAction } from "../ClientAction";
 export class CreateGameAction extends ClientAction {
     gameName: String;
     gamePassword: String;
+    userName: String;
     game?: Game;
 
-    constructor(requester: User, gameName: String, gamePassword: String, serverData: ServerData) {
+    constructor(requester: User, gameName: String, gamePassword: String, userName: String, serverData: ServerData) {
         super(requester, serverData);
         this.gameName = gameName;
         this.gamePassword = gamePassword;
+        this.userName = userName;
     };
 
     public validate(): void {
         console.log("create game action being validated");
         super.validate();
         // Game name must not be empty
-        this.isValid = (this.isValid && (this.gameName !==""));
+        this.isValid = (this.isValid && (this.gameName !== ""));
+        // User name must not be empty
+        this.isValid = (this.isValid && (this.userName != ""));
         // User must not be registered in any game in order to create a new game
         this.isValid = (this.isValid && !this.checkUserRegisteredInGame());
         // Print message
@@ -29,10 +33,12 @@ export class CreateGameAction extends ClientAction {
 
     public launch(): void {
         console.log("create game action being launched");
+        // Set user name
+        this.requester.setUserName(this.userName);
         // Create new game with the given name and password
         let game: Game = new Game(this.gameName, this.gamePassword);
         // Add the game creator as the first player of the game and Admin permissions
-        game.gameData.addUser(this.requester);
+        game.addUser(this.requester);
         this.requester.grantAdminPermisions();
         // Add game Id to the user data set
         this.requester.joinGame(game.gameId);

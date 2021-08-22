@@ -1,33 +1,45 @@
 import { User } from "../userData/User";
 import { GameStatus } from "../utils/GameStatus";
-import { GameData } from "./GameData";
+import { randomUUID } from "crypto";
 
 export class Game {
-    public gameData: GameData;
+    private id: String;
+    private playerList: Array<User>;
+    private gameStatus: String;
+    private gameHistory: Array<String>;
+    private gameName: String;
+    private gamePassword: String;
 
-    constructor(gameName: String, password: String) {
-        this.gameData = new GameData(gameName, password);
+    constructor(name: String, password: String) {
+        this.id = randomUUID();
+        this.playerList = [];
+        this.gameStatus = GameStatus.NOT_STARTED;
+        this.gameHistory = []
+        this.gameName = name;
+        this.gamePassword = password;
     }
 
     public startGame() {
-        this.gameData.gameStatus = GameStatus.CURRENT;
+        this.gameStatus = GameStatus.CURRENT;
     }
 
-
+    public addUser(user: User): void {
+        this.playerList.push(user);
+    }
 
     get gameId(): String {
-        return this.gameData.Id;
+        return this.id;
     }
 
     get users(): Array<User> {
-        return this.gameData.Users;
+        return this.playerList;
     }
 
     get name(): String {
-        return this.gameData.Name;
+        return this.gameName;
     }
 
-    get gamePassword(): String {
-        return this.gameData.Password;
+    get password(): String {
+        return this.gamePassword;
     }
 }

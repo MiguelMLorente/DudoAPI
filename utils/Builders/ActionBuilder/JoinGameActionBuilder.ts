@@ -16,7 +16,6 @@ export class JoinGameActionBuilder {
         this.jsonAction = json;
         this.serverData = serverData;
         this.requester = requester;
-        this.requester.setUserName(json.requester.name);
         this.game = getGameByName(this.serverData, this.jsonAction.actionData.gameName || '');
     }
 
@@ -24,6 +23,7 @@ export class JoinGameActionBuilder {
         return new JoinGameAction(this.requester,
             this.jsonAction.actionData.gameName as String,
             this.jsonAction.actionData.gamePassword as String,
+            this.jsonAction.requester.name as String,
             this.serverData,
             this.game
             )

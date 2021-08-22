@@ -7,6 +7,7 @@ import { BidActionBuilder } from "./BidActionBuilder";
 import { CreateGameActionBuilder } from "./CreateGameActionBuilder";
 import { JoinGameActionBuilder } from "./JoinGameActionBuilder";
 import { RaiseActionBuilder } from "./RaiseActionBuilder";
+import { StartGameActionBuilder } from "./StartGameActionBuilder";
 import { UserAction } from "./UserAction";
 
 export class ActionBuilder {
@@ -39,6 +40,8 @@ export class ActionBuilder {
                 return new CreateGameActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             case ActionType.JOIN_GAME:
                 return new JoinGameActionBuilder(this.jsonAction, this.serverData, this.requester).build();
+            case ActionType.START_GAME:
+                return new StartGameActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             default:
                 return new BidActionBuilder(this.jsonAction, this.serverData, this.requester).build();  
         }

@@ -1,4 +1,5 @@
 import { User } from "../userData/User";
+import { GameStatus } from "../utils/GameStatus";
 import { GameData } from "./GameData";
 
 export class Game {
@@ -7,6 +8,12 @@ export class Game {
     constructor(gameName: String, password: String) {
         this.gameData = new GameData(gameName, password);
     }
+
+    public startGame() {
+        this.gameData.gameStatus = GameStatus.CURRENT;
+    }
+
+
 
     get gameId(): String {
         return this.gameData.Id;

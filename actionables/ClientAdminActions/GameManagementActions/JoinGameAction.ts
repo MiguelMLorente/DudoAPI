@@ -2,6 +2,7 @@ import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
 import { getGameByName } from "../../../utils/Getters/GameGetter";
+import { Response } from "../../../utils/Responses/ResponseModel";
 import { ClientAction } from "../ClientAction";
 
 export class JoinGameAction extends ClientAction {
@@ -36,6 +37,14 @@ export class JoinGameAction extends ClientAction {
         this.joinedGame.gameData.addUser(this.requester);
         // Add game Id to the user data set
         this.requester.joinGame(this.joinedGame.gameId);
+    }
+    
+    public response(): Response {
+        if (this.joinedGame !== null) {
+            return new Response('joined-game', 'Joined game! :)', this.joinedGame.gameId)
+        } else {
+            return new Response('error', 'Error: Game does not exist')
+        }
     }
 
     private checkUserRegisteredInGame(): boolean {

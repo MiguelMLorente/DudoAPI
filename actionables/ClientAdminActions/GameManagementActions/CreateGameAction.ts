@@ -1,11 +1,13 @@
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
+import { Response } from "../../../utils/Responses/ResponseModel";
 import { ClientAction } from "../ClientAction";
 
 export class CreateGameAction extends ClientAction {
     gameName: String;
     gamePassword: String;
+    game?: Game;
 
     constructor(requester: User, gameName: String, gamePassword: String, serverData: ServerData) {
         super(requester, serverData);
@@ -36,6 +38,15 @@ export class CreateGameAction extends ClientAction {
         this.requester.joinGame(game.gameId);
         // Add the game to the game list in the server data base
         this.serverData.games.push(game)
+        this.game = game;
+    }
+
+    public response(): Response {
+        if (this.game !== undefined) {
+            return new Response('joined-game', 'Joined game! :)', this.game.gameId)
+        } else {
+            return new Response('error', 'Error: Game not created')
+        }
     }
 
     private checkUserRegisteredInGame(): boolean {

@@ -21,15 +21,12 @@ let serverData: ServerData = new ServerData();
 
 io.on('connection', socket => {
     // create new User
-    serverData.users.push(createUser(socket))
-    socket.send("hello new user")
+    serverData.users.push(createUser(socket));
     
     // handle new User request
     socket.on('action', action => {
         console.log(action);
-        handleRequest(action, serverData);  
-        //sendGameStatus();
-        io.emit('message', "hola, me has mandado una accion");
+        handleRequest(action, serverData, io);
         console.log("Nuevo status del servidor: ");
         console.log(serverData);
     })

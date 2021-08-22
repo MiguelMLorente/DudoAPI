@@ -5,7 +5,7 @@ import { GameStatus } from "../utils/GameStatus";
 export class GameData {
     private id: String;
     private playerList: Array<User>;
-    private gameStatus: String;
+    public gameStatus: String;
     private gameHistory: Array<String>;
     private gameName: String;
     private gamePassword: String;

@@ -1,6 +1,7 @@
 import { Game } from "../../gameData/Game";
 import { ServerData } from "../../ServerData";
 import { User } from "../../userData/User";
+import { Response } from "../../utils/Responses/ResponseModel";
 import { GameAction } from "./GameAction";
 
 export class RaiseAction extends GameAction {
@@ -19,5 +20,9 @@ export class RaiseAction extends GameAction {
 
     public launch(): void {
         console.log("action being launched");
+    }
+
+    public response(): Response {
+        return new Response("", "none");
     }
 }

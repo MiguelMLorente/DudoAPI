@@ -9,3 +9,12 @@ export function getGameByName(serverData: ServerData, name: String): Game {
     }
     return null as any;
 }
+
+export function getGameById(serverData: ServerData, id: String): Game {
+    for (let i = 0; i < serverData.games.length; i++) {
+        if (serverData.games[i].gameId == id) {
+            return serverData.games[i];
+        }
+    }
+    return null as any;
+}

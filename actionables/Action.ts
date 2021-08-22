@@ -1,6 +1,7 @@
 import { User } from "../userData/User";
 import { randomUUID } from "crypto";
 import { ServerData } from "../ServerData";
+import { Response } from "../utils/Responses/ResponseModel";
 
 export abstract class Action {
     protected id: String;
@@ -18,6 +19,8 @@ export abstract class Action {
     abstract validate(): void;
 
     abstract launch(): void;
+
+    abstract response(): Response;
 
     get Valid(): boolean {
         return this.isValid;

@@ -24,6 +24,8 @@ export class ActionBuilder {
     private getRequester(): User {
         let user: User = getUser(this.serverData, this.jsonAction.requester.uuid)
         if (user == null) {
+            console.log("Requester" + this.requester.Id);
+            this.serverData.users.forEach((u) => console.log(u.Id));
             throw new Error("User not found in database");
         }
         return user;

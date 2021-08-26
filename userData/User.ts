@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto";
+import { v4 as uuid } from "uuid";
 import { Socket } from "socket.io";
 
 export class User {
@@ -12,7 +12,7 @@ export class User {
     public isAdmin: boolean;
 
     constructor(name: String, socket: Socket) {
-        this.clientId = randomUUID();
+        this.clientId = uuid();
         this.isAdmin = false
         this.userName = name;
         this.joinedGame = "";

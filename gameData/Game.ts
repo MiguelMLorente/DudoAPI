@@ -1,8 +1,7 @@
 import { User } from "../userData/User";
 import { GameStatus } from "../utils/GameStatus";
-import { randomUUID } from "crypto";
+import { v4 as uuid } from "uuid";
 import { Bid } from "./Bid";
-import e from "express";
 
 export class Game {
     private id: String;
@@ -16,7 +15,7 @@ export class Game {
     public currentBid?: Bid;
 
     constructor(name: String, password: String) {
-        this.id = randomUUID();
+        this.id = uuid();
         this.playerList = [];
         this.gameStatus = GameStatus.NOT_STARTED;
         this.gameHistory = []

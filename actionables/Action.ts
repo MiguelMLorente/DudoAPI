@@ -1,5 +1,5 @@
 import { User } from "../userData/User";
-import { randomUUID } from "crypto";
+import { v4 as uuid } from "uuid";
 import { ServerData } from "../ServerData";
 import { Response } from "../utils/Builders/ResponseBuilder/Responses/Response";
 
@@ -13,7 +13,7 @@ export abstract class Action {
         this.requester = requester;
         this.serverData = serverData;
         this.isValid = true;
-        this.id = randomUUID();
+        this.id = uuid();
     };
 
     abstract validate(): void;

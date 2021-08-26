@@ -4,6 +4,7 @@ import { User } from "../../../userData/User";
 import getErrorResponse from "../../../utils/Builders/ResponseBuilder/ErrorResponse";
 import getGameStatusUpdateResponse from "../../../utils/Builders/ResponseBuilder/GameStatusResponse";
 import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
+import { GameStatus } from "../../../utils/GameStatus";
 import { ClientAction } from "../ClientAction";
 
 export class StartGameAction extends ClientAction {
@@ -17,8 +18,10 @@ export class StartGameAction extends ClientAction {
     public validate(): void {
         console.log("start game action being validated");
         super.validate();
-        // Game id must exist
+        // Game must exist
         this.isValid = (this.isValid && (this.game !== null));
+        // Check game has not started
+        this.isValid = (this.isValid && (this.game.gameStatus === GameStatus.NOT_STARTED));
         // User must be registered in this game in order to start it
         this.isValid = (this.isValid && this.checkUserRegisteredInThisGame());
         // User must be admin to start the game
@@ -35,7 +38,7 @@ export class StartGameAction extends ClientAction {
     }
 
     public response(): Response {
-        if (!this.isValid) {
+        if (this.isValid) {
             return getGameStatusUpdateResponse(this.game);
         } else {
             return getErrorResponse(this.requester);

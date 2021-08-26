@@ -1,3 +1,4 @@
+import { isAssertionExpression } from "typescript";
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
@@ -27,7 +28,7 @@ export class CreateGameAction extends ClientAction {
         // User name must not be empty
         this.isValid = (this.isValid && (this.userName != ""));
         // User must not be registered in any game in order to create a new game
-        this.isValid = (this.isValid && !this.checkUserRegisteredInGame());
+        this.isValid = (this.isValid &&this.checkUserNotRegisteredInGame());
         // Print message
         let message: String = this.isValid ? "validated action" : "invalid action";
         console.log(message);
@@ -45,30 +46,20 @@ export class CreateGameAction extends ClientAction {
         // Add game Id to the user data set
         this.requester.joinGame(game.gameId);
         // Add the game to the game list in the server data base
-        this.serverData.games.push(game)
+        this.serverData.games[game.gameId.valueOf()] = game;
         this.game = game;
     }
 
     public response(): Response {
-        if (this.game !== undefined) {
+        if ((this.isValid) && (this.game != null)) {
             return getJoinedGameResponse(this.requester, this.game.gameId);
         } else {
             return getErrorResponse(this.requester);
         }
     }
 
-    private checkUserRegisteredInGame(): boolean {
+    private checkUserNotRegisteredInGame(): boolean {
         // Checks if the user is registered in any game in the server
-        let foundUser = false
-        this.serverData.games.forEach( (game) => {
-            if (foundUser) return;
-            game.users.forEach( (user) => {
-                if (user.Id === this.requester.Id) {
-                    foundUser = true;
-                    return;
-                }
-            })
-        })
-        return foundUser;
+        return (this.requester.joinedGame === "");
     }
 }

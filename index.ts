@@ -21,7 +21,7 @@ let serverData: ServerData = new ServerData();
 
 io.on('connection', socket => {
     // create new User
-    serverData.users.push(createUser(socket));
+    createUser(socket, serverData);
     
     // handle new User request
     socket.on('action', action => {

@@ -6,7 +6,7 @@ import { Bid } from "./Bid";
 export class Game {
     private id: String;
     private playerList: Array<User>;
-    private gameStatus: String;
+    public gameStatus: String;
     private gameHistory: Array<String>;
     private gameName: String;
     private gamePassword: String;
@@ -43,17 +43,18 @@ export class Game {
     private setStartingPlayer(): void {
         // Initialize the player that starts.
         if (this.currentPlayer === 0) {
-            this.currentPlayer = Math.floor(Math.random() * (this.numberOfPlayers + 1));
+            this.currentPlayer = Math.floor(Math.random() * this.numberOfPlayers);
             this.playerList[this.currentPlayer].isActive = true;
         } else {
             this.playerList[this.currentPlayer].isActive = false;
-            this.currentPlayer = Math.floor(Math.random() * (this.numberOfPlayers + 1));
+            this.currentPlayer = Math.floor(Math.random() * this.numberOfPlayers);
             this.playerList[this.currentPlayer].isActive = true;
         }
     }
 
     public addUser(user: User): void {
         this.playerList.push(user);
+        this.numberOfPlayers++;
     }
 
     get gameId(): String {

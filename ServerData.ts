@@ -1,33 +1,37 @@
+import { ESMap, Map } from "typescript";
 import { Game } from "./gameData/Game";
 import { User } from "./userData/User";
 
 export class ServerData {
-    public games: Array<Game>;
-    public users: Array<User>;
+    public games: Record<string, Game>;
+    public users: Record<string, User>;
 
     constructor() {
-        this.games = [];
-        this.users = [];
+        this.games = {};
+        this.users = {};
     }
 
-    public getGameById(id: String): Game {
+    public getGameById(id: string): Game {
         try {
-            for (var i = 0; i < this.games.length; i++){
-                if (this.games[i].gameId === id) return this.games[i];
-            }
-            throw new Error("There is no game with the seeked id");
+            return this.games[id];
         } catch(e) {
             console.log(e);
         }
         return null as any;
     }
 
-    public getUserId(id: String): User {
+    public getUserById(id: string): User {
         try {
-            for (var i = 0; i < this.users.length; i++){
-                if (this.users[i].Id === id) return this.users[i];
-            }
-            throw new Error("There is no user with the seeked id");
+            return this.users[id];
+        } catch(e) {
+            console.log(e);
+        }
+        return null as any;
+    }
+
+    public getUserId(id: string): User {
+        try {
+            return this.users[id];
         } catch(e) {
             console.log(e);
         }

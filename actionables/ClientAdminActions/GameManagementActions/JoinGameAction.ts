@@ -5,6 +5,7 @@ import getErrorResponse from "../../../utils/Builders/ResponseBuilder/ErrorRespo
 import getGameStatusUpdateResponse from "../../../utils/Builders/ResponseBuilder/GameStatusResponse";
 import getJoinedGameResponse from "../../../utils/Builders/ResponseBuilder/JoinedGameResponse";
 import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
+import { GameStatus } from "../../../utils/GameStatus";
 import { ClientAction } from "../ClientAction";
 
 export class JoinGameAction extends ClientAction {
@@ -25,11 +26,13 @@ export class JoinGameAction extends ClientAction {
         console.log("join game action being validated");
         super.validate();
         // User must not be registered in any game in order to create a new game
-        this.isValid = (this.isValid && !this.checkUserRegisteredInGame());
+        this.isValid = (this.isValid && this.checkUserNotRegisteredInGame());
         // User name must not be empty
         this.isValid = (this.isValid && (this.userName != ""));
         // Check valid game
         this.isValid = (this.isValid && !(this.joinedGame == null));
+        // Check game has not started
+        this.isValid = (this.isValid && (this.joinedGame.gameStatus === GameStatus.NOT_STARTED));
         // Check correct password
         this.isValid = (this.isValid && (this.gamePassword === this.joinedGame.password));
         // Print message
@@ -48,25 +51,15 @@ export class JoinGameAction extends ClientAction {
     }
     
     public response(): Response {
-        if (this.joinedGame !== null) {
+        if (this.isValid) {
             return getJoinedGameResponse(this.requester, this.joinedGame.gameId);
         } else {
             return getErrorResponse(this.requester);
         }
     }
 
-    private checkUserRegisteredInGame(): boolean {
+    private checkUserNotRegisteredInGame(): boolean {
         // Checks if the user is registered in any game in the server
-        let foundUser = false
-        this.serverData.games.forEach( (game) => {
-            if (foundUser) return;
-            game.users.forEach( (user) => {
-                if (user.Id === this.requester.Id) {
-                    foundUser = true;
-                    return;
-                }
-            })
-        })
-        return foundUser;
+        return (this.requester.joinedGame === "");
     }
 }

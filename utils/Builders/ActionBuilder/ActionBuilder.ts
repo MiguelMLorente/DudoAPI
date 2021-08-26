@@ -2,7 +2,6 @@ import { Action } from "../../../actionables/Action";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
 import { ActionType } from "../../ActionType";
-import { getUser } from "../../Getters/UserGetter";
 import { BidActionBuilder } from "./BidActionBuilder";
 import { CreateGameActionBuilder } from "./CreateGameActionBuilder";
 import { JoinGameActionBuilder } from "./JoinGameActionBuilder";
@@ -22,10 +21,8 @@ export class ActionBuilder {
     }
 
     private getRequester(): User {
-        let user: User = getUser(this.serverData, this.jsonAction.requester.uuid)
+        let user: User = this.serverData.getUserById(this.jsonAction.requester.uuid.valueOf())
         if (user == null) {
-            console.log("Requester" + this.requester.Id);
-            this.serverData.users.forEach((u) => console.log(u.Id));
             throw new Error("User not found in database");
         }
         return user;

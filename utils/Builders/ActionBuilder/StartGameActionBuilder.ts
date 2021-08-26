@@ -3,7 +3,6 @@ import { StartGameAction } from "../../../actionables/ClientAdminActions/GameMan
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
-import { getGameById } from "../../Getters/GameGetter";
 import { UserAction } from "./UserAction";
 
 export class StartGameActionBuilder {
@@ -16,7 +15,7 @@ export class StartGameActionBuilder {
         this.jsonAction = json;
         this.serverData = serverData;
         this.requester = requester;
-        this.game = getGameById(this.serverData, this.jsonAction.actionData.gameId || '');
+        this.game = this.serverData.getGameById(this.jsonAction.actionData.gameId?.valueOf() || '');
     }
 
     public build(): Action {

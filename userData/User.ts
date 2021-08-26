@@ -4,7 +4,7 @@ import { Socket } from "socket.io";
 export class User {
     private clientId: String;
     private userName: String;
-    private joinedGame: String;
+    public joinedGame: String;
     private socketId: String;
     public numberOfDice: number;
     public diceValues: Array<number>;

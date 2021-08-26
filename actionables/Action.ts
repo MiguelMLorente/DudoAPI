@@ -1,7 +1,7 @@
 import { User } from "../userData/User";
 import { randomUUID } from "crypto";
 import { ServerData } from "../ServerData";
-import { Response } from "../utils/Responses/ResponseModel";
+import { Response } from "../utils/Builders/ResponseBuilder/Responses/Response";
 
 export abstract class Action {
     protected id: String;

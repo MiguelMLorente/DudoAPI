@@ -1,7 +1,9 @@
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
-import { Response } from "../../../utils/Responses/ResponseModel";
+import getErrorResponse from "../../../utils/Builders/ResponseBuilder/ErrorResponse";
+import getJoinedGameResponse from "../../../utils/Builders/ResponseBuilder/JoinedGameResponse";
+import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
 import { ClientAction } from "../ClientAction";
 
 export class CreateGameAction extends ClientAction {
@@ -49,9 +51,9 @@ export class CreateGameAction extends ClientAction {
 
     public response(): Response {
         if (this.game !== undefined) {
-            return new Response('joined-game', 'Joined game! :)', this.game.gameId)
+            return getJoinedGameResponse(this.requester, this.game.gameId);
         } else {
-            return new Response('error', 'Error: Game not created')
+            return getErrorResponse(this.requester);
         }
     }
 

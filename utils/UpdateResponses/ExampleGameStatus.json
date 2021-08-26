@@ -1,0 +1,28 @@
+{
+    "currentBid": {
+        "diceValue": 3,
+        "diceNUmber": 8
+    },
+    "numberOfPlayers": 4,
+    "players": [
+        {
+            "playerName": "Pau",
+            "activePlayer": true
+        },
+        {
+            "playerName": "Miguel",
+            "activePlayer": false,
+            "diceNumber": 4,
+            "diceValues": [1, 3, 1, 6]
+        },
+        {
+            "playerName": "Laura",
+            "activePlayer": false
+        },
+        {
+            "playerName": "Teo",
+            "activePlayer": false
+        }
+    ]
+    
+}

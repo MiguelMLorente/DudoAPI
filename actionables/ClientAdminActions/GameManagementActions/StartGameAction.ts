@@ -1,7 +1,9 @@
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
-import { Response } from "../../../utils/Responses/ResponseModel";
+import getErrorResponse from "../../../utils/Builders/ResponseBuilder/ErrorResponse";
+import getGameStatusUpdateResponse from "../../../utils/Builders/ResponseBuilder/GameStatusResponse";
+import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
 import { ClientAction } from "../ClientAction";
 
 export class StartGameAction extends ClientAction {
@@ -34,9 +36,9 @@ export class StartGameAction extends ClientAction {
 
     public response(): Response {
         if (!this.isValid) {
-            return new Response('message', 'Started game! :)')
+            return getGameStatusUpdateResponse(this.game);
         } else {
-            return new Response('error', 'Error: Game not started')
+            return getErrorResponse(this.requester);
         }
     }
 

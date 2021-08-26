@@ -1,7 +1,8 @@
 import { Game } from "../../gameData/Game";
 import { ServerData } from "../../ServerData";
 import { User } from "../../userData/User";
-import { Response } from "../../utils/Responses/ResponseModel";
+import getMessageResponse from "../../utils/Builders/ResponseBuilder/MessageResponse";
+import { Response } from "../../utils/Builders/ResponseBuilder/Responses/Response";
 import { GameAction } from "./GameAction";
 
 export class BidAction extends GameAction {
@@ -34,6 +35,6 @@ export class BidAction extends GameAction {
     }
 
     public response(): Response {
-        return new Response("", "none");
+        return getMessageResponse(this.requester);
     }
 }

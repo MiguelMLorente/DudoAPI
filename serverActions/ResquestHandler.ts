@@ -2,7 +2,7 @@ import { Server } from "http";
 import { Action } from "../actionables/Action";
 import { ServerData } from "../ServerData";
 import { ActionBuilder } from "../utils/Builders/ActionBuilder/ActionBuilder";
-import { Response } from "../utils/Responses/ResponseModel";
+import { Response } from "../utils/Builders/ResponseBuilder/Responses/Response";
 
 export function handleRequest(message: any, serverData: ServerData, io: any) {
     try {

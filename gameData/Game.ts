@@ -6,7 +6,7 @@ import { Bid } from "./Bid";
 export class Game {
     private id: String;
     private playerList: Array<User>;
-    public gameStatus: String;
+    private gameStatus: String;
     private gameHistory: Array<String>;
     private gameName: String;
     private gamePassword: String;
@@ -71,5 +71,9 @@ export class Game {
 
     get password(): String {
         return this.gamePassword;
+    }
+
+    get status(): String {
+        return this.gameStatus;
     }
 }

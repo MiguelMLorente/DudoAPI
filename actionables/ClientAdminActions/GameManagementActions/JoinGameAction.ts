@@ -32,7 +32,7 @@ export class JoinGameAction extends ClientAction {
         // Check valid game
         this.isValid = (this.isValid && !(this.joinedGame == null));
         // Check game has not started
-        this.isValid = (this.isValid && (this.joinedGame.gameStatus === GameStatus.NOT_STARTED));
+        this.isValid = (this.isValid && (this.joinedGame.status === GameStatus.NOT_STARTED));
         // Check correct password
         this.isValid = (this.isValid && (this.gamePassword === this.joinedGame.password));
         // Print message

@@ -21,7 +21,7 @@ export class StartGameAction extends ClientAction {
         // Game must exist
         this.isValid = (this.isValid && (this.game !== null));
         // Check game has not started
-        this.isValid = (this.isValid && (this.game.gameStatus === GameStatus.NOT_STARTED));
+        this.isValid = (this.isValid && (this.game.status === GameStatus.NOT_STARTED));
         // User must be registered in this game in order to start it
         this.isValid = (this.isValid && this.checkUserRegisteredInThisGame());
         // User must be admin to start the game

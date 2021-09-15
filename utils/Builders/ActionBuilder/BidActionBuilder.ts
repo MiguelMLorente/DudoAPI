@@ -20,7 +20,7 @@ export class BidActionBuilder{
     public build(): Action {
         return new BidAction(this.requester,
             this.serverData,
-            this.getGame(),
+            this.serverData.getGameById(<string> this.jsonAction.actionData.gameId || ''),
             this.jsonAction.actionData.diceQuantity,
             this.jsonAction.actionData.diceValue)
     }

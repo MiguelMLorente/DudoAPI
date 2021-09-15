@@ -12,6 +12,6 @@ export abstract class GameAction extends Action {
     };
 
     validate(): void {
-        this.isValid = true;
+        this.isValid = this.game !== null;
     }
 }

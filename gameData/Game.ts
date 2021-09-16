@@ -7,7 +7,7 @@ export class Game {
     private id: String;
     private playerList: Array<User>;
     private gameStatus: String;
-    private gameHistory: Array<String>;
+    public gameHistory: Array<String>;
     private gameName: String;
     private gamePassword: String;
     public numberOfPlayers: number;
@@ -35,7 +35,7 @@ export class Game {
 
     private startRound() {
         this.setStartingPlayer();
-        this.playerList.forEach( (player) => {
+        this.playerList.forEach((player) => {
             player.rollDice()
         })
     }
@@ -50,6 +50,14 @@ export class Game {
             this.currentPlayer = Math.floor(Math.random() * this.numberOfPlayers);
             this.playerList[this.currentPlayer].isActive = true;
         }
+    }
+
+    public setNextPlayer(): void {
+        let nextPlayer: number = this.currentPlayer + 1;
+        if (nextPlayer === this.numberOfPlayers) nextPlayer = 0
+        this.playerList[this.currentPlayer].isActive = false;
+        this.playerList[nextPlayer].isActive = true;
+        this.currentPlayer = nextPlayer;
     }
 
     public addUser(user: User): void {

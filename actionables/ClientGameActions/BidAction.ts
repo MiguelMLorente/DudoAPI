@@ -2,8 +2,11 @@ import { Bid } from "../../gameData/Bid";
 import { Game } from "../../gameData/Game";
 import { ServerData } from "../../ServerData";
 import { User } from "../../userData/User";
+import getErrorResponse from "../../utils/Builders/ResponseBuilder/ErrorResponse";
+import getGameStatusUpdateResponse from "../../utils/Builders/ResponseBuilder/GameStatusResponse";
 import getMessageResponse from "../../utils/Builders/ResponseBuilder/MessageResponse";
 import { Response } from "../../utils/Builders/ResponseBuilder/Responses/Response";
+import { GameStatus } from "../../utils/GameStatus";
 import { GameAction } from "./GameAction";
 
 export class BidAction extends GameAction {
@@ -19,8 +22,12 @@ export class BidAction extends GameAction {
     };
 
     public validate(): void {
-        console.log("action being validated");
+        console.log("bid action being validated");
         super.validate();
+        // check if game has started
+        this.isValid = (this.isValid && (this.game!.status === GameStatus.CURRENT));
+        // check if player is active
+        this.isValid = (this.isValid && (this.requester.isActive));
         // check if diceValue is correct
         this.isValid = (this.isValid && ((this.diceValue > 0) && (this.diceValue <= 6)));
         this.isValid = (this.isValid && (this.diceValue % 1 === 0));
@@ -41,10 +48,22 @@ export class BidAction extends GameAction {
     }
 
     public launch(): void {
-        console.log("action being launched");
+        console.log("bid action being launched");
+        if (this.game.currentBid === undefined) {
+            this.game.currentBid = new Bid(this.diceValue, this.diceQuantity, this.requester);
+        } else {
+            this.game.currentBid.doneBy = this.requester;
+            this.game.currentBid.number = this.diceQuantity;
+            this.game.currentBid.value = this.diceValue;
+        }
+        this.game.setNextPlayer();
     }
 
     public response(): Response {
-        return getMessageResponse(this.requester);
+        if (this.isValid) {
+            return getGameStatusUpdateResponse(this.game);
+        } else {
+            return getErrorResponse(this.requester);
+        }
     }
 }

@@ -3,9 +3,9 @@ import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
 import { ActionType } from "../../ActionType";
 import { BidActionBuilder } from "./BidActionBuilder";
+import { CallActionBuilder } from "./CallActionBuilder";
 import { CreateGameActionBuilder } from "./CreateGameActionBuilder";
 import { JoinGameActionBuilder } from "./JoinGameActionBuilder";
-import { RaiseActionBuilder } from "./RaiseActionBuilder";
 import { StartGameActionBuilder } from "./StartGameActionBuilder";
 import { UserAction } from "./UserAction";
 
@@ -33,8 +33,8 @@ export class ActionBuilder {
         switch (this.jsonAction.actionType) {
             case ActionType.BID:
                 return new BidActionBuilder(this.jsonAction, this.serverData, this.requester).build();
-            case ActionType.RAISE:
-                return new RaiseActionBuilder(this.jsonAction, this.serverData, this.requester).build();
+            case ActionType.CALL:
+                return new CallActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             case ActionType.CREATE_GAME:
                 return new CreateGameActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             case ActionType.JOIN_GAME:
@@ -42,7 +42,7 @@ export class ActionBuilder {
             case ActionType.START_GAME:
                 return new StartGameActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             default:
-                return new BidActionBuilder(this.jsonAction, this.serverData, this.requester).build();  
+                return new BidActionBuilder(this.jsonAction, this.serverData, this.requester).build();
         }
     }
 }

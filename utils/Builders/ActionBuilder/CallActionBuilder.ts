@@ -1,12 +1,12 @@
 import { Action } from "../../../actionables/Action";
-import { RaiseAction } from "../../../actionables/ClientGameActions/RaiseAction";
+import { CallAction } from "../../../actionables/ClientGameActions/CallAction";
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
 import { getGameByName } from "../../Getters/GameGetter";
 import { UserAction } from "./UserAction";
 
-export class RaiseActionBuilder{
+export class CallActionBuilder {
     jsonAction: UserAction;
     serverData: ServerData;
     requester: User;
@@ -18,12 +18,12 @@ export class RaiseActionBuilder{
     }
 
     public build(): Action {
-        return new RaiseAction(this.requester,
+        return new CallAction(this.requester,
             this.serverData,
             this.getGame());
     }
-    
+
     public getGame(): Game {
         return getGameByName(this.serverData, "asdf");
     }
-} 
+}

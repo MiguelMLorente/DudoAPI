@@ -10,6 +10,7 @@ export class User {
     public diceValues: Array<number>;
     public isActive: boolean;
     public isAdmin: boolean;
+    public isAlive: boolean;
 
     constructor(name: String, socket: Socket) {
         this.clientId = uuid();
@@ -20,6 +21,7 @@ export class User {
         this.numberOfDice = 5;
         this.diceValues = [];
         this.isActive = false;
+        this.isAlive = true;
     };
 
     get Id(): String {

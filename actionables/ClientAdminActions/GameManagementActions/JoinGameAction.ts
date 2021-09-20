@@ -6,9 +6,9 @@ import getGameStatusUpdateResponse from "../../../utils/Builders/ResponseBuilder
 import getJoinedGameResponse from "../../../utils/Builders/ResponseBuilder/JoinedGameResponse";
 import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
 import { GameStatus } from "../../../utils/GameStatus";
-import { ClientAction } from "../ClientAction";
+import { Action } from "../../Action";
 
-export class JoinGameAction extends ClientAction {
+export class JoinGameAction extends Action {
     gameName: String;
     gamePassword: String;
     userName: String;
@@ -24,17 +24,26 @@ export class JoinGameAction extends ClientAction {
 
     public validate(): void {
         console.log("join game action being validated");
-        super.validate();
-        // User must not be registered in any game in order to create a new game
-        this.isValid = (this.isValid && this.checkUserNotRegisteredInGame());
-        // User name must not be empty
-        this.isValid = (this.isValid && (this.userName != ""));
-        // Check valid game
-        this.isValid = (this.isValid && !(this.joinedGame == null));
-        // Check game has not started
-        this.isValid = (this.isValid && (this.joinedGame.status === GameStatus.NOT_STARTED));
-        // Check correct password
-        this.isValid = (this.isValid && (this.gamePassword === this.joinedGame.password));
+
+        if (this.gameName === "") {
+            // Game name must not be empty
+            this.errorMessage = "Game name not inserted";
+        } else if (this.userName === "") {
+            // User name must not be empty
+            this.errorMessage = "User name not inserted";
+        } else if (!this.checkUserNotRegisteredInGame()) {
+            // User must not be registered in any game in order to create a new game
+            this.errorMessage = "User already registered in a different game";
+        } else if ((this.joinedGame === null) || (this.gamePassword !== this.joinedGame.password)) {
+            // Game must exist and have matching password
+            this.errorMessage = "Incorrect game name or password, try again";
+        } else if (this.joinedGame.status !== GameStatus.NOT_STARTED) {
+            // Check that the game has not started yet
+            this.errorMessage = "The game has already started";
+        } else {
+            this.isValid = true;
+        }
+
         // Print message
         let message: String = this.isValid ? "validated action" : "invalid action";
         console.log(message);
@@ -49,12 +58,12 @@ export class JoinGameAction extends ClientAction {
         // Add game Id to the user data set
         this.requester.joinGame(this.joinedGame.gameId);
     }
-    
+
     public response(): Response {
         if (this.isValid) {
             return getJoinedGameResponse(this.requester, this.joinedGame.gameId);
         } else {
-            return getErrorResponse(this.requester);
+            return getErrorResponse(this.requester, this.errorMessage);
         }
     }
 

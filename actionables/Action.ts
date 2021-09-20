@@ -4,6 +4,7 @@ import { ServerData } from "../ServerData";
 import { Response } from "../utils/Builders/ResponseBuilder/Responses/Response";
 
 export abstract class Action {
+    protected errorMessage: String;
     protected id: String;
     protected isValid: boolean;
     protected requester: User;
@@ -12,7 +13,8 @@ export abstract class Action {
     constructor(requester: User, serverData: ServerData) {
         this.requester = requester;
         this.serverData = serverData;
-        this.isValid = true;
+        this.isValid = false;
+        this.errorMessage = '';
         this.id = uuid();
     };
 
@@ -26,5 +28,5 @@ export abstract class Action {
         return this.isValid;
     }
 
-    get requesterConnectionId(): String {return this.requester.connectionId}
+    get requesterConnectionId(): String { return this.requester.connectionId }
 }

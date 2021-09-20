@@ -7,15 +7,17 @@ import getGameStatusUpdateResponse from "../../utils/Builders/ResponseBuilder/Ga
 import getMessageResponse from "../../utils/Builders/ResponseBuilder/MessageResponse";
 import { Response } from "../../utils/Builders/ResponseBuilder/Responses/Response";
 import { GameStatus } from "../../utils/GameStatus";
-import { GameAction } from "./GameAction";
+import { Action } from "../Action";
 
-export class BidAction extends GameAction {
+export class BidAction extends Action {
     diceValue: number;
     diceQuantity: number;
     currentBid?: Bid;
+    game: Game;
 
     constructor(requester: User, serverData: ServerData, game: Game, diceQuantity: number, diceValue: number) {
-        super(requester, serverData, game);
+        super(requester, serverData);
+        this.game = game;
         this.diceQuantity = diceQuantity;
         this.diceValue = diceValue;
         this.currentBid = this.game.currentBid;
@@ -23,26 +25,44 @@ export class BidAction extends GameAction {
 
     public validate(): void {
         console.log("bid action being validated");
-        super.validate();
-        // check if game has started
-        this.isValid = (this.isValid && (this.game!.status === GameStatus.CURRENT));
-        // check if player is active
-        this.isValid = (this.isValid && (this.requester.isActive));
-        // check if diceValue is correct
-        this.isValid = (this.isValid && ((this.diceValue > 0) && (this.diceValue <= 6)));
-        this.isValid = (this.isValid && (this.diceValue % 1 === 0));
-        // check if diceQuantity is correct
-        this.isValid = (this.isValid && (this.diceQuantity > 0));
-        this.isValid = (this.isValid && (this.diceQuantity % 1 === 0));
-        // check if the quantity and values are admisible in the current game state
-        if (this.currentBid !== undefined) {
-            // value of the dice must increase or remain constant
-            this.isValid = (this.isValid && (this.diceValue >= this.currentBid.value))
-            // if value states constant, number of dice must increase
-            if (this.diceValue === this.currentBid.value) {
-                this.isValid = (this.isValid && (this.diceQuantity > this.currentBid.number))
+
+        if (this.game === null) {
+            // Game  must not be null
+            this.errorMessage = "Game not found";
+        } else if (this.game.status !== GameStatus.CURRENT) {
+            // Game must have started
+            this.errorMessage = "Game has not started";
+        } else if (!this.requester.isActive) {
+            // Check if the users bidding turn is correct
+            this.errorMessage = "User cannot bid, not your turn";
+        } else if (this.diceValue % 1 !== 0) {
+            this.errorMessage = "Dice value must be integer";
+        } else if ((this.diceValue < 1) && (this.diceValue > 6)) {
+            this.errorMessage = "Dice value must be between 1 and 6";
+        } else if (this.diceQuantity % 1 !== 0) {
+            this.errorMessage = "Dice number must be integer";
+        } else if (this.diceQuantity < 1) {
+            this.errorMessage = "Dice number must be at least 1";
+        } else if (this.currentBid !== undefined) {
+            // If there is an existing bid, we must check if the new one is compatible
+            if (this.diceValue > this.currentBid.value) {
+                // If the bid increases the dice value, then it's always valid
+                this.isValid = true;
+            } else if (this.diceValue < this.currentBid.value) {
+                // If the bid decreases the dice value, the it's never valid
+                this.errorMessage = "Incorrect bid";
+            } else {
+                // If the dice value stays constant, the the dice number must increase
+                if (this.diceQuantity > this.currentBid.number) {
+                    this.isValid = true;
+                } else {
+                    this.errorMessage = "Incorrect bid";
+                }
             }
+        } else {
+            this.isValid = true;
         }
+
         let message: String = this.isValid ? "validated action" : "invalid action";
         console.log(message);
     }
@@ -63,7 +83,7 @@ export class BidAction extends GameAction {
         if (this.isValid) {
             return getGameStatusUpdateResponse(this.game);
         } else {
-            return getErrorResponse(this.requester);
+            return getErrorResponse(this.requester, this.errorMessage);
         }
     }
 }

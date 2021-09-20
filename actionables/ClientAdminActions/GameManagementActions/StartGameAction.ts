@@ -5,9 +5,9 @@ import getErrorResponse from "../../../utils/Builders/ResponseBuilder/ErrorRespo
 import getGameStatusUpdateResponse from "../../../utils/Builders/ResponseBuilder/GameStatusResponse";
 import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
 import { GameStatus } from "../../../utils/GameStatus";
-import { ClientAction } from "../ClientAction";
+import { Action } from "../../Action";
 
-export class StartGameAction extends ClientAction {
+export class StartGameAction extends Action {
     game: Game;
 
     constructor(requester: User, game: Game, serverData: ServerData) {
@@ -17,15 +17,23 @@ export class StartGameAction extends ClientAction {
 
     public validate(): void {
         console.log("start game action being validated");
-        super.validate();
-        // Game must exist
-        this.isValid = (this.isValid && (this.game !== null));
-        // Check game has not started
-        this.isValid = (this.isValid && (this.game.status === GameStatus.NOT_STARTED));
-        // User must be registered in this game in order to start it
-        this.isValid = (this.isValid && this.checkUserRegisteredInThisGame());
-        // User must be admin to start the game
-        this.isValid = (this.isValid && this.requester.isAdmin);
+
+        if (this.game === null) {
+            // Game must exist
+            this.errorMessage = "Game not found";
+        } else if (!this.checkUserRegisteredInThisGame()) {
+            // User must be registered in this game in order to start it
+            this.errorMessage = "The user is not registered in this game";
+        } else if (this.game.status !== GameStatus.NOT_STARTED) {
+            // Game must not have started yet
+            this.errorMessage = "Game has already been started";
+        } else if (!this.requester.isAdmin) {
+            // Game must exist and have matching password
+            this.errorMessage = "User does not have admin permissions for this game";
+        } else {
+            this.isValid = true;
+        }
+
         // Print message
         let message: String = this.isValid ? "validated action" : "invalid action";
         console.log(message);
@@ -41,7 +49,7 @@ export class StartGameAction extends ClientAction {
         if (this.isValid) {
             return getGameStatusUpdateResponse(this.game);
         } else {
-            return getErrorResponse(this.requester);
+            return getErrorResponse(this.requester, this.errorMessage);
         }
     }
 
@@ -49,7 +57,7 @@ export class StartGameAction extends ClientAction {
         // Checks if the user is registered in any game in the server
         let foundUser = false
         if (this.game === undefined) return false;
-        this.game.users.forEach( (user) => {
+        this.game.users.forEach((user) => {
             if (foundUser) return;
             if (user.Id === this.requester.Id) foundUser = true;
         })

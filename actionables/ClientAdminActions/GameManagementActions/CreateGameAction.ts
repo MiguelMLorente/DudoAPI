@@ -5,9 +5,9 @@ import { User } from "../../../userData/User";
 import getErrorResponse from "../../../utils/Builders/ResponseBuilder/ErrorResponse";
 import getJoinedGameResponse from "../../../utils/Builders/ResponseBuilder/JoinedGameResponse";
 import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
-import { ClientAction } from "../ClientAction";
+import { Action } from "../../Action";
 
-export class CreateGameAction extends ClientAction {
+export class CreateGameAction extends Action {
     gameName: String;
     gamePassword: String;
     userName: String;
@@ -22,13 +22,20 @@ export class CreateGameAction extends ClientAction {
 
     public validate(): void {
         console.log("create game action being validated");
-        super.validate();
-        // Game name must not be empty
-        this.isValid = (this.isValid && (this.gameName !== ""));
-        // User name must not be empty
-        this.isValid = (this.isValid && (this.userName != ""));
-        // User must not be registered in any game in order to create a new game
-        this.isValid = (this.isValid &&this.checkUserNotRegisteredInGame());
+
+        if (this.gameName === "") {
+            // Game name must not be empty
+            this.errorMessage = "Game name not inserted";
+        } else if (this.userName === "") {
+            // User name must not be empty
+            this.errorMessage = "User name not inserted";
+        } else if (!this.checkUserNotRegisteredInGame()) {
+            // User must not be registered in any game in order to create a new game
+            this.errorMessage = "User already registered in a different game";
+        } else {
+            this.isValid = true;
+        }
+
         // Print message
         let message: String = this.isValid ? "validated action" : "invalid action";
         console.log(message);
@@ -54,7 +61,7 @@ export class CreateGameAction extends ClientAction {
         if ((this.isValid) && (this.game != null)) {
             return getJoinedGameResponse(this.requester, this.game.gameId);
         } else {
-            return getErrorResponse(this.requester);
+            return getErrorResponse(this.requester, this.errorMessage);
         }
     }
 

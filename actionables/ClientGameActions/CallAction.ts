@@ -2,9 +2,9 @@ import { Bid } from "../../gameData/Bid";
 import { Game } from "../../gameData/Game";
 import { ServerData } from "../../ServerData";
 import { User } from "../../userData/User";
+import { ActionType } from "../../utils/ActionType";
+import getEndOfRoundResponse from "../../utils/Builders/ResponseBuilder/EndOfRoundResponse";
 import getErrorResponse from "../../utils/Builders/ResponseBuilder/ErrorResponse";
-import getGameStatusUpdateResponse from "../../utils/Builders/ResponseBuilder/GameStatusResponse";
-import getMessageResponse from "../../utils/Builders/ResponseBuilder/MessageResponse";
 import { Response } from "../../utils/Builders/ResponseBuilder/Responses/Response";
 import { GameStatus } from "../../utils/GameStatus";
 import { Action } from "../Action";
@@ -73,9 +73,7 @@ export class CallAction extends Action {
     public response(): Response {
         if (this.isValid) {
             // Respond by revealing the dice values and the winner of the action
-
-            // TO DO: Change the response to get the winner and loser and reveal dice values
-            return getGameStatusUpdateResponse(this.game);
+            return getEndOfRoundResponse(this.game, this.winner!, this.loser!, this.requester, ActionType.CALL);
         } else {
             return getErrorResponse(this.requester, this.errorMessage);
         }

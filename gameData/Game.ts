@@ -114,10 +114,6 @@ export class Game {
     }
 
     public getPreviousPlayer(): User {
-        if (this.currentPlayer === 0) {
-            return this.playerList[this.numberOfPlayers - 1];
-        } else {
-            return this.playerList[this.currentPlayer - 1];
-        }
+        return this.currentBid!.doneBy;
     }
 }

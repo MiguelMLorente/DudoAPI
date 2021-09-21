@@ -2,7 +2,6 @@ import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
 import getErrorResponse from "../../../utils/Builders/ResponseBuilder/ErrorResponse";
-import getGameStatusUpdateResponse from "../../../utils/Builders/ResponseBuilder/GameStatusResponse";
 import getJoinedGameResponse from "../../../utils/Builders/ResponseBuilder/JoinedGameResponse";
 import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
 import { GameStatus } from "../../../utils/GameStatus";

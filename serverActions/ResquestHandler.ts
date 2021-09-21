@@ -1,4 +1,3 @@
-import { Server } from "http";
 import { Action } from "../actionables/Action";
 import { ServerData } from "../ServerData";
 import { ActionBuilder } from "../utils/Builders/ActionBuilder/ActionBuilder";
@@ -12,11 +11,11 @@ export function handleRequest(message: any, serverData: ServerData, io: any) {
             action.launch();
         }
         let response: Response = action.response();
-        response.data.forEach( (data) => {
+        response.data.forEach((data) => {
             io.to(data.socketId).emit(response.channel, data.sentData);
         })
-        
-    } catch(e) {
+
+    } catch (e) {
         console.log(e);
         console.log("Error handling the client request. Malformed json response");
     }

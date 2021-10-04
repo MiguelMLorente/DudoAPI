@@ -18,7 +18,7 @@ export class CallAction extends Action {
     constructor(requester: User, serverData: ServerData, game: Game) {
         super(requester, serverData,);
         this.game = game;
-        this.currentBid = this.game.currentBid;
+        this.currentBid = this.game.currentBid || undefined;
     };
 
     public validate(): void {
@@ -30,6 +30,9 @@ export class CallAction extends Action {
         } else if (this.game.status !== GameStatus.CURRENT) {
             // Game must have started
             this.errorMessage = "Game has not started";
+        } else if (this.game.activeRound === false) {
+            // Round must be active
+            this.errorMessage = "Round is not active";
         } else if (!this.requester.isActive) {
             // Check if the users bidding turn is correct
             this.errorMessage = "User cannot bid, not your turn";
@@ -68,6 +71,7 @@ export class CallAction extends Action {
 
         // Transfer turn to the loser
         this.game.setNextPlayer(this.loser);
+        this.game.endRound();
     }
 
     public response(): Response {

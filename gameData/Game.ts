@@ -13,6 +13,7 @@ export class Game {
     public numberOfPlayers: number;
     private currentPlayer: number;
     public currentBid?: Bid;
+    public activeRound: boolean;
 
     constructor(name: String, password: String) {
         this.id = uuid();
@@ -24,20 +25,23 @@ export class Game {
         this.numberOfPlayers = 0;
         this.currentPlayer = 0;
         this.currentBid = undefined;
-
+        this.activeRound = false;
     }
 
     public startGame() {
         this.gameStatus = GameStatus.CURRENT;
         this.numberOfPlayers = this.playerList.length;
-        this.startRound();
+        this.startRound(true);
     }
 
-    private startRound() {
-        this.setStartingPlayer();
+    private startRound(isFirstRound: boolean) {
+        if (isFirstRound) {
+            this.setStartingPlayer();
+        }
         this.playerList.forEach((player) => {
             player.rollDice()
         })
+        this.activeRound = true;
     }
 
     private setStartingPlayer(): void {
@@ -76,6 +80,10 @@ export class Game {
         }
     }
 
+    public endRound(): void {
+        this.activeRound = false;
+    }
+
     public addUser(user: User): void {
         this.playerList.push(user);
         this.numberOfPlayers++;
@@ -104,9 +112,9 @@ export class Game {
     public howManyDice(num: number): number {
         let allDice: Array<number> = []
         this.playerList.forEach((player) => {
-            allDice.concat(player.diceValues)
+            allDice = allDice.concat(player.diceValues)
         });
-        return allDice.reduce((diceVal) => (((diceVal === 1) || (diceVal === num)) ? 1 : 0));
+        return allDice.filter(diceVal => ((diceVal === 1) || (diceVal === num))).length;
     }
 
     public getCurrentPlayer(): User {

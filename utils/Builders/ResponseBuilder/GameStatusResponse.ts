@@ -1,7 +1,10 @@
 import { Game } from "../../../gameData/Game";
 import { User } from "../../../userData/User";
 import { Response } from "./Responses/Response";
+import { CurrentBid } from "./Responses/ResponseCurrentBid";
 import { ResponseDataModel } from "./Responses/ResponseDataModel";
+import { PlayerInfo } from "./Responses/ResponsePlayerInfo"
+
 class StatusUpdateResponse {
     currentBid?: CurrentBid;
     playersInfo: Array<PlayerInfo>;

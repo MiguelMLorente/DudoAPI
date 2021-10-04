@@ -1,4 +1,4 @@
-class PlayerInfo {
+export class PlayerInfo {
     playerName: String;
     isActive: boolean;
     diceNumber?: number;

@@ -1,4 +1,4 @@
-class CurrentBid {
+export class CurrentBid {
     diceValue: number;
     diceNumber: number;
     doneBy: String;

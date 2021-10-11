@@ -9,6 +9,6 @@ _chai.should();
     
 
     @test 'numberOne should be equal to 1'() {
-        _chai.expect(this.numberOne === 1);
+        _chai.expect(this.numberOne).to.be.eq(1);
     }
 }

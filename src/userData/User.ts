@@ -1,5 +1,4 @@
 import { v4 as uuid } from "uuid";
-import { Socket } from "socket.io";
 
 export class User {
     private clientId: String;
@@ -12,12 +11,12 @@ export class User {
     public isAdmin: boolean;
     public isAlive: boolean;
 
-    constructor(name: String, socket: Socket) {
+    constructor(name: String, socketId: String) {
         this.clientId = uuid();
         this.isAdmin = false
         this.userName = name;
         this.joinedGame = "";
-        this.socketId = socket.id;
+        this.socketId = socketId;
         this.numberOfDice = 5;
         this.diceValues = [];
         this.isActive = false;

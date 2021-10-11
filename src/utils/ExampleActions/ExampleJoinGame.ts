@@ -3,7 +3,7 @@ let exampleJoinGameAction = {
         "uuid": "0xFFFFFFFF00000000",
         "name": "Pau"
     },
-    "actionType": "JOIN_GAME",
+    "actionType": "JOIN GAME",
     "actionData": {
         "gameId": "0xFFFFFFFF00000001",
         "userId": "0xFFFFFFFF00000000",

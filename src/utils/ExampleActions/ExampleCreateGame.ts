@@ -3,7 +3,7 @@ let exampleCreateGameAction = {
       "uuid": "0xFFFFFFFF00000000",
       "name": "Pau"
     },
-    "actionType": "BID",
+    "actionType": "CREATE GAME",
     "actionData": {
       "gameId": "0xFFFFFFFF00000001",
       "userId": "0xFFFFFFFF00000000",

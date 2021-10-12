@@ -4,6 +4,7 @@ import { User } from "../../../userData/User";
 import getErrorResponse from "../../../utils/Builders/ResponseBuilder/ErrorResponse";
 import getJoinedGameResponse from "../../../utils/Builders/ResponseBuilder/JoinedGameResponse";
 import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
+import { ErrorMessage } from "../../../utils/ErrorMessage";
 import { Action } from "../../Action";
 
 export class CreateGameAction extends Action {
@@ -24,13 +25,13 @@ export class CreateGameAction extends Action {
 
         if (this.gameName === "") {
             // Game name must not be empty
-            this.errorMessage = "Game name not inserted";
+            this.errorMessage = ErrorMessage.GAME_NAME;
         } else if (this.userName === "") {
             // User name must not be empty
-            this.errorMessage = "User name not inserted";
+            this.errorMessage = ErrorMessage.USER_NAME;
         } else if (!this.checkUserNotRegisteredInGame()) {
             // User must not be registered in any game in order to create a new game
-            this.errorMessage = "User already registered in a different game";
+            this.errorMessage = ErrorMessage.USER_REGISTERED;
         } else {
             this.isValid = true;
         }

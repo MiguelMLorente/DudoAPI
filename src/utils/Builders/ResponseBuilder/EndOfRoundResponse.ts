@@ -1,5 +1,6 @@
 import { Game } from "../../../gameData/Game";
 import { User } from "../../../userData/User";
+import { ResponseChannel } from "../../ResponseChannels";
 import { Response } from "./Responses/Response";
 import { CurrentBid } from "./Responses/ResponseCurrentBid";
 import { ResponseDataModel } from "./Responses/ResponseDataModel";
@@ -59,5 +60,5 @@ function buildEndOfRoundResponse(game: Game, winner: User, loser: User, requeste
 }
 
 export default function getEndOfRoundResponse(game: Game, winner: User, loser: User, requester: User, action: String): Response {
-    return new Response('end-of-round', buildEndOfRoundResponse(game, winner, loser, requester, action));
+    return new Response(ResponseChannel.END_ROUND, buildEndOfRoundResponse(game, winner, loser, requester, action));
 }

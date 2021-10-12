@@ -4,6 +4,7 @@ import { User } from "../../../userData/User";
 import getErrorResponse from "../../../utils/Builders/ResponseBuilder/ErrorResponse";
 import getGameStatusUpdateResponse from "../../../utils/Builders/ResponseBuilder/GameStatusResponse";
 import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
+import { ErrorMessage } from "../../../utils/ErrorMessage";
 import { GameStatus } from "../../../utils/GameStatus";
 import { Action } from "../../Action";
 
@@ -20,16 +21,16 @@ export class StartGameAction extends Action {
 
         if (this.game === null) {
             // Game must exist
-            this.errorMessage = "Game not found";
+            this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
         } else if (!this.checkUserRegisteredInThisGame()) {
             // User must be registered in this game in order to start it
-            this.errorMessage = "The user is not registered in this game";
+            this.errorMessage = ErrorMessage.USER_NOT_REGISTERED;
         } else if (this.game.status !== GameStatus.NOT_STARTED) {
             // Game must not have started yet
-            this.errorMessage = "Game has already been started";
+            this.errorMessage = ErrorMessage.GAME_STARTED;
         } else if (!this.requester.isAdmin) {
             // Game must exist and have matching password
-            this.errorMessage = "User does not have admin permissions for this game";
+            this.errorMessage = ErrorMessage.NOT_ADMIN;
         } else {
             this.isValid = true;
         }

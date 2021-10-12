@@ -6,6 +6,7 @@ import { ActionType } from "../../utils/ActionType";
 import getEndOfRoundResponse from "../../utils/Builders/ResponseBuilder/EndOfRoundResponse";
 import getErrorResponse from "../../utils/Builders/ResponseBuilder/ErrorResponse";
 import { Response } from "../../utils/Builders/ResponseBuilder/Responses/Response";
+import { ErrorMessage } from "../../utils/ErrorMessage";
 import { GameStatus } from "../../utils/GameStatus";
 import { Action } from "../Action";
 
@@ -26,19 +27,19 @@ export class CallAction extends Action {
 
         if (this.game === null) {
             // Game  must not be null
-            this.errorMessage = "Game not found";
+            this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
         } else if (this.game.status !== GameStatus.CURRENT) {
             // Game must have started
-            this.errorMessage = "Game has not started";
+            this.errorMessage = ErrorMessage.GAME_NOT_STARTED;
         } else if (this.game.activeRound === false) {
             // Round must be active
-            this.errorMessage = "Round is not active";
+            this.errorMessage = ErrorMessage.ROUND_NOT_ACTIVE;
         } else if (!this.requester.isActive) {
             // Check if the users bidding turn is correct
-            this.errorMessage = "User cannot bid, not your turn";
+            this.errorMessage = ErrorMessage.NOT_TURN;
         } else if (this.currentBid === undefined) {
             // If there is not a current bid, user cannot accept it
-            this.errorMessage = "Cannot raise, there is no current bid";
+            this.errorMessage = ErrorMessage.CALL_NO_BID;
         } else {
             this.isValid = true;
         }

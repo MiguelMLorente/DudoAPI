@@ -1,5 +1,6 @@
 import { Game } from "../../../gameData/Game";
 import { User } from "../../../userData/User";
+import { ResponseChannel } from "../../ResponseChannels";
 import { Response } from "./Responses/Response";
 import { CurrentBid } from "./Responses/ResponseCurrentBid";
 import { ResponseDataModel } from "./Responses/ResponseDataModel";
@@ -68,5 +69,5 @@ function buildGameStatusResponse(game: Game): Array<ResponseDataModel> {
 }
 
 export default function getGameStatusUpdateResponse(game: Game): Response {
-    return new Response('game-status', buildGameStatusResponse(game));
+    return new Response(ResponseChannel.GAME_STATUS, buildGameStatusResponse(game));
 }

@@ -5,6 +5,7 @@ import { User } from "../../userData/User";
 import getErrorResponse from "../../utils/Builders/ResponseBuilder/ErrorResponse";
 import getGameStatusUpdateResponse from "../../utils/Builders/ResponseBuilder/GameStatusResponse";
 import { Response } from "../../utils/Builders/ResponseBuilder/Responses/Response";
+import { ErrorMessage } from "../../utils/ErrorMessage";
 import { GameStatus } from "../../utils/GameStatus";
 import { Action } from "../Action";
 
@@ -27,24 +28,24 @@ export class BidAction extends Action {
 
         if (this.game === null) {
             // Game  must not be null
-            this.errorMessage = "Game not found";
+            this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
         } else if (this.game.status !== GameStatus.CURRENT) {
             // Game must have started
-            this.errorMessage = "Game has not started";
+            this.errorMessage = ErrorMessage.GAME_NOT_STARTED;
         } else if (this.game.activeRound === false) {
             // Round must be active
-            this.errorMessage = "Round is not active";
+            this.errorMessage = ErrorMessage.ROUND_NOT_ACTIVE;
         } else if (!this.requester.isActive) {
             // Check if the users bidding turn is correct
-            this.errorMessage = "User cannot bid, not your turn";
+            this.errorMessage = ErrorMessage.NOT_TURN;
         } else if (this.diceValue % 1 !== 0) {
-            this.errorMessage = "Dice value must be integer";
+            this.errorMessage = ErrorMessage.DICE_VAL_INT;
         } else if ((this.diceValue < 1) && (this.diceValue > 6)) {
-            this.errorMessage = "Dice value must be between 1 and 6";
+            this.errorMessage = ErrorMessage.DICE_VAL_1_6;
         } else if (this.diceQuantity % 1 !== 0) {
-            this.errorMessage = "Dice number must be integer";
+            this.errorMessage = ErrorMessage.DICE_NUM_INT;
         } else if (this.diceQuantity < 1) {
-            this.errorMessage = "Dice number must be at least 1";
+            this.errorMessage = ErrorMessage.DICE_NUM_1;
         } else if (this.currentBid !== undefined) {
             // If there is an existing bid, we must check if the new one is compatible
             if (this.diceValue > this.currentBid.value) {
@@ -52,13 +53,13 @@ export class BidAction extends Action {
                 this.isValid = true;
             } else if (this.diceValue < this.currentBid.value) {
                 // If the bid decreases the dice value, the it's never valid
-                this.errorMessage = "Incorrect bid";
+                this.errorMessage = ErrorMessage.BID;
             } else {
                 // If the dice value stays constant, the the dice number must increase
                 if (this.diceQuantity > this.currentBid.number) {
                     this.isValid = true;
                 } else {
-                    this.errorMessage = "Incorrect bid";
+                    this.errorMessage = ErrorMessage.BID;
                 }
             }
         } else {

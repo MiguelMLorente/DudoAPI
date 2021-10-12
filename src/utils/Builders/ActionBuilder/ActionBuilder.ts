@@ -2,6 +2,7 @@ import { Action } from "../../../actionables/Action";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
 import { ActionType } from "../../ActionType";
+import { ErrorMessage } from "../../ErrorMessage";
 import { BidActionBuilder } from "./BidActionBuilder";
 import { CallActionBuilder } from "./CallActionBuilder";
 import { CreateGameActionBuilder } from "./CreateGameActionBuilder";
@@ -23,7 +24,7 @@ export class ActionBuilder {
     private getRequester(): User {
         let user: User = this.serverData.getUserById(this.jsonAction.requester.uuid.valueOf())
         if (user == null) {
-            throw new Error("User not found in database");
+            throw new Error(ErrorMessage.USER_NOT_FOUND);
         }
         return user;
     }

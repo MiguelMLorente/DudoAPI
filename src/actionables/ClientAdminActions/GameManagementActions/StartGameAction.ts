@@ -18,8 +18,7 @@ export class StartGameAction extends Action {
 
     public validate(): void {
         console.log("start game action being validated");
-
-        if (this.game === null) {
+        if (this.game == null) {
             // Game must exist
             this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
         } else if (!this.checkUserRegisteredInThisGame()) {
@@ -57,8 +56,7 @@ export class StartGameAction extends Action {
     private checkUserRegisteredInThisGame(): boolean {
         // Checks if the user is registered in any game in the server
         let foundUser = false
-        if (this.game === undefined) return false;
-        this.game.users.forEach((user) => {
+        this.game!.users.forEach((user) => {
             if (foundUser) return;
             if (user.Id === this.requester.Id) foundUser = true;
         })

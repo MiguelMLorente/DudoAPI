@@ -18,12 +18,13 @@ _chai.should();
 
 @suite class JoinGameFunctionalTests {
     
-    //private emptyServerData: ServerData = mockServerData.emptyServerData();
     private realServerData: ServerData = mockServerData.realServerData();
     private createGameAction = mockCreateGameAction.correctAction;
     private startGameAction = mockStartGameAction.correctAction;
+
     private correctAction1 = mockJoinGameAction.correctAction2;
     private correctAction2 = mockJoinGameAction.correctAction3;
+    
     private faultyActionMissingId = mockJoinGameAction.faultyAction1;
     private faultyActionMissingUserName = mockJoinGameAction.faultyAction2;
     private faultyActionMissingGameName = mockJoinGameAction.faultyAction3;
@@ -32,14 +33,11 @@ _chai.should();
 
     private gameId: string;
     private game: Game;
-    //private faultyActionMissingId = mockCreateGameAction.faultyAction1;
-    //private faultyActionMissingUserName = mockCreateGameAction.faultyAction2;
-    //private faultyActionMissingGameName = mockCreateGameAction.faultyAction3;
 
     before() {
         // Create the game by User 1
         handleRequest(this.createGameAction, this.realServerData);
-        let gameIds: string = Object.keys(this.realServerData.games)
+        let gameIds: Array<string> = Object.keys(this.realServerData.games)
         _chai.expect(gameIds.length).to.be.eq(1);
         this.gameId = gameIds[0];
         this.game = this.realServerData.games[this.gameId];
@@ -60,12 +58,12 @@ _chai.should();
             _chai.expect(response.data[0].sentData).to.be.eq(this.gameId);
         }).to.not.throw();
         _chai.expect(this.game.numberOfPlayers).to.be.eq(3);
-        _chai.expect(this.game.playerList[0].Id).to.be.eq("486cae9d-dc1c-4e22-9a76-d0a120442f7d");
-        _chai.expect(this.game.playerList[1].Id).to.be.eq("b378d887-b05a-402a-b758-afe9399587ef");
-        _chai.expect(this.game.playerList[2].Id).to.be.eq("44daca2c-4ea7-48c8-9563-b0f12ce6c6f9");
-        _chai.expect(this.game.playerList[0].joinedGame).to.be.eq(this.gameId);
-        _chai.expect(this.game.playerList[1].joinedGame).to.be.eq(this.gameId);
-        _chai.expect(this.game.playerList[2].joinedGame).to.be.eq(this.gameId);
+        _chai.expect(this.game.users[0].Id).to.be.eq("486cae9d-dc1c-4e22-9a76-d0a120442f7d");
+        _chai.expect(this.game.users[1].Id).to.be.eq("b378d887-b05a-402a-b758-afe9399587ef");
+        _chai.expect(this.game.users[2].Id).to.be.eq("44daca2c-4ea7-48c8-9563-b0f12ce6c6f9");
+        _chai.expect(this.game.users[0].joinedGame).to.be.eq(this.gameId);
+        _chai.expect(this.game.users[1].joinedGame).to.be.eq(this.gameId);
+        _chai.expect(this.game.users[2].joinedGame).to.be.eq(this.gameId);
         _chai.expect(this.game.status).to.be.eq(GameStatus.NOT_STARTED);
     }
 
@@ -73,7 +71,7 @@ _chai.should();
 
     @test 'Join game with missing data'() {
         _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionMissingId, this.realServerData);
+            handleRequest(this.faultyActionMissingId, this.realServerData);
         }).to.throw(Error, ErrorMessage.USER_NOT_FOUND);
 
         _chai.expect( () => {

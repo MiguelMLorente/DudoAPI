@@ -26,7 +26,7 @@ export class BidAction extends Action {
     public validate(): void {
         console.log("bid action being validated");
 
-        if (this.game === null) {
+        if (this.game == null) {
             // Game  must not be null
             this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
         } else if (this.game.status !== GameStatus.CURRENT) {

@@ -17,7 +17,9 @@ _chai.should();
     
     private emptyServerData: ServerData = mockServerData.emptyServerData();
     private realServerData: ServerData = mockServerData.realServerData();
+
     private correctAction = mockCreateGameAction.correctAction;
+    
     private faultyActionMissingId = mockCreateGameAction.faultyAction1;
     private faultyActionMissingUserName = mockCreateGameAction.faultyAction2;
     private faultyActionMissingGameName = mockCreateGameAction.faultyAction3;
@@ -52,8 +54,9 @@ _chai.should();
         _chai.expect(this.realServerData.games[gameIds[0]].gameName).to.be.eq("Game-1");
         _chai.expect(this.realServerData.games[gameIds[0]].gamePassword).to.be.eq("Password-1");
         _chai.expect(this.realServerData.games[gameIds[0]].currentBid).to.be.eq(undefined);
-        _chai.expect(this.realServerData.games[gameIds[0]].playerList[0].Id).to.be.eq("486cae9d-dc1c-4e22-9a76-d0a120442f7d");
-        _chai.expect(this.realServerData.games[gameIds[0]].playerList[0].joinedGame).to.be.eq(gameIds[0]);
+        _chai.expect(this.realServerData.games[gameIds[0]].users[0].Id).to.be.eq("486cae9d-dc1c-4e22-9a76-d0a120442f7d");
+        _chai.expect(this.realServerData.games[gameIds[0]].users[0].joinedGame).to.be.eq(gameIds[0]);
+        _chai.expect(this.realServerData.games[gameIds[0]].users[0].isAdmin).to.be.ok;
     }
 
     
@@ -75,8 +78,8 @@ _chai.should();
         _chai.expect(this.realServerData.games[gameIds[0]].gameName).to.be.eq("Game-1");
         _chai.expect(this.realServerData.games[gameIds[0]].gamePassword).to.be.eq("Password-1");
         _chai.expect(this.realServerData.games[gameIds[0]].currentBid).to.be.eq(undefined);
-        _chai.expect(this.realServerData.games[gameIds[0]].playerList[0].Id).to.be.eq("486cae9d-dc1c-4e22-9a76-d0a120442f7d");
-        _chai.expect(this.realServerData.games[gameIds[0]].playerList[0].joinedGame).to.be.eq(gameIds[0]);
+        _chai.expect(this.realServerData.games[gameIds[0]].users[0].Id).to.be.eq("486cae9d-dc1c-4e22-9a76-d0a120442f7d");
+        _chai.expect(this.realServerData.games[gameIds[0]].users[0].joinedGame).to.be.eq(gameIds[0]);
     }
 
 
@@ -84,7 +87,7 @@ _chai.should();
     @test 'Create a game with missing data: ID, user name & game name' () {
         // Missing ID should throw an error since the user won't be found
         _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionMissingId, this.realServerData);
+            handleRequest(this.faultyActionMissingId, this.realServerData);
         }).to.throw(Error, ErrorMessage.USER_NOT_FOUND);
         // Missing user name or game name won't throw any error, but an error message
         _chai.expect( () => {

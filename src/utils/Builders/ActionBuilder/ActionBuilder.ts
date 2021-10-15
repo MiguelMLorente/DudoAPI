@@ -7,6 +7,7 @@ import { BidActionBuilder } from "./BidActionBuilder";
 import { CallActionBuilder } from "./CallActionBuilder";
 import { CreateGameActionBuilder } from "./CreateGameActionBuilder";
 import { JoinGameActionBuilder } from "./JoinGameActionBuilder";
+import { SpotOnActionBuilder } from "./SpotOnActionBuilder";
 import { StartGameActionBuilder } from "./StartGameActionBuilder";
 import { UserAction } from "./UserAction";
 
@@ -36,6 +37,8 @@ export class ActionBuilder {
                 return new BidActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             case ActionType.CALL:
                 return new CallActionBuilder(this.jsonAction, this.serverData, this.requester).build();
+            case ActionType.SPOT_ON:
+                return new SpotOnActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             case ActionType.CREATE_GAME:
                 return new CreateGameActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             case ActionType.JOIN_GAME:

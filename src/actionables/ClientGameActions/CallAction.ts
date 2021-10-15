@@ -19,7 +19,7 @@ export class CallAction extends Action {
     constructor(requester: User, serverData: ServerData, game: Game) {
         super(requester, serverData,);
         this.game = game;
-        this.currentBid = this.game.currentBid || undefined;
+        this.currentBid = this.game?.currentBid;
     };
 
     public validate(): void {

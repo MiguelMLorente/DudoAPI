@@ -45,7 +45,6 @@ _chai.should();
         this.startGameAction.actionData.gameId = this.gameId;
         handleRequest(this.startGameAction, this.realServerData);
         this.getStartingPlayer();
-        console.log("done");
     }
 
     private getCorrectAction(diceQ: number, diceVal: number): any {
@@ -77,8 +76,8 @@ _chai.should();
 
     private setPreviousPlayer() {
         this.startingPlayer--;
-            this.startingPlayer = (this.startingPlayer + 3) % 3;
-        }
+        this.startingPlayer = (this.startingPlayer + 3) % 3;
+    }
 
     @test 'Starting player can bid, then next player does'() {
         _chai.expect( () => {

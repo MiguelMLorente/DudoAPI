@@ -25,7 +25,6 @@ export class BidAction extends Action {
 
     public validate(): void {
         console.log("bid action being validated");
-
         if (this.game == null) {
             // Game  must not be null
             this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
@@ -40,7 +39,7 @@ export class BidAction extends Action {
             this.errorMessage = ErrorMessage.NOT_TURN;
         } else if (this.diceValue % 1 !== 0) {
             this.errorMessage = ErrorMessage.DICE_VAL_INT;
-        } else if ((this.diceValue < 1) && (this.diceValue > 6)) {
+        } else if ((this.diceValue < 1) || (this.diceValue > 6)) {
             this.errorMessage = ErrorMessage.DICE_VAL_1_6;
         } else if (this.diceQuantity % 1 !== 0) {
             this.errorMessage = ErrorMessage.DICE_NUM_INT;
@@ -65,7 +64,6 @@ export class BidAction extends Action {
         } else {
             this.isValid = true;
         }
-
         let message: String = this.isValid ? "validated action" : "invalid action";
         console.log(message);
     }

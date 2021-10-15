@@ -11,9 +11,11 @@ export class Game {
     private gameName: String;
     private gamePassword: String;
     public numberOfPlayers: number;
+    public alivePlayers: number;
     private currentPlayer: number;
     public currentBid?: Bid;
     public activeRound: boolean;
+    public winner?: User;
 
     constructor(name: String, password: String) {
         this.id = uuid();
@@ -23,6 +25,7 @@ export class Game {
         this.gameName = name;
         this.gamePassword = password;
         this.numberOfPlayers = 0;
+        this.alivePlayers = 0;
         this.currentPlayer = 0;
         this.currentBid = undefined;
         this.activeRound = false;
@@ -31,10 +34,11 @@ export class Game {
     public startGame() {
         this.gameStatus = GameStatus.CURRENT;
         this.numberOfPlayers = this.playerList.length;
+        this.alivePlayers = this.numberOfPlayers;
         this.startRound(true);
     }
 
-    private startRound(isFirstRound: boolean) {
+    public startRound(isFirstRound: boolean) {
         if (isFirstRound) {
             this.setStartingPlayer();
         }
@@ -123,5 +127,10 @@ export class Game {
 
     public getPreviousPlayer(): User {
         return this.currentBid!.doneBy;
+    }
+
+    public endGame(): void {
+        this.gameStatus = GameStatus.FINISHED;
+        this.winner = this.playerList.filter( (player) => player.isAlive )[0];
     }
 }

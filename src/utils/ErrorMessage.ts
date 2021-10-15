@@ -10,6 +10,7 @@ export enum ErrorMessage {
     USER_NOT_FOUND = "User not found in database",
     NOT_ADMIN = "User does not have admin permissions for this game",
     ROUND_NOT_ACTIVE = "Round is not active",
+    ROUND_ACTIVE = "Round is still active",
     NOT_TURN = "User cannot act, not your turn",
     DICE_VAL_INT = "Dice value must be integer",
     DICE_VAL_1_6 = "Dice value must be between 1 and 6",
@@ -18,5 +19,6 @@ export enum ErrorMessage {
     BID = "Incorrect bid",
     CALL_NO_BID = "Cannot call, there is no current bid",
     SPOT_NO_BID = "Cannot spot on, there is no current bid",
-    GENERAL_ERROR = "Error handling the client request. Malformed json response"
+    GENERAL_ERROR = "Error handling the client request. Malformed json response",
+    END_GAME_ERROR = "Error handling the end of game action, review code paths"
 }

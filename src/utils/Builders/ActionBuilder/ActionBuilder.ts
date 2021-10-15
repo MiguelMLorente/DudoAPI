@@ -7,6 +7,7 @@ import { BidActionBuilder } from "./BidActionBuilder";
 import { CallActionBuilder } from "./CallActionBuilder";
 import { CreateGameActionBuilder } from "./CreateGameActionBuilder";
 import { JoinGameActionBuilder } from "./JoinGameActionBuilder";
+import { PostRoundActionBuilder } from "./PostRoundActionBuilder";
 import { SpotOnActionBuilder } from "./SpotOnActionBuilder";
 import { StartGameActionBuilder } from "./StartGameActionBuilder";
 import { UserAction } from "./UserAction";
@@ -23,6 +24,9 @@ export class ActionBuilder {
     }
 
     private getRequester(): User {
+        if (this.jsonAction.requester.uuid === "internal") {
+            return <User><unknown>undefined;
+        }
         let user: User = this.serverData.getUserById(this.jsonAction.requester.uuid.valueOf())
         if (user == null) {
             throw new Error(ErrorMessage.USER_NOT_FOUND);
@@ -45,6 +49,8 @@ export class ActionBuilder {
                 return new JoinGameActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             case ActionType.START_GAME:
                 return new StartGameActionBuilder(this.jsonAction, this.serverData, this.requester).build();
+            case ActionType.POST_ROUND:
+                return new PostRoundActionBuilder(this.jsonAction, this.serverData).build();
             default:
                 return new BidActionBuilder(this.jsonAction, this.serverData, this.requester).build();
         }

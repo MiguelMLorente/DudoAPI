@@ -66,6 +66,7 @@ export class CallAction extends Action {
 
         // Remove player if no dice are left
         if (this.loser.numberOfDice === 0) this.loser.isAlive = false;
+        this.game.alivePlayers --;
 
         // TO DO: check if the game has a winner after this
 

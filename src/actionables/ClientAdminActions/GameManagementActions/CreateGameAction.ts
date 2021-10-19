@@ -21,8 +21,6 @@ export class CreateGameAction extends Action {
     };
 
     public validate(): void {
-        console.log("create game action being validated");
-
         if (this.gameName === "") {
             // Game name must not be empty
             this.errorMessage = ErrorMessage.GAME_NAME;
@@ -37,12 +35,11 @@ export class CreateGameAction extends Action {
         }
 
         // Print message
-        let message: String = this.isValid ? "validated action" : "invalid action";
+        let message: String = (this.isValid ? "validated" : "invalid") + " create game action";
         console.log(message);
     }
 
     public launch(): void {
-        console.log("create game action being launched");
         // Set user name
         this.requester.setUserName(this.userName);
         // Create new game with the given name and password

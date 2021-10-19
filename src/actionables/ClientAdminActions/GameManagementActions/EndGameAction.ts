@@ -17,7 +17,6 @@ export class EndGameAction extends Action {
     };
 
     public validate(): void {
-        console.log("end game action being validated");
         if (this.game == null) {
             // Game must exist
             this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
@@ -30,12 +29,11 @@ export class EndGameAction extends Action {
         }
 
         // Print message
-        let message: String = this.isValid ? "validated action" : "invalid action";
+        let message: String = (this.isValid ? "validated" : "invalid") + " end game action";
         console.log(message);
     }
 
     public launch(): void {
-        console.log("end game action being launched");
         this.game.endGame();
     }
 

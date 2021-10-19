@@ -8,7 +8,6 @@ export function postRoundAction(action: any): any {
           "gameId": "",
         }
     }
-    console.log(action);
     postRoundAction.actionData.gameId = action.actionData.gameId;
     return postRoundAction;
 }

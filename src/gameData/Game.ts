@@ -39,6 +39,7 @@ export class Game {
     }
 
     public startRound(isFirstRound: boolean) {
+        this.currentBid = undefined;
         if (isFirstRound) {
             this.setStartingPlayer();
         }

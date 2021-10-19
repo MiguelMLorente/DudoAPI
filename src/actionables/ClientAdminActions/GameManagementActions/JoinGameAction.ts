@@ -23,8 +23,6 @@ export class JoinGameAction extends Action {
     };
 
     public validate(): void {
-        console.log("join game action being validated");
-
         if (this.gameName === "") {
             // Game name must not be empty
             this.errorMessage = ErrorMessage.GAME_NAME;
@@ -45,12 +43,11 @@ export class JoinGameAction extends Action {
         }
 
         // Print message
-        let message: String = this.isValid ? "validated action" : "invalid action";
+        let message: String = (this.isValid ? "validated" : "invalid") + " join game action";
         console.log(message);
     }
 
     public launch(): void {
-        console.log("join game action being launched");
         // Set user name
         this.requester.setUserName(this.userName);
         // Add the game creator as the first player of the game and Admin permissions

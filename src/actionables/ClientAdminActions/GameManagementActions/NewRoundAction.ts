@@ -17,7 +17,6 @@ export class NewRoundAction extends Action {
     };
 
     public validate(): void {
-        console.log("new round action being validated");
         if (this.game == null) {
             // Game must exist
             this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
@@ -30,12 +29,11 @@ export class NewRoundAction extends Action {
         }
 
         // Print message
-        let message: String = this.isValid ? "validated action" : "invalid action";
+        let message: String = (this.isValid ? "validated" : "invalid") + " new round action";
         console.log(message);
     }
 
     public launch(): void {
-        console.log("new round action being launched");
         this.game.startRound(false);
     }
 

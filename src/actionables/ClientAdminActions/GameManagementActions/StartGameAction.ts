@@ -17,7 +17,6 @@ export class StartGameAction extends Action {
     };
 
     public validate(): void {
-        console.log("start game action being validated");
         if (this.game == null) {
             // Game must exist
             this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
@@ -35,12 +34,11 @@ export class StartGameAction extends Action {
         }
 
         // Print message
-        let message: String = this.isValid ? "validated action" : "invalid action";
+        let message: String = (this.isValid ? "validated" : "invalid") + " start game action";
         console.log(message);
     }
 
     public launch(): void {
-        console.log("start game action being launched");
         // Create new game with the given name and password
         this.game.startGame();
     }

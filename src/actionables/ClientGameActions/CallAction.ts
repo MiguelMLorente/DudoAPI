@@ -23,8 +23,6 @@ export class CallAction extends Action {
     };
 
     public validate(): void {
-        console.log("call action being validated");
-
         if (this.game == null) {
             // Game  must not be null
             this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
@@ -44,12 +42,11 @@ export class CallAction extends Action {
             this.isValid = true;
         }
 
-        let message: String = this.isValid ? "validated action" : "invalid action";
+        let message: String = (this.isValid ? "validated" : "invalid") + " call action";
         console.log(message);
     }
 
     public launch(): void {
-        console.log("call action being launched");
         // Find winner: if there are not enough dice of the bidded quantity
         // with on the bidded value, the bidder loses, else, the caller loses
         let numberOfDice: number = this.game.howManyDice(this.game.currentBid!.value);
@@ -65,8 +62,10 @@ export class CallAction extends Action {
         this.loser.numberOfDice--;
 
         // Remove player if no dice are left
-        if (this.loser.numberOfDice === 0) this.loser.isAlive = false;
-        this.game.alivePlayers --;
+        if (this.loser.numberOfDice === 0) {
+            this.loser.isAlive = false;
+            this.game.alivePlayers --;
+        }
 
         // TO DO: check if the game has a winner after this
 

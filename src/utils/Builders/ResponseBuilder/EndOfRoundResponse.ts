@@ -29,6 +29,7 @@ function getKnownDicePlayerInfo(players: Array<User>): Array<PlayerInfo> {
     return players.map((player) => {
         return new PlayerInfo(player.UserName,
             player.isActive,
+            player.isAlive,
             player.numberOfDice,
             player.diceValues)
     }

@@ -24,7 +24,9 @@ export function handleRequest(message: any, serverData: ServerData, io: any) {
         }
         
         if (response.channel === ResponseChannel.END_ROUND) {
-            handleRequest(postRoundAction(message), serverData, io);
+            setTimeout(() => {
+                handleRequest(postRoundAction(message), serverData, io);
+            }, 1000);
         }
 
     } catch (e) {

@@ -18,7 +18,7 @@ class StatusUpdateResponse {
 
 function getUnknownDicePlayerInfo(players: Array<User>): Array<PlayerInfo> {
     return players.map((player) => {
-        return new PlayerInfo(player.UserName, player.isActive)
+        return new PlayerInfo(player.UserName, player.isActive, player.isAlive)
     }
     );
 }
@@ -27,6 +27,7 @@ function getKnownDicePlayerInfo(players: Array<User>): Array<PlayerInfo> {
     return players.map((player) => {
         return new PlayerInfo(player.UserName,
             player.isActive,
+            player.isAlive,
             player.numberOfDice,
             player.diceValues)
     }

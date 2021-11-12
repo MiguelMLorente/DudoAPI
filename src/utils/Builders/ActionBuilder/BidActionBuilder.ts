@@ -19,7 +19,7 @@ export class BidActionBuilder {
         return new BidAction(this.requester,
             this.serverData,
             this.serverData.getGameById(<string>this.jsonAction.actionData.gameId || ''),
-            this.jsonAction.actionData.diceQuantity,
-            this.jsonAction.actionData.diceValue)
+            this.jsonAction.actionData.diceQuantity!,
+            this.jsonAction.actionData.diceValue!)
     }
 }

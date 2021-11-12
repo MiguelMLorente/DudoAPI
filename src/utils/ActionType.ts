@@ -4,7 +4,6 @@ export enum ActionType {
     SPOT_ON = "SPOT ON",
     CREATE_GAME = "CREATE GAME",
     JOIN_GAME = "JOIN GAME",
-    START_GAME = "START GAME",
     POST_ROUND = "POST ROUND",
     PLAYER_READY = "PLAYER READY"
 }

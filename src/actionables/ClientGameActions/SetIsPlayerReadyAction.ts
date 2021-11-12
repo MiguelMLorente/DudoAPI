@@ -1,13 +1,13 @@
-import { Game } from "../../../gameData/Game";
-import { ServerData } from "../../../ServerData";
-import { User } from "../../../userData/User";
-import getErrorResponse from "../../../utils/Builders/ResponseBuilder/ErrorResponse";
-import getGameStatusUpdateResponse from "../../../utils/Builders/ResponseBuilder/GameStatusResponse";
-import getLobbyUpdateResponse from "../../../utils/Builders/ResponseBuilder/LobbyUpdateResponse";
-import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
-import { ErrorMessage } from "../../../utils/ErrorMessage";
-import { GameStatus } from "../../../utils/GameStatus";
-import { Action } from "../../Action";
+import { Game } from "../../gameData/Game";
+import { ServerData } from "../../ServerData";
+import { User } from "../../userData/User";
+import getErrorResponse from "../../utils/Builders/ResponseBuilder/ErrorResponse";
+import getGameStatusUpdateResponse from "../../utils/Builders/ResponseBuilder/GameStatusResponse";
+import getLobbyUpdateResponse from "../../utils/Builders/ResponseBuilder/LobbyUpdateResponse";
+import { Response } from "../../utils/Builders/ResponseBuilder/Responses/Response";
+import { ErrorMessage } from "../../utils/ErrorMessage";
+import { GameStatus } from "../../utils/GameStatus";
+import { Action } from "../Action";
 
 export class SetIsPlayerReadyAction extends Action {
     game: Game;

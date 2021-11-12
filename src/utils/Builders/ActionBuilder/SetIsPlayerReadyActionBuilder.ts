@@ -1,5 +1,5 @@
 import { Action } from "../../../actionables/Action";
-import { SetIsPlayerReadyAction } from "../../../actionables/ClientAdminActions/GameManagementActions/SetIsPlayerReadyAction";
+import { SetIsPlayerReadyAction } from "../../../actionables/ClientGameActions/SetIsPlayerReadyAction";
 import { Game } from "../../../gameData/Game";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";

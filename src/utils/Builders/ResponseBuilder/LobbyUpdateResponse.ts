@@ -4,24 +4,22 @@ import { Response } from "./Responses/Response";
 import { ResponseDataModel } from "./Responses/ResponseDataModel";
 import { LobbyInfo } from "./Responses/ResponseLobbyInfo";
 
-class JoinedGameResponse {
-    gameId: string;
+class LobbyUpdateResponse {
     playerList: Array<LobbyInfo>;
 
-    constructor(gameId: string, playerList: Array<LobbyInfo>) {
-        this.gameId = gameId;
+    constructor(playerList: Array<LobbyInfo>) {
         this.playerList = playerList;
     }
 }
 
-function buildJoinedGameResponse(game: Game): Array<ResponseDataModel> {
+function buildLobbyUpdateResponse(game: Game): Array<ResponseDataModel> {
     let outputResponseDataModelArray: Array<ResponseDataModel> = [];
 
     let playerList: Array<LobbyInfo> = [];
     game.users.forEach((player) => {
         playerList.push(new LobbyInfo(player.UserName, player.isReady));
     })
-    let response: JoinedGameResponse = new JoinedGameResponse(<string>game.gameId, playerList);
+    let response: LobbyUpdateResponse = new LobbyUpdateResponse(playerList);
 
     game.users.forEach((player) => {
         // Build response sent to this specific player
@@ -35,6 +33,6 @@ function buildJoinedGameResponse(game: Game): Array<ResponseDataModel> {
     return outputResponseDataModelArray;
 }
 
-export default function getJoinedGameResponse(game: Game): Response {
-    return new Response(ResponseChannel.GAME_STATUS, buildJoinedGameResponse(game));
+export default function getLobbyUpdateResponse(game: Game): Response {
+    return new Response(ResponseChannel.LOBBY_UPDATE, buildLobbyUpdateResponse(game));
 }

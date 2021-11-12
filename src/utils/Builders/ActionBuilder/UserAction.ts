@@ -9,10 +9,11 @@ type ActionData = {
     kickedUser?: String;
     promotedUser?: String;
     selectedOption?: String;
-    diceValue: number;
-    diceQuantity: number;
+    diceValue?: number;
+    diceQuantity?: number;
     gameName?: String;
     gamePassword?: String;
+    ready?: boolean;
 }
 
 export type UserAction = {

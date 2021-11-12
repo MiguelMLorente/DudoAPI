@@ -8,6 +8,7 @@ import { CallActionBuilder } from "./CallActionBuilder";
 import { CreateGameActionBuilder } from "./CreateGameActionBuilder";
 import { JoinGameActionBuilder } from "./JoinGameActionBuilder";
 import { PostRoundActionBuilder } from "./PostRoundActionBuilder";
+import { SetIsPlayerReadyActionBuilder } from "./SetIsPlayerReadyActionBuilder";
 import { SpotOnActionBuilder } from "./SpotOnActionBuilder";
 import { StartGameActionBuilder } from "./StartGameActionBuilder";
 import { UserAction } from "./UserAction";
@@ -51,8 +52,10 @@ export class ActionBuilder {
                 return new StartGameActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             case ActionType.POST_ROUND:
                 return new PostRoundActionBuilder(this.jsonAction, this.serverData).build();
+            case ActionType.PLAYER_READY:
+                return new SetIsPlayerReadyActionBuilder(this.jsonAction, this.serverData, this.requester).build();
             default:
-                return new BidActionBuilder(this.jsonAction, this.serverData, this.requester).build();
+                throw new Error(ErrorMessage.UNKNOWN_ACTION);
         }
     }
 }

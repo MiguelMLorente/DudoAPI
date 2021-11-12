@@ -134,4 +134,8 @@ export class Game {
         this.gameStatus = GameStatus.FINISHED;
         this.winner = this.playerList.filter( (player) => player.isAlive )[0];
     }
+
+    public areAllPlayersReady(): boolean {
+        return !this.playerList.find(player => !player.isReady)
+    }
 }

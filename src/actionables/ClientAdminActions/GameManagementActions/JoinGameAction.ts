@@ -54,11 +54,13 @@ export class JoinGameAction extends Action {
         this.joinedGame.addUser(this.requester);
         // Add game Id to the user data set
         this.requester.joinGame(this.joinedGame.gameId);
+        // Set the user as not ready yet
+        this.requester.isReady = false;
     }
 
     public response(): Response {
         if (this.isValid) {
-            return getJoinedGameResponse(this.requester, this.joinedGame.gameId);
+            return getJoinedGameResponse(this.joinedGame);
         } else {
             return getErrorResponse(this.requester, this.errorMessage);
         }

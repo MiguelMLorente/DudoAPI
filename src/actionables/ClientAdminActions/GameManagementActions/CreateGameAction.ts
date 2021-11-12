@@ -52,11 +52,13 @@ export class CreateGameAction extends Action {
         // Add the game to the game list in the server data base
         this.serverData.games[game.gameId.valueOf()] = game;
         this.game = game;
+        // Set the user as not ready yet
+        this.requester.isReady = false;
     }
 
     public response(): Response {
         if ((this.isValid) && (this.game != null)) {
-            return getJoinedGameResponse(this.requester, this.game.gameId);
+            return getJoinedGameResponse(this.game);
         } else {
             return getErrorResponse(this.requester, this.errorMessage);
         }

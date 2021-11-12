@@ -10,6 +10,7 @@ export class User {
     public isActive: boolean;
     public isAdmin: boolean;
     public isAlive: boolean;
+    public isReady: boolean;
 
     constructor(name: String, socketId: String) {
         this.clientId = uuid();
@@ -21,6 +22,7 @@ export class User {
         this.diceValues = [];
         this.isActive = false;
         this.isAlive = true;
+        this.isReady = false;
     };
 
     get Id(): String {

@@ -7,9 +7,9 @@ import { ServerData } from "../../src/ServerData"
 import { handleRequest } from '../mocks/ReducedRequestHandler';
 import * as mockCreateGameAction from "../mocks/CreateGameActionMock"
 import { Response } from "../../src/utils/Builders/ResponseBuilder/Responses/Response";
-import { ErrorMessage } from "../../src/utils/ErrorMessage";
-import { GameStatus } from "../../src/utils/GameStatus";
-import { ResponseChannel } from "../../src/utils/ResponseChannels";
+import { ErrorMessage } from "../../src/utils/Enums/ErrorMessage";
+import { GameStatus } from "../../src/utils/Enums/GameStatus";
+import { ResponseChannel } from "../../src/utils/Enums/ResponseChannels";
 
 _chai.should();
 

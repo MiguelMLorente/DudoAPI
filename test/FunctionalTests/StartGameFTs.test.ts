@@ -9,9 +9,9 @@ import * as mockCreateGameAction from "../mocks/CreateGameActionMock"
 import * as mockJoinGameAction from "../mocks/JoinGameActionMock"
 import * as mockStartGameAction from "../mocks/StartGameActionMock"
 import { Response } from "../../src/utils/Builders/ResponseBuilder/Responses/Response";
-import { ErrorMessage } from "../../src/utils/ErrorMessage";
-import { GameStatus } from "../../src/utils/GameStatus";
-import { ResponseChannel } from "../../src/utils/ResponseChannels";
+import { ErrorMessage } from "../../src/utils/Enums/ErrorMessage";
+import { GameStatus } from "../../src/utils/Enums/GameStatus";
+import { ResponseChannel } from "../../src/utils/Enums/ResponseChannels";
 import { Game } from "../../src/gameData/Game"
 
 _chai.should();

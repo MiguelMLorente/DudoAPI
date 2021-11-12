@@ -1,8 +1,8 @@
 import { Action } from "../../../actionables/Action";
 import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
-import { ActionType } from "../../ActionType";
-import { ErrorMessage } from "../../ErrorMessage";
+import { ActionType } from "../../Enums/ActionType";
+import { ErrorMessage } from "../../Enums/ErrorMessage";
 import { BidActionBuilder } from "./BidActionBuilder";
 import { CallActionBuilder } from "./CallActionBuilder";
 import { CreateGameActionBuilder } from "./CreateGameActionBuilder";

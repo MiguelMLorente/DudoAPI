@@ -1,5 +1,5 @@
 import { User } from "../userData/User";
-import { GameStatus } from "../utils/GameStatus";
+import { GameStatus } from "../utils/Enums/GameStatus";
 import { v4 as uuid } from "uuid";
 import { Bid } from "./Bid";
 

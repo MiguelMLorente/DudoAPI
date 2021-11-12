@@ -3,8 +3,8 @@ import { ServerData } from "../ServerData";
 import { ActionBuilder } from "../utils/Builders/ActionBuilder/ActionBuilder";
 import { postRoundAction } from "../utils/PostRoundAction";
 import { Response } from "../utils/Builders/ResponseBuilder/Responses/Response";
-import { ErrorMessage } from "../utils/ErrorMessage";
-import { ResponseChannel } from "../utils/ResponseChannels";
+import { ErrorMessage } from "../utils/Enums/ErrorMessage";
+import { ResponseChannel } from "../utils/Enums/ResponseChannels";
 
 export function handleRequest(message: any, serverData: ServerData, io: any) {
     try {

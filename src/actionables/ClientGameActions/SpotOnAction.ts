@@ -2,12 +2,12 @@ import { Bid } from "../../gameData/Bid";
 import { Game } from "../../gameData/Game";
 import { ServerData } from "../../ServerData";
 import { User } from "../../userData/User";
-import { ActionType } from "../../utils/ActionType";
+import { ActionType } from "../../utils/Enums/ActionType";
 import getEndOfRoundResponse from "../../utils/Builders/ResponseBuilder/EndOfRoundResponse";
 import getErrorResponse from "../../utils/Builders/ResponseBuilder/ErrorResponse";
 import { Response } from "../../utils/Builders/ResponseBuilder/Responses/Response";
-import { ErrorMessage } from "../../utils/ErrorMessage";
-import { GameStatus } from "../../utils/GameStatus";
+import { ErrorMessage } from "../../utils/Enums/ErrorMessage";
+import { GameStatus } from "../../utils/Enums/GameStatus";
 import { Action } from "../Action";
 
 export class SpotOnAction extends Action {

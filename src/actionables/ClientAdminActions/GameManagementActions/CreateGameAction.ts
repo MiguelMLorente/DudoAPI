@@ -4,7 +4,7 @@ import { User } from "../../../userData/User";
 import getErrorResponse from "../../../utils/Builders/ResponseBuilder/ErrorResponse";
 import getJoinedGameResponse from "../../../utils/Builders/ResponseBuilder/JoinedGameResponse";
 import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
-import { ErrorMessage } from "../../../utils/ErrorMessage";
+import { ErrorMessage } from "../../../utils/Enums/ErrorMessage";
 import { Action } from "../../Action";
 
 export class CreateGameAction extends Action {

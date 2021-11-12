@@ -1,5 +1,5 @@
 import { User } from "../../../userData/User";
-import { ResponseChannel } from "../../ResponseChannels";
+import { ResponseChannel } from "../../Enums/ResponseChannels";
 import { Response } from "./Responses/Response";
 import { ResponseDataModel } from "./Responses/ResponseDataModel";
 

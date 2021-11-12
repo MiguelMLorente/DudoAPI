@@ -5,8 +5,8 @@ import { User } from "../../userData/User";
 import getErrorResponse from "../../utils/Builders/ResponseBuilder/ErrorResponse";
 import getGameStatusUpdateResponse from "../../utils/Builders/ResponseBuilder/GameStatusResponse";
 import { Response } from "../../utils/Builders/ResponseBuilder/Responses/Response";
-import { ErrorMessage } from "../../utils/ErrorMessage";
-import { GameStatus } from "../../utils/GameStatus";
+import { ErrorMessage } from "../../utils/Enums/ErrorMessage";
+import { GameStatus } from "../../utils/Enums/GameStatus";
 import { Action } from "../Action";
 
 export class BidAction extends Action {

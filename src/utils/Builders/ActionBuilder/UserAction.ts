@@ -1,6 +1,6 @@
 type Requester = {
     uuid: String;
-    name: String;
+    name?: String;
 }
 
 type ActionData = {

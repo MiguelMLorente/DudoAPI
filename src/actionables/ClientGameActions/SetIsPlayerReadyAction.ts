@@ -1,5 +1,4 @@
 import { Game } from "../../gameData/Game";
-import { ServerData } from "../../ServerData";
 import { User } from "../../userData/User";
 import getErrorResponse from "../../utils/Builders/ResponseBuilder/ErrorResponse";
 import getGameStatusUpdateResponse from "../../utils/Builders/ResponseBuilder/GameStatusResponse";
@@ -7,27 +6,30 @@ import getLobbyUpdateResponse from "../../utils/Builders/ResponseBuilder/LobbyUp
 import { Response } from "../../utils/Builders/ResponseBuilder/Responses/Response";
 import { ErrorMessage } from "../../utils/Enums/ErrorMessage";
 import { GameStatus } from "../../utils/Enums/GameStatus";
+import { ServerDataHelper } from "../../utils/Helpers/ServerDataHelper";
 import { Action } from "../Action";
 
 export class SetIsPlayerReadyAction extends Action {
+    helper: ServerDataHelper;
     game: Game;
     ready: boolean;
     gameStarted: boolean;
 
-    constructor(requester: User, serverData: ServerData, game: Game, ready: boolean) {
-        super(requester, serverData);
+    constructor(requester: User, game: Game, ready: boolean, helper: ServerDataHelper) {
+        super(requester);
         this.game = game;
         this.ready =  ready;
         this.gameStarted = false;
+        this.helper = helper;
     };
 
     public validate(): void {
         if (this.game == null) {
             // Game must exist
             this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
-        } else if (!this.checkUserRegisteredInThisGame()) {
-            // User must be registered in this game in order to start it
-            this.errorMessage = ErrorMessage.USER_NOT_REGISTERED;
+        } else if (!this.helper.checkUserRegisteredInGame(this.requester, this.game)) {
+            // The user must be registered in this game to act
+            this.errorMessage = ErrorMessage.USER_NOT_REGISTERED
         } else if (this.game.status !== GameStatus.NOT_STARTED) {
             // Game must not have started yet
             this.errorMessage = ErrorMessage.GAME_STARTED;
@@ -60,15 +62,5 @@ export class SetIsPlayerReadyAction extends Action {
         } else {
             return getLobbyUpdateResponse(this.game);
         }
-    }
-
-    private checkUserRegisteredInThisGame(): boolean {
-        // Checks if the user is registered in any game in the server
-        let foundUser = false
-        this.game!.users.forEach((user) => {
-            if (foundUser) return;
-            if (user.Id === this.requester.Id) foundUser = true;
-        })
-        return foundUser;
     }
 }

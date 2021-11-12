@@ -1,6 +1,5 @@
-import { User } from "../userData/User";
 import { v4 as uuid } from "uuid";
-import { ServerData } from "../ServerData";
+import { User } from "../userData/User";
 import { Response } from "../utils/Builders/ResponseBuilder/Responses/Response";
 
 export abstract class Action {
@@ -8,14 +7,12 @@ export abstract class Action {
     protected id: String;
     protected isValid: boolean;
     protected requester: User;
-    protected serverData: ServerData;
 
-    constructor(requester: User, serverData: ServerData) {
-        this.requester = requester;
-        this.serverData = serverData;
+    constructor(requester: User) {
         this.isValid = false;
         this.errorMessage = '';
         this.id = uuid();
+        this.requester = requester;
     };
 
     abstract validate(): void;
@@ -27,6 +24,4 @@ export abstract class Action {
     get Valid(): boolean {
         return this.isValid;
     }
-
-    get requesterConnectionId(): String { return this.requester.connectionId }
 }

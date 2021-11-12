@@ -1,28 +1,22 @@
 import { Action } from "../../../actionables/Action";
 import { SetIsPlayerReadyAction } from "../../../actionables/ClientGameActions/SetIsPlayerReadyAction";
-import { Game } from "../../../gameData/Game";
-import { ServerData } from "../../../ServerData";
-import { User } from "../../../userData/User";
+import { ServerDataHelper } from "../../Helpers/ServerDataHelper";
 import { UserAction } from "./UserAction";
 
 export class SetIsPlayerReadyActionBuilder {
     jsonAction: UserAction;
-    serverData: ServerData;
-    requester: User;
-    game: Game;
+    helper: ServerDataHelper;
 
-    constructor(json: UserAction, serverData: ServerData, requester: User) {
+    constructor(json: UserAction, helper: ServerDataHelper) {
         this.jsonAction = json;
-        this.serverData = serverData;
-        this.requester = requester;
-        this.game = this.serverData.getGameById(this.jsonAction.actionData.gameId?.valueOf() || '');
+        this.helper = helper;
     }
 
     public build(): Action {
-        return new SetIsPlayerReadyAction(this.requester,
-            this.serverData,
-            this.game,
-            this.jsonAction.actionData.ready!
+        return new SetIsPlayerReadyAction(this.helper.getActionRequester(this.jsonAction),
+        this.helper.getGameById(<string>this.jsonAction.actionData.gameId || ''),
+            this.jsonAction.actionData.ready!,
+            this.helper
             )
     }
 }

@@ -1,32 +1,37 @@
 import { Bid } from "../../gameData/Bid";
 import { Game } from "../../gameData/Game";
-import { ServerData } from "../../ServerData";
 import { User } from "../../userData/User";
 import getErrorResponse from "../../utils/Builders/ResponseBuilder/ErrorResponse";
 import getGameStatusUpdateResponse from "../../utils/Builders/ResponseBuilder/GameStatusResponse";
 import { Response } from "../../utils/Builders/ResponseBuilder/Responses/Response";
 import { ErrorMessage } from "../../utils/Enums/ErrorMessage";
 import { GameStatus } from "../../utils/Enums/GameStatus";
+import { ServerDataHelper } from "../../utils/Helpers/ServerDataHelper";
 import { Action } from "../Action";
 
 export class BidAction extends Action {
+    helper: ServerDataHelper;
     diceValue: number;
     diceQuantity: number;
     currentBid?: Bid;
     game: Game;
 
-    constructor(requester: User, serverData: ServerData, game: Game, diceQuantity: number, diceValue: number) {
-        super(requester, serverData);
+    constructor(requester: User, game: Game, diceQuantity: number, diceValue: number, helper: ServerDataHelper) {
+        super(requester);
         this.game = game;
         this.diceQuantity = diceQuantity;
         this.diceValue = diceValue;
         this.currentBid = this.game.currentBid;
+        this.helper = helper;
     };
 
     public validate(): void {
         if (this.game == null) {
             // Game  must not be null
             this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
+        } else if (!this.helper.checkUserRegisteredInGame(this.requester, this.game)) {
+            // The user must be registered in this game to act
+            this.errorMessage = ErrorMessage.USER_NOT_REGISTERED
         } else if (this.game.status !== GameStatus.CURRENT) {
             // Game must have started
             this.errorMessage = ErrorMessage.GAME_NOT_STARTED;

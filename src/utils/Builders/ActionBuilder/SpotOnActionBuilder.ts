@@ -1,23 +1,20 @@
 import { Action } from "../../../actionables/Action";
 import { SpotOnAction } from "../../../actionables/ClientGameActions/SpotOnAction";
-import { ServerData } from "../../../ServerData";
-import { User } from "../../../userData/User";
+import { ServerDataHelper } from "../../Helpers/ServerDataHelper";
 import { UserAction } from "./UserAction";
 
 export class SpotOnActionBuilder {
     jsonAction: UserAction;
-    serverData: ServerData;
-    requester: User;
+    helper: ServerDataHelper;
 
-    constructor(json: UserAction, serverData: ServerData, requester: User) {
+    constructor(json: UserAction, helper: ServerDataHelper) {
         this.jsonAction = json;
-        this.serverData = serverData;
-        this.requester = requester;
+        this.helper = helper;
     }
 
     public build(): Action {
-        return new SpotOnAction(this.requester,
-            this.serverData,
-            this.serverData.getGameById(<string>this.jsonAction.actionData.gameId || ''));
+        return new SpotOnAction(this.helper.getActionRequester(this.jsonAction),
+            this.helper.getGameById(<string>this.jsonAction.actionData.gameId || ''),
+            this.helper);
     }
 }

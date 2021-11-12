@@ -2,25 +2,25 @@ import { Action } from "../../../actionables/Action";
 import { EndGameAction } from "../../../actionables/ClientAdminActions/GameManagementActions/EndGameAction";
 import { NewRoundAction } from "../../../actionables/ClientAdminActions/GameManagementActions/NewRoundAction";
 import { Game } from "../../../gameData/Game";
-import { ServerData } from "../../../ServerData";
+import { ServerDataHelper } from "../../Helpers/ServerDataHelper";
 import { UserAction } from "./UserAction";
 
 export class PostRoundActionBuilder {
     jsonAction: UserAction;
-    serverData: ServerData;
+    helper: ServerDataHelper;
     game: Game;
 
-    constructor(json: UserAction, serverData: ServerData) {
+    constructor(json: UserAction, helper: ServerDataHelper) {
         this.jsonAction = json;
-        this.serverData = serverData;
-        this.game = this.serverData.getGameById(<string>this.jsonAction.actionData.gameId || '');
+        this.helper = helper;
+        this.game = this.helper.getGameById(<string>this.jsonAction.actionData.gameId!)
     }
 
     public build(): Action {
         if (this.game.alivePlayers === 1) {
-            return new EndGameAction(this.game, this.serverData);
+            return new EndGameAction(this.game);
         } else {
-            return new NewRoundAction(this.game, this.serverData);
+            return new NewRoundAction(this.game);
         }
     }
 }

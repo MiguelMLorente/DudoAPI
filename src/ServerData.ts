@@ -9,31 +9,4 @@ export class ServerData {
         this.games = {};
         this.users = {};
     }
-
-    public getGameById(id: string): Game {
-        try {
-            return this.games[id];
-        } catch(e) {
-            console.log(e);
-        }
-        return null as any;
-    }
-
-    public getUserById(id: string): User {
-        try {
-            return this.users[id];
-        } catch(e) {
-            console.log(e);
-        }
-        return null as any;
-    }
-
-    public getUserId(id: string): User {
-        try {
-            return this.users[id];
-        } catch(e) {
-            console.log(e);
-        }
-        return null as any;
-    }
 }

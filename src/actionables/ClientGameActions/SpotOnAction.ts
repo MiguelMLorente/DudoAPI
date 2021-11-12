@@ -1,6 +1,5 @@
 import { Bid } from "../../gameData/Bid";
 import { Game } from "../../gameData/Game";
-import { ServerData } from "../../ServerData";
 import { User } from "../../userData/User";
 import { ActionType } from "../../utils/Enums/ActionType";
 import getEndOfRoundResponse from "../../utils/Builders/ResponseBuilder/EndOfRoundResponse";
@@ -9,23 +8,29 @@ import { Response } from "../../utils/Builders/ResponseBuilder/Responses/Respons
 import { ErrorMessage } from "../../utils/Enums/ErrorMessage";
 import { GameStatus } from "../../utils/Enums/GameStatus";
 import { Action } from "../Action";
+import { ServerDataHelper } from "../../utils/Helpers/ServerDataHelper";
 
 export class SpotOnAction extends Action {
+    helper: ServerDataHelper;
     game: Game;
     currentBid?: Bid;
     winner?: User;
     loser?: User;
 
-    constructor(requester: User, serverData: ServerData, game: Game) {
-        super(requester, serverData,);
+    constructor(requester: User, game: Game, helper: ServerDataHelper) {
+        super(requester);
         this.game = game;
         this.currentBid = this.game.currentBid;
+        this.helper = helper;
     };
 
     public validate(): void {
         if (this.game == null) {
             // Game  must not be null
             this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
+        } else if (!this.helper.checkUserRegisteredInGame(this.requester, this.game)) {
+            // The user must be registered in this game to act
+            this.errorMessage = ErrorMessage.USER_NOT_REGISTERED
         } else if (this.game.status !== GameStatus.CURRENT) {
             // Game must have started
             this.errorMessage = ErrorMessage.GAME_NOT_STARTED;

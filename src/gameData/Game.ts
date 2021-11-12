@@ -136,6 +136,7 @@ export class Game {
     }
 
     public areAllPlayersReady(): boolean {
-        return !this.playerList.find(player => !player.isReady)
+        // If some player is not ready, then the game is not ready to start
+        return !this.playerList.some(player => !player.isReady)
     }
 }

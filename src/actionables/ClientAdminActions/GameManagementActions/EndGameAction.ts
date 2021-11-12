@@ -1,5 +1,4 @@
 import { Game } from "../../../gameData/Game";
-import { ServerData } from "../../../ServerData";
 import { User } from "../../../userData/User";
 import { getEndOfGameResponse } from "../../../utils/Builders/ResponseBuilder/EndOfGameResponse";
 import getInternalErrorResponse from "../../../utils/Builders/ResponseBuilder/InternalErrorResponse";
@@ -11,8 +10,8 @@ import { Action } from "../../Action";
 export class EndGameAction extends Action {
     game: Game;
 
-    constructor(game: Game, serverData: ServerData) {
-        super(null as unknown as User, serverData);
+    constructor(game: Game) {
+        super(null as unknown as User);
         this.game = game;
     };
 

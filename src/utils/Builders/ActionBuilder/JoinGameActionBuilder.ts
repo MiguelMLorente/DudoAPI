@@ -1,31 +1,23 @@
 import { Action } from "../../../actionables/Action";
 import { JoinGameAction } from "../../../actionables/ClientAdminActions/GameManagementActions/JoinGameAction";
-import { Game } from "../../../gameData/Game";
-import { ServerData } from "../../../ServerData";
-import { User } from "../../../userData/User";
-import { getGameByName } from "../../Getters/GameGetter";
+import { ServerDataHelper } from "../../Helpers/ServerDataHelper";
 import { UserAction } from "./UserAction";
 
 export class JoinGameActionBuilder {
     jsonAction: UserAction;
-    serverData: ServerData;
-    requester: User;
-    game: Game;
+    helper: ServerDataHelper;
 
-    constructor(json: UserAction, serverData: ServerData, requester: User) {
+    constructor(json: UserAction, helper: ServerDataHelper) {
         this.jsonAction = json;
-        this.serverData = serverData;
-        this.requester = requester;
-        this.game = getGameByName(this.serverData, this.jsonAction.actionData.gameName || '');
+        this.helper = helper;
     }
 
     public build(): Action {
-        return new JoinGameAction(this.requester,
+        return new JoinGameAction(this.helper.getActionRequester(this.jsonAction),
             this.jsonAction.actionData.gameName as String,
             this.jsonAction.actionData.gamePassword as String,
             this.jsonAction.requester.name as String,
-            this.serverData,
-            this.game
+            this.helper
             )
     }
 }

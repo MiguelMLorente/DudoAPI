@@ -22,5 +22,6 @@ export enum ErrorMessage {
     GENERAL_ERROR = "Error handling the client request. Malformed json response",
     END_GAME_ERROR = "Error handling the end of game action, review code paths",
     READY = "Duplicated or incorrect ready information",
-    UNKNOWN_ACTION = "Unknown action name"
+    UNKNOWN_ACTION = "Unknown action name",
+    GAME_FULL = "Game is full"
 }

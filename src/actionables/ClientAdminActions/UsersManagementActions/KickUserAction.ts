@@ -52,7 +52,7 @@ export class KickUserAction extends Action {
         this.kickedPlayer.joinedGame = "";
         this.kickedPlayer.isReady = false;
         this.game.removePlayer(this.kickedPlayer);
-        if (this.game.areAllPlayersReady()) {
+        if (this.game.numberOfPlayers > 1 && this.game.areAllPlayersReady()) {
             this.game.startGame();
             this.gameStarted = true;
         }

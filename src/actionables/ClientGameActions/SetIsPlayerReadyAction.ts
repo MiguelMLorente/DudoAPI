@@ -48,7 +48,7 @@ export class SetIsPlayerReadyAction extends Action {
         // Ready or unready player according to request
         this.requester.isReady = this.ready;
         // Start the game if all the players are ready
-        if (this.game.areAllPlayersReady()) {
+        if (this.game.numberOfPlayers > 1 && this.game.areAllPlayersReady()) {
             this.game.startGame();
             this.gameStarted = true;
         }

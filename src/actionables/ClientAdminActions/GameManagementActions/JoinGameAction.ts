@@ -37,6 +37,9 @@ export class JoinGameAction extends Action {
         } else if ((this.joinedGame === null) || (this.gamePassword !== this.joinedGame.password)) {
             // Game must exist and have matching password
             this.errorMessage = ErrorMessage.PASSWORD;
+        } else if (this.joinedGame.numberOfPlayers >= Game.maxPlayers) {
+            // Game must have space for a new player
+            this.errorMessage = ErrorMessage.GAME_FULL;
         } else if (this.joinedGame.status !== GameStatus.NOT_STARTED) {
             // Check that the game has not started yet
             this.errorMessage = ErrorMessage.GAME_STARTED;

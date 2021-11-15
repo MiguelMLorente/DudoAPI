@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 import { Bid } from "./Bid";
 
 export class Game {
+    static maxPlayers: number = 8;
     private id: String;
     private playerList: Array<User>;
     private gameStatus: String;

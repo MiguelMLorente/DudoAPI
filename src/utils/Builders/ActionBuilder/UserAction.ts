@@ -5,7 +5,6 @@ type Requester = {
 
 type ActionData = {
     gameId?: String;
-    userId: String;
     kickedUser?: String;
     promotedUser?: String;
     selectedOption?: String;

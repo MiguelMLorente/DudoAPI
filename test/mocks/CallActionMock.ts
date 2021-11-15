@@ -5,8 +5,7 @@ let emptyAction = {
     },
     "actionType": "CALL",
     "actionData": {
-      "gameId": "",
-      "userId": ""
+      "gameId": ""
     }
 }
 

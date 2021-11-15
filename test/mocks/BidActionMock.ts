@@ -6,7 +6,6 @@ let emptyAction = {
     "actionType": "BID",
     "actionData": {
       "gameId": "",
-      "userId": "",
       "diceValue": 0,
       "diceQuantity": 0
     }

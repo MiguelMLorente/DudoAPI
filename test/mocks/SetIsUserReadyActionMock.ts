@@ -5,7 +5,6 @@ let correctAction1 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
-        "userId": "486cae9d-dc1c-4e22-9a76-d0a120442f7d",
         "ready": true
     }
 }
@@ -17,7 +16,6 @@ let correctAction2 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
-        "userId": "b378d887-b05a-402a-b758-afe9399587ef",
         "ready": true
     }
 }
@@ -29,7 +27,6 @@ let correctAction3 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
-        "userId": "44daca2c-4ea7-48c8-9563-b0f12ce6c6f9",
         "ready": true
     }
 }
@@ -41,7 +38,6 @@ let correctAction4 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
-        "userId": "486cae9d-dc1c-4e22-9a76-d0a120442f7d",
         "ready": false
     }
 }
@@ -65,7 +61,6 @@ let faultyAction2 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
-        "userId": "486cae9d-dc1c-4e22-9a76-d0a120442f7d",
         "ready": true
     }
 }
@@ -77,7 +72,6 @@ let faultyAction3 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
-        "userId": "25654461-043c-4697-90bd-d775ed1a4e35",
         "ready": true
     }
 }
@@ -89,7 +83,6 @@ let faultyAction4 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
-        "userId": "486cae9d-dc1c-4e22-9a76-d0a120442f7d",
         "ready": null
     }
 }

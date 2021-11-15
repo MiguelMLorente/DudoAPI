@@ -21,6 +21,7 @@ _chai.should();
     private realServerData: ServerData = mockServerData.realServerData();
     private createGameAction = mockCreateGameAction.correctAction;
     private readyPlayer1Action = mockSetIsUserReadyAction.correctAction1;
+    private readyPlayer2Action = mockSetIsUserReadyAction.correctAction2;
 
     private correctAction1 = mockJoinGameAction.correctAction2;
     private correctAction2 = mockJoinGameAction.correctAction3;
@@ -42,6 +43,7 @@ _chai.should();
         this.gameId = gameIds[0];
         this.game = this.realServerData.games[this.gameId];
         this.readyPlayer1Action.actionData.gameId = this.gameId;
+        this.readyPlayer2Action.actionData.gameId = this.gameId;
     }
 
     @test 'Join game by some other users'() {
@@ -104,9 +106,11 @@ _chai.should();
 
 
     @test 'Try to join an already started game leads to failure'() {
+        handleRequest(this.correctAction1, this.realServerData);
+        handleRequest(this.readyPlayer1Action, this.realServerData);
+        handleRequest(this.readyPlayer2Action, this.realServerData);
         _chai.expect( () => {
-            handleRequest(this.readyPlayer1Action, this.realServerData);
-            let response: Response = handleRequest(this.correctAction1, this.realServerData);
+            let response: Response = handleRequest(this.correctAction2, this.realServerData);
             _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
             _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.GAME_STARTED);
         }).to.not.throw();

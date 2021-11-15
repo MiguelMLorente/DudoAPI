@@ -6,7 +6,6 @@ let correctAction1 = {
     "actionType": "JOIN GAME",
     "actionData": {
         "gameName": "Game-1",
-        "userId": "486cae9d-dc1c-4e22-9a76-d0a120442f7d",
         "gamePassword": "Password-1"
     }
 }
@@ -19,7 +18,6 @@ let correctAction2 = {
     "actionType": "JOIN GAME",
     "actionData": {
         "gameName": "Game-1",
-        "userId": "b378d887-b05a-402a-b758-afe9399587ef",
         "gamePassword": "Password-1"
     }
 }
@@ -32,7 +30,6 @@ let correctAction3 = {
     "actionType": "JOIN GAME",
     "actionData": {
         "gameName": "Game-1",
-        "userId": "44daca2c-4ea7-48c8-9563-b0f12ce6c6f9",
         "gamePassword": "Password-1"
     }
 }
@@ -45,7 +42,6 @@ let faultyAction1 = {
     "actionType": "JOIN GAME",
     "actionData": {
         "gameName": "Game-1",
-        "userId": "",
         "gamePassword": "Password-1"
     }
 }
@@ -58,7 +54,6 @@ let faultyAction2 = {
     "actionType": "JOIN GAME",
     "actionData": {
         "gameName": "Game-1",
-        "userId": "b378d887-b05a-402a-b758-afe9399587ef",
         "gamePassword": "Password-1"
     }
 }
@@ -71,7 +66,6 @@ let faultyAction3 = {
     "actionType": "JOIN GAME",
     "actionData": {
         "gameName": "",
-        "userId": "b378d887-b05a-402a-b758-afe9399587ef",
         "gamePassword": "Password-1"
     }
 }
@@ -84,7 +78,6 @@ let faultyAction4 = {
     "actionType": "JOIN GAME",
     "actionData": {
         "gameName": "Game-1",
-        "userId": "b378d887-b05a-402a-b758-afe9399587ef",
         "gamePassword": "WrongPassword"
     }
 }

@@ -36,5 +36,5 @@ function buildJoinedGameResponse(game: Game): Array<ResponseDataModel> {
 }
 
 export default function getJoinedGameResponse(game: Game): Response {
-    return new Response(ResponseChannel.GAME_STATUS, buildJoinedGameResponse(game));
+    return new Response(ResponseChannel.JOIN_GAME, buildJoinedGameResponse(game));
 }

@@ -7,7 +7,7 @@ import { ServerData } from "../../src/ServerData"
 import { handleRequest } from '../mocks/ReducedRequestHandler';
 import * as mockCreateGameAction from "../mocks/CreateGameActionMock"
 import * as mockJoinGameAction from "../mocks/JoinGameActionMock"
-import * as mockStartGameAction from "../mocks/StartGameActionMock"
+import * as mockSetIsUserReadyAction from "../mocks/SetIsUserReadyActionMock"
 import * as mockBidAction from "../mocks/BidActionMock"
 import { Response } from "../../src/utils/Builders/ResponseBuilder/Responses/Response";
 import { ErrorMessage } from "../../src/utils/Enums/ErrorMessage";
@@ -23,7 +23,9 @@ _chai.should();
     private createGameAction = mockCreateGameAction.correctAction;
     private joinGameAction1 = mockJoinGameAction.correctAction2;
     private joinGameAction2 = mockJoinGameAction.correctAction3;
-    private startGameAction = mockStartGameAction.correctAction;
+    private readyPlayer1Action = mockSetIsUserReadyAction.correctAction1;
+    private readyPlayer2Action = mockSetIsUserReadyAction.correctAction2;
+    private readyPlayer3Action = mockSetIsUserReadyAction.correctAction3;
 
     private gameId: string;
     private game: Game;
@@ -42,8 +44,12 @@ _chai.should();
         handleRequest(this.joinGameAction2, this.realServerData);
         this.gameId = Object.keys(this.realServerData.games)[0];
         this.game = this.realServerData.games[this.gameId];
-        this.startGameAction.actionData.gameId = this.gameId;
-        handleRequest(this.startGameAction, this.realServerData);
+        this.readyPlayer1Action.actionData.gameId = this.gameId;
+        this.readyPlayer2Action.actionData.gameId = this.gameId;
+        this.readyPlayer3Action.actionData.gameId = this.gameId;
+        handleRequest(this.readyPlayer1Action, this.realServerData);
+        handleRequest(this.readyPlayer2Action, this.realServerData);
+        handleRequest(this.readyPlayer3Action, this.realServerData);
         this.getStartingPlayer();
     }
 

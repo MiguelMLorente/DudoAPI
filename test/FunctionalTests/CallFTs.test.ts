@@ -73,7 +73,6 @@ _chai.should();
         action.requester.name = this.playersName[this.startingPlayer];
         action.actionData.userId = this.playersId[this.startingPlayer];
         action.actionData.gameId = this.gameId;
-        console.log(action)
         this.setNextPlayer();
         return action;
     }
@@ -121,12 +120,6 @@ _chai.should();
                 response.data[0].sentData.playersInfo[1].diceValue.length + 
                 response.data[0].sentData.playersInfo[2].diceValue.length ;
             _chai.expect(knownDiceVals).to.be.eq(15);
-
-            console.log("********************************")
-            console.log(this.playersName[this.startingPlayer])
-            console.log(response.data[0].sentData.loserName)
-            console.log(response.data[0].sentData.winnerName)
-            console.log("********************************")
         }).to.not.throw();
     }
 

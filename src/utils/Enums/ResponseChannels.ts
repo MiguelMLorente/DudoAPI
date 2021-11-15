@@ -6,5 +6,6 @@ export enum ResponseChannel {
     INTERNAL_ERROR = 'internal-error',
     GAME_STATUS = 'game-status',
     MESSAGE = 'message',
-    LOBBY_UPDATE = 'lobby-update'
+    LOBBY_UPDATE = 'lobby-update',
+    KICKED_PLAYER = 'kicked-player'
 }

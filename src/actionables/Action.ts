@@ -19,7 +19,7 @@ export abstract class Action {
 
     abstract launch(): void;
 
-    abstract response(): Response;
+    abstract response(): Response | Array<Response>;
 
     get Valid(): boolean {
         return this.isValid;

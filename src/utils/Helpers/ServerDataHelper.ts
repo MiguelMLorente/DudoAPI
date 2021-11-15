@@ -60,4 +60,8 @@ export class ServerDataHelper {
     public checkUserRegisteredInGame(user: User, game: Game): boolean {
         return game.users.some(player => player === user)
     }
+
+    public checkUsersRegisteredInTheSameGame(user1: User, user2: User): boolean {
+        return user1.joinedGame === user2.joinedGame;
+    }
 }

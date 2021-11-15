@@ -94,6 +94,14 @@ export class Game {
         this.numberOfPlayers++;
     }
 
+    public removePlayer(user: User): void {
+        const index = this.playerList.indexOf(user);
+        if (index > -1) {
+            this.playerList.splice(index, 1);
+            this.numberOfPlayers--;
+        }
+    }
+
     get gameId(): String {
         return this.id;
     }

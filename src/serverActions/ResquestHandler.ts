@@ -14,20 +14,29 @@ export function handleRequest(message: any, serverData: ServerData, io: any) {
             action.launch();
         }
 
-        let response: Response = action.response();
-        if (response.channel === ResponseChannel.INTERNAL_ERROR) {
-            throw new Error("Internal server error");
+        let response: Response | Array<Response> = action.response();
+        if (response instanceof Response) {
+            var channel = response.channel;
+            if (channel === ResponseChannel.INTERNAL_ERROR) {
+                throw new Error("Internal server error");
+            } else {
+                response.data.forEach((data) => {
+                    io.to(data.socketId).emit(channel, data.sentData);
+                })
+            }
+
+            if (channel === ResponseChannel.END_ROUND) {
+                setTimeout(() => {
+                    handleRequest(postRoundAction(message), serverData, io);
+                }, 1000);
+            } 
         } else {
-            response.data.forEach((data) => {
-                io.to(data.socketId).emit(response.channel, data.sentData);
-            })
-        }
-        
-        if (response.channel === ResponseChannel.END_ROUND) {
-            setTimeout(() => {
-                handleRequest(postRoundAction(message), serverData, io);
-            }, 1000);
-        }
+            response.forEach((partialResponse) => {
+                partialResponse.data.forEach((data: { socketId: String; sentData: any; }) => {
+                    io.to(data.socketId).emit(partialResponse.channel, data.sentData);
+                })
+            });
+        }   
 
     } catch (e) {
         console.log(e);

@@ -23,5 +23,6 @@ export enum ErrorMessage {
     END_GAME_ERROR = "Error handling the end of game action, review code paths",
     READY = "Duplicated or incorrect ready information",
     UNKNOWN_ACTION = "Unknown action name",
-    GAME_FULL = "Game is full"
+    GAME_FULL = "Game is full",
+    DUPLICATED_NAME = "User name is already under use"
 }

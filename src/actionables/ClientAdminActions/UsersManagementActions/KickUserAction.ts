@@ -16,10 +16,10 @@ export class KickUserAction extends Action {
 
     constructor(requester: User, kickedPlayer: User, helper: ServerDataHelper, game: Game) {
         super(requester);
-        this.kickedPlayer = kickedPlayer;
         this.helper = helper;
         this.game = game;
         this.gameStarted = false;
+        this.kickedPlayer = kickedPlayer;
     };
 
     public validate(): void {
@@ -35,9 +35,9 @@ export class KickUserAction extends Action {
         } else if (!this.requester.isAdmin) {
             // User must be admin to kick another user;
             this.errorMessage = ErrorMessage.NOT_ADMIN;
-        } else if (!this.helper.checkUsersRegisteredInTheSameGame(this.requester, this.kickedPlayer)) {
+        } else if (this.kickedPlayer === null) {
             // Kicker and kicked users must be registered in the same game
-            this.errorMessage = ErrorMessage.USER_NOT_REGISTERED;
+            this.errorMessage = ErrorMessage.USER_NOT_FOUND;
         } else {
             this.isValid = true;
         }

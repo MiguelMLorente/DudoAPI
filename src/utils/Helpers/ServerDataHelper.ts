@@ -49,6 +49,15 @@ export class ServerDataHelper {
         return null as any;
     }
 
+    public getUserByName(name: String, game: Game): User {
+        for (var i = 0; i < game.numberOfPlayers; i++) {
+            if (game.users[i].UserName == name) {
+                return game.users[i];
+            }
+        }
+        return null as any;
+    }
+
     public addGame(game: Game): void {
         this.serverData.games[game.gameId.valueOf()] = game;
     }

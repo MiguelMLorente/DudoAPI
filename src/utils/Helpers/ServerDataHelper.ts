@@ -3,6 +3,7 @@ import { ServerData } from "../../ServerData";
 import { User } from "../../userData/User";
 import { UserAction } from "../Builders/ActionBuilder/UserAction";
 import { ErrorMessage } from "../Enums/ErrorMessage";
+import { customAlphabet } from "nanoid";
 
 export class ServerDataHelper {
     serverData: ServerData;
@@ -31,9 +32,9 @@ export class ServerDataHelper {
         return null as any;
     }
 
-    public getGameByName(name: String): Game {
+    public getGameByShortId(shortId: String): Game {
         for (let key in this.serverData.games) {
-            if (this.serverData.games[key].name == name) {
+            if (this.serverData.games[key].shortId == shortId) {
                 return this.serverData.games[key];
             }
         }
@@ -57,6 +58,8 @@ export class ServerDataHelper {
         }
         return null as any;
     }
+
+    public shortId = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ",6);
 
     public addGame(game: Game): void {
         this.serverData.games[game.gameId.valueOf()] = game;

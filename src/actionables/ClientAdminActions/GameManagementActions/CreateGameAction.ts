@@ -9,24 +9,19 @@ import { Action } from "../../Action";
 
 export class CreateGameAction extends Action {
     helper: ServerDataHelper;
-    gameName: String;
     gamePassword: String;
     userName: String;
     game?: Game;
 
-    constructor(requester: User, gameName: String, gamePassword: String, userName: String, helper: ServerDataHelper) {
+    constructor(requester: User, gamePassword: String, userName: String, helper: ServerDataHelper) {
         super(requester);
-        this.gameName = gameName;
         this.gamePassword = gamePassword;
         this.userName = userName;
         this.helper = helper;
     };
 
     public validate(): void {
-        if (this.gameName === "") {
-            // Game name must not be empty
-            this.errorMessage = ErrorMessage.GAME_NAME;
-        } else if (this.userName === "") {
+        if (this.userName === "") {
             // User name must not be empty
             this.errorMessage = ErrorMessage.USER_NAME;
         } else if (!this.helper.checkUserNotRegisteredInAnyGame(this.requester)) {
@@ -45,7 +40,8 @@ export class CreateGameAction extends Action {
         // Set user name
         this.requester.setUserName(this.userName);
         // Create new game with the given name and password
-        let game: Game = new Game(this.gameName, this.gamePassword);
+        let shortId: String = this.helper.shortId()
+        let game: Game = new Game(shortId, this.gamePassword);
         // Add the game creator as the first player of the game and Admin permissions
         game.addUser(this.requester);
         this.requester.grantAdminPermisions();

@@ -1,6 +1,7 @@
 import { User } from "../userData/User";
 import { GameStatus } from "../utils/Enums/GameStatus";
 import { v4 as uuid } from "uuid";
+
 import { Bid } from "./Bid";
 
 export class Game {
@@ -9,7 +10,7 @@ export class Game {
     private playerList: Array<User>;
     private gameStatus: String;
     public gameHistory: Array<String>;
-    private gameName: String;
+    private gameShortId: String;
     private gamePassword: String;
     public numberOfPlayers: number;
     public alivePlayers: number;
@@ -18,12 +19,12 @@ export class Game {
     public activeRound: boolean;
     public winner?: User;
 
-    constructor(name: String, password: String) {
+    constructor(shortId: String, password: String) {
         this.id = uuid();
         this.playerList = [];
         this.gameStatus = GameStatus.NOT_STARTED;
-        this.gameHistory = []
-        this.gameName = name;
+        this.gameHistory = [];
+        this.gameShortId = shortId;
         this.gamePassword = password;
         this.numberOfPlayers = 0;
         this.alivePlayers = 0;
@@ -111,8 +112,8 @@ export class Game {
         return this.playerList;
     }
 
-    get name(): String {
-        return this.gameName;
+    get shortId(): String {
+        return this.gameShortId;
     }
 
     get password(): String {

@@ -1,5 +1,5 @@
 export enum ErrorMessage {
-    GAME_NAME = "Game name not inserted",
+    GAME_SHORT_ID = "Game short ID not inserted",
     USER_NAME = "User name not inserted",
     USER_REGISTERED = "User already registered in a different game",
     USER_NOT_REGISTERED = "User is not registered in this game",

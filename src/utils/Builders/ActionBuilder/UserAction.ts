@@ -10,7 +10,7 @@ type ActionData = {
     selectedOption?: String;
     diceValue?: number;
     diceQuantity?: number;
-    gameName?: String;
+    gameShortId?: String;
     gamePassword?: String;
     ready?: boolean;
 }

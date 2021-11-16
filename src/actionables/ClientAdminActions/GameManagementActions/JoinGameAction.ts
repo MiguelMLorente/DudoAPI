@@ -9,25 +9,25 @@ import { ServerDataHelper } from "../../../utils/Helpers/ServerDataHelper";
 import { Action } from "../../Action";
 
 export class JoinGameAction extends Action {
-    gameName: String;
+    gameShortId: String;
     gamePassword: String;
     userName: String;
     helper: ServerDataHelper;
     joinedGame: Game;
 
-    constructor(requester: User, gameName: String, gamePassword: String, userName: String, helper: ServerDataHelper) {
+    constructor(requester: User, gameShortId: String, gamePassword: String, userName: String, helper: ServerDataHelper) {
         super(requester);
-        this.gameName = gameName;
+        this.gameShortId = gameShortId;
         this.gamePassword = gamePassword;
         this.userName = userName;
         this.helper = helper;
-        this.joinedGame = this.helper.getGameByName(this.gameName);
+        this.joinedGame = this.helper.getGameByShortId(this.gameShortId);
     };
 
     public validate(): void {
-        if (this.gameName === "") {
+        if (this.gameShortId === "") {
             // Game name must not be empty
-            this.errorMessage = ErrorMessage.GAME_NAME;
+            this.errorMessage = ErrorMessage.GAME_SHORT_ID;
         } else if (this.userName === "") {
             // User name must not be empty
             this.errorMessage = ErrorMessage.USER_NAME;

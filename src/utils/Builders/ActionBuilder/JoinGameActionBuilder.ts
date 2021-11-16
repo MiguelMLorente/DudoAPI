@@ -14,7 +14,7 @@ export class JoinGameActionBuilder {
 
     public build(): Action {
         return new JoinGameAction(this.helper.getActionRequester(this.jsonAction),
-            this.jsonAction.actionData.gameName as String,
+            this.jsonAction.actionData.gameShortId as String,
             this.jsonAction.actionData.gamePassword as String,
             this.jsonAction.requester.name as String,
             this.helper

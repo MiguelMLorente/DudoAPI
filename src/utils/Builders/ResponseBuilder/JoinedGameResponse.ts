@@ -6,10 +6,12 @@ import { LobbyInfo } from "./Responses/ResponseLobbyInfo";
 
 class JoinedGameResponse {
     gameId: string;
+    gameShortId: string;
     playerList: Array<LobbyInfo>;
 
-    constructor(gameId: string, playerList: Array<LobbyInfo>) {
+    constructor(gameId: string, gameShortId: string, playerList: Array<LobbyInfo>) {
         this.gameId = gameId;
+        this.gameShortId = gameShortId;
         this.playerList = playerList;
     }
 }
@@ -21,7 +23,7 @@ function buildJoinedGameResponse(game: Game): Array<ResponseDataModel> {
     game.users.forEach((player) => {
         playerList.push(new LobbyInfo(player.UserName, player.isReady));
     })
-    let response: JoinedGameResponse = new JoinedGameResponse(<string>game.gameId, playerList);
+    let response: JoinedGameResponse = new JoinedGameResponse(<string>game.gameId, <string>game.shortId, playerList);
 
     game.users.forEach((player) => {
         // Build response sent to this specific player

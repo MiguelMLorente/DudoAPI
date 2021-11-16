@@ -11,6 +11,7 @@ export class User {
     public isAdmin: boolean;
     public isAlive: boolean;
     public isReady: boolean;
+    public isConnected: boolean;
 
     constructor(name: String, socketId: String) {
         this.clientId = uuid();
@@ -23,6 +24,7 @@ export class User {
         this.isActive = false;
         this.isAlive = true;
         this.isReady = false;
+        this.isConnected = true;
     };
 
     get Id(): String {
@@ -53,8 +55,10 @@ export class User {
 
     public rollDice(): void {
         this.diceValues = [];
-        for (let i = 0; i < this.numberOfDice; i++) {
-            this.diceValues.push(Math.floor(Math.random() * 6) + 1);
+        if (this.isAlive) {
+            for (let i = 0; i < this.numberOfDice; i++) {
+                this.diceValues.push(Math.floor(Math.random() * 6) + 1);
+            }
         }
     }
 }

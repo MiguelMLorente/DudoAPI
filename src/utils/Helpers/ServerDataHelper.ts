@@ -50,6 +50,15 @@ export class ServerDataHelper {
         return null as any;
     }
 
+    public getUserBySocketId(id: string): User {
+        for (let key in this.serverData.users) {
+            if (this.serverData.users[key].connectionId == id) {
+                return this.serverData.users[key];
+            }
+        }
+        throw new Error("Internal server error, socket ID not found");
+    }
+
     public getUserByName(name: String, game: Game): User {
         for (var i = 0; i < game.numberOfPlayers; i++) {
             if (game.users[i].UserName == name) {
@@ -83,5 +92,13 @@ export class ServerDataHelper {
             if (player.UserName === newPlayer.UserName) output = true;
         });
         return output;
+    }
+
+    public eraseUser(user: User): void {
+        delete this.serverData.users[<string>user.Id];
+    } 
+
+    public eraseGame(game: Game): void {
+        delete this.serverData.games[<string>game.gameId];
     }
 }

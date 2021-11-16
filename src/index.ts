@@ -9,6 +9,7 @@ import { ServerData } from "./ServerData";
 import { createServer } from "http";
 import { handleRequest } from './serverActions/ResquestHandler';
 import { createUser } from './serverActions/CreateUser';
+import { handleDisconnect } from './serverActions/DisconnectHandler';
 
 
 let server = createServer();
@@ -23,14 +24,12 @@ io.on('connection', socket => {
     
     // handle new User request
     socket.on('action', action => {
-        //console.log(action);
         handleRequest(action, serverData, io);
-        //console.log("Nuevo status del servidor: ");
-        //console.log(serverData);
     })
-    // send status update
-    
+
+    socket.on('disconnect', () => {
+        handleDisconnect(socket.id, serverData, io);
+    });
 })
 
 server.listen(8081, () => console.log("listening"));
-

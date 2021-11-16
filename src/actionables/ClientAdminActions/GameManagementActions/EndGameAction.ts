@@ -38,7 +38,7 @@ export class EndGameAction extends Action {
 
     public response(): Response {
         if (this.isValid) {
-            return getEndOfGameResponse(this.game, this.game.winner!);
+            return getEndOfGameResponse(this.game);
         } else {
             console.log(this.errorMessage)
             return getInternalErrorResponse();

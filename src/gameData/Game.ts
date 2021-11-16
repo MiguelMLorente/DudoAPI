@@ -46,7 +46,7 @@ export class Game {
             this.setStartingPlayer();
         }
         this.playerList.forEach((player) => {
-            player.rollDice()
+            player.rollDice();
         })
         this.activeRound = true;
     }
@@ -148,5 +148,9 @@ export class Game {
     public areAllPlayersReady(): boolean {
         // If some player is not ready, then the game is not ready to start
         return !this.playerList.some(player => !player.isReady)
+    }
+
+    public isAnyPlayerConnected(): boolean {
+        return this.playerList.some(player => player.isConnected);
     }
 }

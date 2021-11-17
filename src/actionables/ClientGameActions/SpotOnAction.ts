@@ -20,7 +20,7 @@ export class SpotOnAction extends Action {
     constructor(requester: User, game: Game, helper: ServerDataHelper) {
         super(requester);
         this.game = game;
-        this.currentBid = this.game.currentBid;
+        this.currentBid = this.game?.currentBid;
         this.helper = helper;
     };
 

@@ -20,7 +20,7 @@ export class KillAction extends Action {
     constructor(requester: User, game: Game, helper: ServerDataHelper) {
         super(requester);
         this.game = game;
-        this.currentBid = this.game.currentBid;
+        this.currentBid = this.game?.currentBid;
         this.helper = helper;
     };
 
@@ -42,12 +42,12 @@ export class KillAction extends Action {
             this.errorMessage = ErrorMessage.NOT_TURN;
         } else if (this.currentBid === undefined) {
             // If there is not a current bid, user cannot accept it
-            this.errorMessage = ErrorMessage.SPOT_NO_BID;
+            this.errorMessage = ErrorMessage.KILL_NO_BID;
         } else {
             this.isValid = true;
         }
 
-        let message: String = (this.isValid ? "validated" : "invalid") + " spot on action";
+        let message: String = (this.isValid ? "validated" : "invalid") + " kill action";
         console.log(message);
     }
 

@@ -19,6 +19,7 @@ export enum ErrorMessage {
     BID = "Incorrect bid",
     CALL_NO_BID = "Cannot call, there is no current bid",
     SPOT_NO_BID = "Cannot spot on, there is no current bid",
+    KILL_NO_BID = "Cannot kill, there is no current bid",
     GENERAL_ERROR = "Error handling the client request. Malformed json response",
     END_GAME_ERROR = "Error handling the end of game action, review code paths",
     READY = "Duplicated or incorrect ready information",

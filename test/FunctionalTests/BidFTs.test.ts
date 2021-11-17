@@ -64,7 +64,6 @@ _chai.should();
         let action = mockBidAction.emptyAction;
         action.requester.uuid = this.playersId[this.startingPlayer];
         action.requester.name = this.playersName[this.startingPlayer];
-        action.actionData.userId = this.playersId[this.startingPlayer];
         action.actionData.gameId = this.gameId;
         action.actionData.diceValue = diceVal;
         action.actionData.diceQuantity = diceQ;

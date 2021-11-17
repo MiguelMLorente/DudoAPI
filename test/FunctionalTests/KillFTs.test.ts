@@ -9,7 +9,7 @@ import * as mockCreateGameAction from "../mocks/CreateGameActionMock"
 import * as mockJoinGameAction from "../mocks/JoinGameActionMock"
 import * as mockSetIsUserReadyAction from "../mocks/SetIsUserReadyActionMock"
 import * as mockBidAction from "../mocks/BidActionMock"
-import * as mockCallAction from "../mocks/CallActionMock"
+import * as mockKillAction from "../mocks/KillActionMock"
 import { Response } from "../../src/utils/Builders/ResponseBuilder/Responses/Response";
 import { ErrorMessage } from "../../src/utils/Enums/ErrorMessage";
 import { GameStatus } from "../../src/utils/Enums/GameStatus";
@@ -19,7 +19,7 @@ import { Action } from "../../src/actionables/Action";
 
 _chai.should();
 
-@suite class CallFunctionalTests {
+@suite class KillFunctionalTests {
 
     private realServerData: ServerData = mockServerData.realServerData();
     private createGameAction = mockCreateGameAction.correctAction;
@@ -72,8 +72,8 @@ _chai.should();
         return action;
     }
 
-    private getCorrectCallAction(): any {
-        let action = mockCallAction.emptyAction;
+    private getCorrectKillAction(): any {
+        let action = mockKillAction.emptyAction;
         action.requester.uuid = this.playersId[this.startingPlayer];
         action.requester.name = this.playersName[this.startingPlayer];
         action.actionData.gameId = this.gameId;
@@ -81,8 +81,8 @@ _chai.should();
         return action;
     }
 
-    private getIncorrectCallAction(): any {
-        let action = this.getCorrectCallAction();
+    private getIncorrectKillAction(): any {
+        let action = this.getCorrectKillAction();
         action.actionData.gameId = "";
         return action;
     }
@@ -101,18 +101,18 @@ _chai.should();
         this.startingPlayer = (this.startingPlayer + 3) % 3;
     }
 
-    @test 'Starting player cannot call since there is not an existing bid'() {
+    @test 'Starting player cannot kill since there is not an existing bid'() {
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getCorrectCallAction(), this.realServerData);
+            let response: Response = handleRequest(this.getCorrectKillAction(), this.realServerData);
             _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.CALL_NO_BID);
+            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.KILL_NO_BID);
         }).to.not.throw();
     }
 
-    @test 'Starting player bids, then next player can call'() {
+    @test 'Starting player bids, then next player can kill'() {
         handleRequest(this.getCorrectBidAction(1,3), this.realServerData);
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getCorrectCallAction(), this.realServerData)
+            let response: Response = handleRequest(this.getCorrectKillAction(), this.realServerData)
             _chai.expect(response.channel).to.be.eq(ResponseChannel.END_ROUND);
             _chai.expect(response.data.length).to.be.eq(3);
             _chai.expect(response.data[0].sentData).to.be.deep.eq(response.data[1].sentData);
@@ -127,11 +127,11 @@ _chai.should();
         }).to.not.throw();
     }
 
-    @test 'Wrong player tries to call'() {
+    @test 'Wrong player tries to kill'() {
         handleRequest(this.getCorrectBidAction(1,3), this.realServerData);
         _chai.expect( () => {
             this.setNextPlayer();
-            let response: Response = handleRequest(this.getCorrectCallAction(), this.realServerData)
+            let response: Response = handleRequest(this.getCorrectKillAction(), this.realServerData)
             _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
             _chai.expect(response.data.length).to.be.eq(1);
             _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.NOT_TURN);
@@ -143,7 +143,7 @@ _chai.should();
     @test 'Incorrect format, missing game ID' () {
         handleRequest(this.getCorrectBidAction(1,3), this.realServerData);
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getIncorrectCallAction(), this.realServerData)
+            let response: Response = handleRequest(this.getIncorrectKillAction(), this.realServerData);
             _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
             _chai.expect(response.data.length).to.be.eq(1);
             _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.GAME_NOT_FOUND);

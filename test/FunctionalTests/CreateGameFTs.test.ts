@@ -22,7 +22,6 @@ _chai.should();
     
     private faultyActionMissingId = mockCreateGameAction.faultyAction1;
     private faultyActionMissingUserName = mockCreateGameAction.faultyAction2;
-    private faultyActionMissingGameName = mockCreateGameAction.faultyAction3;
 
 
     @test 'Create a game by some user, but they are not registered'() {
@@ -51,7 +50,6 @@ _chai.should();
         _chai.expect(gameIds.length).to.be.eq(1);
         _chai.expect(this.realServerData.games[gameIds[0]].numberOfPlayers).to.be.eq(1);
         _chai.expect(this.realServerData.games[gameIds[0]].status).to.be.eq(GameStatus.NOT_STARTED);
-        _chai.expect(this.realServerData.games[gameIds[0]].gameName).to.be.eq("Game-1");
         _chai.expect(this.realServerData.games[gameIds[0]].gamePassword).to.be.eq("Password-1");
         _chai.expect(this.realServerData.games[gameIds[0]].currentBid).to.be.eq(undefined);
         _chai.expect(this.realServerData.games[gameIds[0]].users[0].Id).to.be.eq("486cae9d-dc1c-4e22-9a76-d0a120442f7d");
@@ -75,7 +73,6 @@ _chai.should();
         _chai.expect(gameIds.length).to.be.eq(1);
         _chai.expect(this.realServerData.games[gameIds[0]].numberOfPlayers).to.be.eq(1);
         _chai.expect(this.realServerData.games[gameIds[0]].status).to.be.eq(GameStatus.NOT_STARTED);
-        _chai.expect(this.realServerData.games[gameIds[0]].gameName).to.be.eq("Game-1");
         _chai.expect(this.realServerData.games[gameIds[0]].gamePassword).to.be.eq("Password-1");
         _chai.expect(this.realServerData.games[gameIds[0]].currentBid).to.be.eq(undefined);
         _chai.expect(this.realServerData.games[gameIds[0]].users[0].Id).to.be.eq("486cae9d-dc1c-4e22-9a76-d0a120442f7d");
@@ -94,11 +91,6 @@ _chai.should();
             let response: Response = handleRequest(this.faultyActionMissingUserName, this.realServerData);
             _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
             _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.USER_NAME);
-        }).to.not.throw();
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionMissingGameName, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.GAME_NAME);
         }).to.not.throw();
 
         _chai.expect(Object.keys(this.realServerData.games).length).to.be.eq(0);

@@ -5,7 +5,7 @@ let correctAction1 = {
     },
     "actionType": "JOIN GAME",
     "actionData": {
-        "gameName": "Game-1",
+        "gameShortId": "",
         "gamePassword": "Password-1"
     }
 }
@@ -17,7 +17,7 @@ let correctAction2 = {
     },
     "actionType": "JOIN GAME",
     "actionData": {
-        "gameName": "Game-1",
+        "gameShortId": "",
         "gamePassword": "Password-1"
     }
 }
@@ -29,7 +29,7 @@ let correctAction3 = {
     },
     "actionType": "JOIN GAME",
     "actionData": {
-        "gameName": "Game-1",
+        "gameShortId": "",
         "gamePassword": "Password-1"
     }
 }
@@ -41,7 +41,7 @@ let faultyAction1 = {
     },
     "actionType": "JOIN GAME",
     "actionData": {
-        "gameName": "Game-1",
+        "gameShortId": "",
         "gamePassword": "Password-1"
     }
 }
@@ -53,7 +53,7 @@ let faultyAction2 = {
     },
     "actionType": "JOIN GAME",
     "actionData": {
-        "gameName": "Game-1",
+        "gameShortId": "",
         "gamePassword": "Password-1"
     }
 }
@@ -65,7 +65,7 @@ let faultyAction3 = {
     },
     "actionType": "JOIN GAME",
     "actionData": {
-        "gameName": "",
+        "gameShortId": "",
         "gamePassword": "Password-1"
     }
 }
@@ -77,7 +77,7 @@ let faultyAction4 = {
     },
     "actionType": "JOIN GAME",
     "actionData": {
-        "gameName": "Game-1",
+        "gameShortId": "",
         "gamePassword": "WrongPassword"
     }
 }

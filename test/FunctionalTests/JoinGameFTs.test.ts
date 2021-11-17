@@ -26,27 +26,36 @@ _chai.should();
     private correctAction1 = mockJoinGameAction.correctAction2;
     private correctAction2 = mockJoinGameAction.correctAction3;
     
-    private faultyActionMissingId = mockJoinGameAction.faultyAction1;
+    private faultyActionMissingUserId = mockJoinGameAction.faultyAction1;
     private faultyActionMissingUserName = mockJoinGameAction.faultyAction2;
-    private faultyActionMissingGameName = mockJoinGameAction.faultyAction3;
+    private faultyActionMissingGameShortId = mockJoinGameAction.faultyAction3;
     private faultyActionIncorrectPassword = mockJoinGameAction.faultyAction4;
     private faultyActionAlreadyRegistered = mockJoinGameAction.correctAction1;
 
     private gameId: string;
+    private gameShortId: string;
     private game: Game;
 
     before() {
-        // Create the game by User 1
-        handleRequest(this.createGameAction, this.realServerData);
-        let gameIds: Array<string> = Object.keys(this.realServerData.games)
-        _chai.expect(gameIds.length).to.be.eq(1);
-        this.gameId = gameIds[0];
+        // Create the game by User 1 and get the shortId
+        let response = handleRequest(this.createGameAction, this.realServerData);
+        this.gameShortId = response.data[0].sentData.gameShortId;
+        this.gameId = response.data[0].sentData.gameId;
         this.game = this.realServerData.games[this.gameId];
+        // Set the game short Id for all mocked join game actions
+        this.correctAction1.actionData.gameShortId = this.gameShortId;
+        this.correctAction2.actionData.gameShortId = this.gameShortId;
+        // Also do it for all the faulty actions excepting missing short ID
+        this.faultyActionMissingUserId.actionData.gameShortId = this.gameShortId;
+        this.faultyActionMissingUserName.actionData.gameShortId = this.gameShortId;
+        this.faultyActionIncorrectPassword.actionData.gameShortId = this.gameShortId;
+        this.faultyActionAlreadyRegistered.actionData.gameShortId = this.gameShortId;
+        // Include the long game Id for the ready player actions
         this.readyPlayer1Action.actionData.gameId = this.gameId;
         this.readyPlayer2Action.actionData.gameId = this.gameId;
     }
 
-    @test 'Join game by some other users'() {
+    @test 'Join game by some users'() {
         _chai.expect( () => {
             let response: Response = handleRequest(this.correctAction1, this.realServerData)
             _chai.expect(response.channel).to.be.eq(ResponseChannel.JOIN_GAME);
@@ -75,7 +84,7 @@ _chai.should();
 
     @test 'Join game with missing data'() {
         _chai.expect( () => {
-            handleRequest(this.faultyActionMissingId, this.realServerData);
+            handleRequest(this.faultyActionMissingUserId, this.realServerData);
         }).to.throw(Error, ErrorMessage.USER_NOT_FOUND);
 
         _chai.expect( () => {
@@ -85,9 +94,9 @@ _chai.should();
         }).to.not.throw();
 
         _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionMissingGameName, this.realServerData);
+            let response: Response = handleRequest(this.faultyActionMissingGameShortId, this.realServerData);
             _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.GAME_NAME);
+            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.GAME_SHORT_ID);
         }).to.not.throw();
 
         _chai.expect( () => {

@@ -19,7 +19,7 @@ import { Action } from "../../src/actionables/Action";
 
 _chai.should();
 
-@suite class BidFunctionalTests {
+@suite class CallFunctionalTests {
 
     private realServerData: ServerData = mockServerData.realServerData();
     private createGameAction = mockCreateGameAction.correctAction;
@@ -40,18 +40,24 @@ _chai.should();
     private playersName: Array<string> = ["UserName-1", "UserName-2", "UserName-2"];
 
     before() {
-        // Start a game with one admin and 2 other players
-        handleRequest(this.createGameAction, this.realServerData);
+        // Start a game and get the game data from the response
+        let response = handleRequest(this.createGameAction, this.realServerData);
+        this.gameShortId = response.data[0].sentData.gameShortId;
+        this.gameId = response.data[0].sentData.gameId;
+        this.game = this.realServerData.games[this.gameId];
+        // Add the short Id to the join game actions and make the requests to join
+        this.joinGameAction1.actionData.gameShortId = this.gameShortId;
+        this.joinGameAction2.actionData.gameShortId = this.gameShortId;
         handleRequest(this.joinGameAction1, this.realServerData);
         handleRequest(this.joinGameAction2, this.realServerData);
-        this.gameId = Object.keys(this.realServerData.games)[0];
-        this.game = this.realServerData.games[this.gameId];
+        // Add the game Id to the ready player actions and handle them;
         this.readyPlayer1Action.actionData.gameId = this.gameId;
         this.readyPlayer2Action.actionData.gameId = this.gameId;
         this.readyPlayer3Action.actionData.gameId = this.gameId;
         handleRequest(this.readyPlayer1Action, this.realServerData);
         handleRequest(this.readyPlayer2Action, this.realServerData);
         handleRequest(this.readyPlayer3Action, this.realServerData);
+        // Find the starting player
         this.getStartingPlayer();
     }
 

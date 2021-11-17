@@ -5,7 +5,6 @@ let correctAction = {
     },
     "actionType": "CREATE GAME",
     "actionData": {
-        "gameName": "Game-1",
         "gamePassword": "Password-1"
     }
 }
@@ -17,7 +16,6 @@ let faultyAction1 = {
       },
       "actionType": "CREATE GAME",
       "actionData": {
-          "gameName": "Game-1",
           "gamePassword": "Password-1"
       }
 }
@@ -29,24 +27,10 @@ let faultyAction2 = {
     },
     "actionType": "CREATE GAME",
     "actionData": {
-        "gameName": "Game-1",
-        "gamePassword": "Password-1"
-    }
-}
-
-let faultyAction3 = {
-    "requester": {
-      "uuid": "486cae9d-dc1c-4e22-9a76-d0a120442f7d",
-      "name": "UserName-1"
-    },
-    "actionType": "CREATE GAME",
-    "actionData": {
-        "gameName": "",
         "gamePassword": "Password-1"
     }
 }
   
 export { correctAction, 
     faultyAction1, 
-    faultyAction2, 
-    faultyAction3 };
+    faultyAction2};

@@ -28,7 +28,7 @@ _chai.should();
     private correctAction3 = mockSetIsUserReadyAction.correctAction3;
     private correctAction4 = mockSetIsUserReadyAction.correctAction4;
 
-    private faultyActionMissingId = mockSetIsUserReadyAction.faultyAction1;
+    private faultyActionMissingUserId = mockSetIsUserReadyAction.faultyAction1;
     private faultyActionMissingGameId = mockSetIsUserReadyAction.faultyAction2;
     private faultyActionNotRegistered = mockSetIsUserReadyAction.faultyAction3;
     private faultyActionMissingReady = mockSetIsUserReadyAction.faultyAction4;
@@ -37,22 +37,25 @@ _chai.should();
     private game: Game;
 
     before() {
-        // Create the game by User 1 and join with users 2 & 3
-        handleRequest(this.createGameAction, this.realServerData);
+        // Start a game and get the game data from the response
+        let response = handleRequest(this.createGameAction, this.realServerData);
+        this.gameShortId = response.data[0].sentData.gameShortId;
+        this.gameId = response.data[0].sentData.gameId;
+        this.game = this.realServerData.games[this.gameId];
+        // Add the short Id to the join game actions and make the requests to join
+        this.joinGameAction1.actionData.gameShortId = this.gameShortId;
+        this.joinGameAction2.actionData.gameShortId = this.gameShortId;
         handleRequest(this.joinGameAction1, this.realServerData);
         handleRequest(this.joinGameAction2, this.realServerData);
-        this.gameId = Object.keys(this.realServerData.games)[0];
-        this.game = this.realServerData.games[this.gameId];
-        // Set game ID for the start game actions
+        // Add the game Id to the ready player actions
         this.correctAction1.actionData.gameId = this.gameId;
         this.correctAction2.actionData.gameId = this.gameId;
         this.correctAction3.actionData.gameId = this.gameId;
         this.correctAction4.actionData.gameId = this.gameId;
-
-        this.faultyActionMissingId.actionData.gameId = this.gameId;
+        // Add it also to the faulty ready player actions
+        this.faultyActionMissingUserId.actionData.gameId = this.gameId;
         this.faultyActionNotRegistered.actionData.gameId = this.gameId;
         this.faultyActionMissingReady.actionData.gameId = this.gameId;
-        _chai.expect(this.game.users[0].diceValues.length).to.be.eq(0);
     }
 
     @test 'Ready player 1'() {
@@ -106,7 +109,7 @@ _chai.should();
 
     @test 'Ready player with faulty data'() {
         _chai.expect( () => {
-            handleRequest(this.faultyActionMissingId, this.realServerData);
+            handleRequest(this.faultyActionMissingUserId, this.realServerData);
         }).to.throw(Error, ErrorMessage.USER_NOT_FOUND);
 
         _chai.expect( () => {

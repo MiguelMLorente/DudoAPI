@@ -6,5 +6,6 @@ export enum ActionType {
     JOIN_GAME = "JOIN GAME",
     POST_ROUND = "POST ROUND",
     PLAYER_READY = "PLAYER READY",
-    KICK_USER = "KICK USER"
+    KICK_USER = "KICK USER",
+    KILL = "KILL"
 }

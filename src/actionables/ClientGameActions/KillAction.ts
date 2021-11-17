@@ -10,7 +10,7 @@ import { GameStatus } from "../../utils/Enums/GameStatus";
 import { Action } from "../Action";
 import { ServerDataHelper } from "../../utils/Helpers/ServerDataHelper";
 
-export class CallAction extends Action {
+export class KillAction extends Action {
     helper: ServerDataHelper;
     game: Game;
     currentBid?: Bid;
@@ -20,7 +20,7 @@ export class CallAction extends Action {
     constructor(requester: User, game: Game, helper: ServerDataHelper) {
         super(requester);
         this.game = game;
-        this.currentBid = this.game?.currentBid;
+        this.currentBid = this.game.currentBid;
         this.helper = helper;
     };
 
@@ -42,20 +42,20 @@ export class CallAction extends Action {
             this.errorMessage = ErrorMessage.NOT_TURN;
         } else if (this.currentBid === undefined) {
             // If there is not a current bid, user cannot accept it
-            this.errorMessage = ErrorMessage.CALL_NO_BID;
+            this.errorMessage = ErrorMessage.SPOT_NO_BID;
         } else {
             this.isValid = true;
         }
 
-        let message: String = (this.isValid ? "validated" : "invalid") + " call action";
+        let message: String = (this.isValid ? "validated" : "invalid") + " spot on action";
         console.log(message);
     }
 
     public launch(): void {
-        // Find winner: if there are not enough dice of the bidded quantity
+        // Find winner: if there are exactly as many dice of the bidded quantity
         // with on the bidded value, the bidder loses, else, the caller loses
         let numberOfDice: number = this.game.howManyDice(this.game.currentBid!.value);
-        if (numberOfDice < this.game.currentBid!.number) {
+        if (numberOfDice === this.game.currentBid!.number) {
             this.winner = this.game.getCurrentPlayer();
             this.loser = this.game.getPreviousPlayer();
         } else {
@@ -79,7 +79,7 @@ export class CallAction extends Action {
     public response(): Response {
         if (this.isValid) {
             // Respond by revealing the dice values and the winner of the action
-            return getEndOfRoundResponse(this.game, this.winner!, this.loser!, this.requester, ActionType.CALL);
+            return getEndOfRoundResponse(this.game, this.winner!, this.loser!, this.requester, ActionType.SPOT_ON);
         } else {
             return getErrorResponse(this.requester, this.errorMessage);
         }

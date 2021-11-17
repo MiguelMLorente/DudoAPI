@@ -63,18 +63,9 @@ export class SpotOnAction extends Action {
             this.loser = this.game.getCurrentPlayer();
         }
 
-        // Remove a dice to the loser
-        this.loser.numberOfDice--;
-
-        // Remove player if no dice are left
-        if (this.loser.numberOfDice === 0) {
-            this.loser.isAlive = false;
-            this.game.alivePlayers --;
-        }
-
-        // TO DO: check if the game has a winner after this
-
-
+        // Add a dice/extra life to the loser
+        this.winner.addDie();
+        
         // Transfer turn to the loser
         this.game.setNextPlayer(this.loser);
         this.game.endRound();

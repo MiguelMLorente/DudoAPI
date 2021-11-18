@@ -38,8 +38,6 @@ export class User {
     }
 
     public setUserName(name: String) {
-        if (this.userName === name) return;
-        if (this.userName) throw new Error("User name already exists, cannot be rewritten")
         this.userName = name;
     }
 

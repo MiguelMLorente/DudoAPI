@@ -1,7 +1,6 @@
 let emptyAction = {
     "requester": {
-      "uuid": "",
-      "name": ""
+      "uuid": ""
     },
     "actionType": "SPOT ON",
     "actionData": {

@@ -38,6 +38,9 @@ export class KickUserAction extends Action {
         } else if (this.kickedPlayer === null) {
             // Kicker and kicked users must be registered in the same game
             this.errorMessage = ErrorMessage.USER_NOT_FOUND;
+        } else if (this.kickedPlayer === this.requester) {
+            // User cannot kick himself
+            this.errorMessage = ErrorMessage.KICK_YOURSELF;
         } else {
             this.isValid = true;
         }

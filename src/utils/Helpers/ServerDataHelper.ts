@@ -25,7 +25,8 @@ export class ServerDataHelper {
 
     public getGameById(id: string): Game {
         try {
-            return this.serverData.games[id];
+            let game: Game = this.serverData.games[id];
+            if (game !== undefined) return game;
         } catch(e) {
             console.log(e);
         }
@@ -60,10 +61,15 @@ export class ServerDataHelper {
     }
 
     public getUserByName(name: String, game: Game): User {
-        for (var i = 0; i < game.numberOfPlayers; i++) {
-            if (game.users[i].UserName == name) {
-                return game.users[i];
+        try {
+            if (!game) return null as any;
+            for (var i = 0; i < game.numberOfPlayers; i++) {
+                if (game.users[i].UserName == name) {
+                    return game.users[i];
+                }
             }
+        } catch(e) {
+            console.log(e);
         }
         return null as any;
     }

@@ -12,7 +12,7 @@ export class KickUserActionBuilder {
     constructor(json: UserAction, helper: ServerDataHelper) {
         this.jsonAction = json;
         this.helper = helper;
-        this.game = this.helper.getGameById(<string>this.jsonAction.actionData.gameId!)
+        this.game = this.helper.getGameById(<string>this.jsonAction.actionData.gameId! || '');
     }
 
     public build(): Action {

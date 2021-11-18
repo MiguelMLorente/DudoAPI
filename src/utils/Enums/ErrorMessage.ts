@@ -25,5 +25,6 @@ export enum ErrorMessage {
     READY = "Duplicated or incorrect ready information",
     UNKNOWN_ACTION = "Unknown action name",
     GAME_FULL = "Game is full",
-    DUPLICATED_NAME = "User name is already under use"
+    DUPLICATED_NAME = "User name is already under use",
+    KICK_YOURSELF = "User cannot kick himself"
 }

@@ -33,14 +33,16 @@ _chai.should();
     private faultyActionNotRegistered = mockSetIsUserReadyAction.faultyAction3;
     private faultyActionMissingReady = mockSetIsUserReadyAction.faultyAction4;
 
+    private response: Response | Array<Response>;
     private gameId: string;
     private game: Game;
 
     before() {
         // Start a game and get the game data from the response
-        let response = handleRequest(this.createGameAction, this.realServerData);
-        this.gameShortId = response.data[0].sentData.gameShortId;
-        this.gameId = response.data[0].sentData.gameId;
+        this.response = handleRequest(this.createGameAction, this.realServerData);
+        console.log(this.response)
+        this.gameShortId = this.response.data[0].sentData.gameShortId;
+        this.gameId = this.response.data[0].sentData.gameId;
         this.game = this.realServerData.games[this.gameId];
         // Add the short Id to the join game actions and make the requests to join
         this.joinGameAction1.actionData.gameShortId = this.gameShortId;
@@ -58,25 +60,7 @@ _chai.should();
         this.faultyActionMissingReady.actionData.gameId = this.gameId;
     }
 
-    @test 'Ready player 1'() {
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.correctAction1, this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.LOBBY_UPDATE);
-            _chai.expect(response.data.length).to.be.eq(3);
-        }).to.not.throw();
-        _chai.expect(this.game.status).to.be.eq(GameStatus.NOT_STARTED);
-    }
-
-
-
-    @test 'Ready all players leads to starting game'() {
-        handleRequest(this.correctAction1, this.realServerData);
-        handleRequest(this.correctAction2, this.realServerData);
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.correctAction3, this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.GAME_STATUS);
-            _chai.expect(response.data.length).to.be.eq(3);
-        }).to.not.throw();
+    private checkGameStarted() {
         _chai.expect(this.game.status).to.be.eq(GameStatus.CURRENT);
         _chai.expect(this.game.numberOfPlayers).to.be.eq(3);
         _chai.expect(this.game.activeRound).to.be.ok;
@@ -91,15 +75,36 @@ _chai.should();
         _chai.expect(activePlayerCount).to.be.eq(1);
     }
 
+    @test 'Ready player 1'() {
+        _chai.expect( () => {
+            this.response = handleRequest(this.correctAction1, this.realServerData)
+        }).to.not.throw();
+        _chai.expect(this.game.status).to.be.eq(GameStatus.NOT_STARTED);
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.LOBBY_UPDATE);
+        _chai.expect(this.response.data.length).to.be.eq(3);
+    }
+
+    @test 'Ready all players leads to starting game'() {
+        handleRequest(this.correctAction1, this.realServerData);
+        handleRequest(this.correctAction2, this.realServerData);
+        _chai.expect( () => {
+            this.response = handleRequest(this.correctAction3, this.realServerData)
+        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.GAME_STATUS);
+        _chai.expect(this.response.data.length).to.be.eq(3);
+
+        this.checkGameStarted();
+    }
+
 
 
     @test 'Unready player 1'() {
         handleRequest(this.correctAction1, this.realServerData)
         _chai.expect( () => {
-            let response: Response = handleRequest(this.correctAction4, this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.LOBBY_UPDATE);
-            _chai.expect(response.data.length).to.be.eq(3);
+            this.response = handleRequest(this.correctAction4, this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.LOBBY_UPDATE);
+        _chai.expect(this.response.data.length).to.be.eq(3);
         handleRequest(this.correctAction2, this.realServerData);
         handleRequest(this.correctAction3, this.realServerData);
         _chai.expect(this.game.status).to.be.eq(GameStatus.NOT_STARTED);
@@ -107,51 +112,53 @@ _chai.should();
 
 
 
-    @test 'Ready player with faulty data'() {
+    @test 'Faulty ready player action, missing user Id'() {
         _chai.expect( () => {
             handleRequest(this.faultyActionMissingUserId, this.realServerData);
         }).to.throw(Error, ErrorMessage.USER_NOT_FOUND);
-
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionMissingGameId, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.GAME_NOT_FOUND);
-        }).to.not.throw();
-
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionNotRegistered, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.USER_NOT_REGISTERED);
-        }).to.not.throw();
-
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionMissingReady, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.READY);
-        }).to.not.throw();
     }
 
+    @test 'Faulty ready player action, missing game Id'() {
+        _chai.expect( () => {
+            this.response = handleRequest(this.faultyActionMissingGameId, this.realServerData);
+        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.GAME_NOT_FOUND);
+    }
 
+    @test 'Faulty ready player action, user not registered in this game'() {
+        _chai.expect( () => {
+            this.response = handleRequest(this.faultyActionNotRegistered, this.realServerData);
+        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.USER_NOT_REGISTERED);
+    }
+
+    @test 'Faulty ready player action, missing ready statement'() {
+        _chai.expect( () => {
+            this.response = handleRequest(this.faultyActionMissingReady, this.realServerData);
+        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.READY);
+    }
 
     @test 'Send duplicated ready action gives error'() {
         handleRequest(this.correctAction1, this.realServerData);
         _chai.expect( () => {
-            let response: Response = handleRequest(this.correctAction1, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.READY);
+            this.response = handleRequest(this.correctAction1, this.realServerData);
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.READY);
     }
-
-
 
     @test 'Send ready request to an already started game'() {
         handleRequest(this.correctAction1, this.realServerData);
         handleRequest(this.correctAction2, this.realServerData);
         handleRequest(this.correctAction3, this.realServerData);
         _chai.expect( () => {
-            let response: Response = handleRequest(this.correctAction1, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.GAME_STARTED);
+            this.response = handleRequest(this.correctAction1, this.realServerData);
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.GAME_STARTED);
     }
 }

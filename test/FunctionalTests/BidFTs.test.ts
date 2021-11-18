@@ -27,6 +27,7 @@ _chai.should();
     private readyPlayer2Action = mockSetIsUserReadyAction.correctAction2;
     private readyPlayer3Action = mockSetIsUserReadyAction.correctAction3;
 
+    private response: Response | Array<Response>;
     private gameId: string;
     private gameShortId: string;
     private game: Game;
@@ -40,9 +41,9 @@ _chai.should();
 
     before() {
         // Start a game and get the game data from the response
-        let response = handleRequest(this.createGameAction, this.realServerData);
-        this.gameShortId = response.data[0].sentData.gameShortId;
-        this.gameId = response.data[0].sentData.gameId;
+        this.response = handleRequest(this.createGameAction, this.realServerData);
+        this.gameShortId = this.response.data[0].sentData.gameShortId;
+        this.gameId = this.response.data[0].sentData.gameId;
         this.game = this.realServerData.games[this.gameId];
         // Add the short Id to the join game actions and make the requests to join
         this.joinGameAction1.actionData.gameShortId = this.gameShortId;
@@ -91,102 +92,107 @@ _chai.should();
         this.startingPlayer = (this.startingPlayer + 3) % 3;
     }
 
-    @test 'Starting player can bid, then next player does'() {
+    @test 'Normal bid round'() {
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getCorrectAction(2, 3), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.GAME_STATUS);
-            _chai.expect(response.data.length).to.be.eq(3);
-            _chai.expect(response.data[0].sentData).to.not.be.deep.eq(response.data[1].sentData);
-            let knownDice: number = response.data[0].sentData.playersInfo[0].diceNumber || 0 + 
-                response.data[0].sentData.playersInfo[1].diceNumber || 0  + 
-                response.data[0].sentData.playersInfo[2].diceNumber || 0 ;
-            _chai.expect(knownDice).to.be.eq(5);
+            this.response = handleRequest(this.getCorrectAction(2, 3), this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.GAME_STATUS);
+        _chai.expect(this.response.data.length).to.be.eq(3);
+        _chai.expect(this.response.data[0].sentData).to.not.be.deep.eq(this.response.data[1].sentData);
+        let knownDice: number = this.response.data[0].sentData.playersInfo[0].diceNumber || 0 + 
+            this.response.data[0].sentData.playersInfo[1].diceNumber || 0  + 
+            this.response.data[0].sentData.playersInfo[2].diceNumber || 0 ;
+        _chai.expect(knownDice).to.be.eq(5);
 
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getCorrectAction(3, 3), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.GAME_STATUS);
+            this.response = handleRequest(this.getCorrectAction(3, 3), this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.GAME_STATUS);
 
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getCorrectAction(2, 4), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.GAME_STATUS);
+            this.response = handleRequest(this.getCorrectAction(2, 4), this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.GAME_STATUS);
 
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getCorrectAction(1, 5), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.GAME_STATUS);
+            this.response = handleRequest(this.getCorrectAction(1, 5), this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.GAME_STATUS);
     }
-
-
 
     @test 'Wrong player tries to bid'() {
         _chai.expect( () => {
             this.setNextPlayer();
-            let response: Response = handleRequest(this.getCorrectAction(2, 3), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data.length).to.be.eq(1);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.NOT_TURN);
+            this.response = handleRequest(this.getCorrectAction(2, 3), this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data.length).to.be.eq(1);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.NOT_TURN);
     }
 
-
-
-    @test 'Second player bid is incorrect' () {
+    @test 'Second player bid is incorrect, diminishing the number of dice without incrementing the value' () {
         handleRequest(this.getCorrectAction(2, 3), this.realServerData)
-        // Diminishing the number of dice without incrementing the value
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getIncorrectAction(1, 3), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data.length).to.be.eq(1);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.BID);
+            this.response = handleRequest(this.getIncorrectAction(1, 3), this.realServerData)
         }).to.not.throw();
-
-        // Diminishing the value of the dice
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.getIncorrectAction(5, 2), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data.length).to.be.eq(1);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.BID);
-        }).to.not.throw();
-
-        // Same bid as before
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.getIncorrectAction(2, 3), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data.length).to.be.eq(1);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.BID);
-        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data.length).to.be.eq(1);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.BID);
     }
 
-    @test 'Incorrect format of the dice values'() {
+    @test 'Second player bid is incorrect, diminishing the value of the dice' () {
+        handleRequest(this.getCorrectAction(2, 3), this.realServerData)
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getIncorrectAction(<float>1.2, 3), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data.length).to.be.eq(1);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.DICE_NUM_INT);
+            this.response = handleRequest(this.getIncorrectAction(5, 2), this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data.length).to.be.eq(1);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.BID);
+    }
 
+    @test 'Second player bid is incorrect, repeating bid' () {
+        handleRequest(this.getCorrectAction(2, 3), this.realServerData)
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getIncorrectAction(1, <float>3.5), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data.length).to.be.eq(1);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.DICE_VAL_INT);
+            this.response = handleRequest(this.getIncorrectAction(2, 3), this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data.length).to.be.eq(1);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.BID);
+    }
 
+    @test 'Incorrect format of the dice values, dice count must be int'() {
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getIncorrectAction(0, 3), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data.length).to.be.eq(1);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.DICE_NUM_1);
+            this.response = handleRequest(this.getIncorrectAction(<float>1.2, 3), this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data.length).to.be.eq(1);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.DICE_NUM_INT);
+    }
 
+    @test 'Incorrect format of the dice values, dice value must be int'() {
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getIncorrectAction(3, 7), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data.length).to.be.eq(1);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.DICE_VAL_1_6);
+            this.response = handleRequest(this.getIncorrectAction(1, <float>3.5), this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data.length).to.be.eq(1);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.DICE_VAL_INT);
+    }
+
+    @test 'Incorrect format of the dice values, dice count must be > 0'() {
+        _chai.expect( () => {
+            this.response = handleRequest(this.getIncorrectAction(0, 3), this.realServerData)
+        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data.length).to.be.eq(1);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.DICE_NUM_1);
+    }
+
+    @test 'Incorrect format of the dice values, dice value must be between 1 and 6'() {
+        _chai.expect( () => {
+            this.response = handleRequest(this.getIncorrectAction(3, 7), this.realServerData)
+        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data.length).to.be.eq(1);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.DICE_VAL_1_6);
     }
 }

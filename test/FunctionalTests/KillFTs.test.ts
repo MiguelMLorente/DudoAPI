@@ -29,6 +29,7 @@ _chai.should();
     private readyPlayer2Action = mockSetIsUserReadyAction.correctAction2;
     private readyPlayer3Action = mockSetIsUserReadyAction.correctAction3;
 
+    private response: Response | Array<Response>;
     private gameId: string;
     private game: Game;
     private startingPlayer: number;
@@ -41,9 +42,9 @@ _chai.should();
 
     before() {
         // Start a game and get the game data from the response
-        let response = handleRequest(this.createGameAction, this.realServerData);
-        this.gameShortId = response.data[0].sentData.gameShortId;
-        this.gameId = response.data[0].sentData.gameId;
+        this.response = handleRequest(this.createGameAction, this.realServerData);
+        this.gameShortId = this.response.data[0].sentData.gameShortId;
+        this.gameId = this.response.data[0].sentData.gameId;
         this.game = this.realServerData.games[this.gameId];
         // Add the short Id to the join game actions and make the requests to join
         this.joinGameAction1.actionData.gameShortId = this.gameShortId;
@@ -103,39 +104,39 @@ _chai.should();
 
     @test 'Starting player cannot kill since there is not an existing bid'() {
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getCorrectKillAction(), this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.KILL_NO_BID);
+            this.response = handleRequest(this.getCorrectKillAction(), this.realServerData);
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.KILL_NO_BID);
     }
 
     @test 'Starting player bids, then next player can kill'() {
         handleRequest(this.getCorrectBidAction(1,3), this.realServerData);
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getCorrectKillAction(), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.END_ROUND);
-            _chai.expect(response.data.length).to.be.eq(3);
-            _chai.expect(response.data[0].sentData).to.be.deep.eq(response.data[1].sentData);
-            let knownDiceNum: number = (response.data[0].sentData.playersInfo[0].diceNumber || 0) + 
-                (response.data[0].sentData.playersInfo[1].diceNumber || 0) + 
-                (response.data[0].sentData.playersInfo[2].diceNumber || 0) ;
-            _chai.expect(knownDiceNum).to.be.eq(14);
-            let knownDiceVals: number = response.data[0].sentData.playersInfo[0].diceValue.length + 
-                response.data[0].sentData.playersInfo[1].diceValue.length + 
-                response.data[0].sentData.playersInfo[2].diceValue.length ;
-            _chai.expect(knownDiceVals).to.be.eq(15);
+            this.response = handleRequest(this.getCorrectKillAction(), this.realServerData);
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.END_ROUND);
+        _chai.expect(this.response.data.length).to.be.eq(3);
+        _chai.expect(this.response.data[0].sentData).to.be.deep.eq(this.response.data[1].sentData);
+        let knownDiceNum: number = (this.response.data[0].sentData.playersInfo[0].diceNumber || 0) + 
+            (this.response.data[0].sentData.playersInfo[1].diceNumber || 0) + 
+            (this.response.data[0].sentData.playersInfo[2].diceNumber || 0) ;
+        _chai.expect(knownDiceNum).to.be.eq(14);
+        let knownDiceVals: number = this.response.data[0].sentData.playersInfo[0].diceValue.length + 
+            this.response.data[0].sentData.playersInfo[1].diceValue.length + 
+            this.response.data[0].sentData.playersInfo[2].diceValue.length ;
+        _chai.expect(knownDiceVals).to.be.eq(15);
     }
 
     @test 'Wrong player tries to kill'() {
         handleRequest(this.getCorrectBidAction(1,3), this.realServerData);
         _chai.expect( () => {
             this.setNextPlayer();
-            let response: Response = handleRequest(this.getCorrectKillAction(), this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data.length).to.be.eq(1);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.NOT_TURN);
+            this.response = handleRequest(this.getCorrectKillAction(), this.realServerData);
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data.length).to.be.eq(1);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.NOT_TURN);
     }
 
 
@@ -143,10 +144,10 @@ _chai.should();
     @test 'Incorrect format, missing game ID' () {
         handleRequest(this.getCorrectBidAction(1,3), this.realServerData);
         _chai.expect( () => {
-            let response: Response = handleRequest(this.getIncorrectKillAction(), this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data.length).to.be.eq(1);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.GAME_NOT_FOUND);
+            this.response = handleRequest(this.getIncorrectKillAction(), this.realServerData);
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data.length).to.be.eq(1);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.GAME_NOT_FOUND);
     }
 }

@@ -35,6 +35,7 @@ _chai.should();
     private faultyActionUnregistered = mockKickUserAction.faultyAction5;
     private faultyActionUserNotFound = mockKickUserAction.faultyAction6;
 
+    private response: Response | Array<Response>;
     private gameId: string;
     private gameShortId: string;
     private game: Game;
@@ -48,9 +49,9 @@ _chai.should();
 
     before() {
         // Start a game and get the game data from the response
-        let response = handleRequest(this.createGameAction, this.realServerData);
-        this.gameShortId = response.data[0].sentData.gameShortId;
-        this.gameId = response.data[0].sentData.gameId;
+        this.response = handleRequest(this.createGameAction, this.realServerData);
+        this.gameShortId = this.response.data[0].sentData.gameShortId;
+        this.gameId = this.response.data[0].sentData.gameId;
         this.game = this.realServerData.games[this.gameId];
         // Add the short Id to the join game actions and make the requests to join
         this.joinGameAction1.actionData.gameShortId = this.gameShortId;
@@ -72,39 +73,39 @@ _chai.should();
 
     @test 'Admin player can kick, continue in lobby'() {
         _chai.expect( () => {
-            let response: Response = handleRequest(this.kickPlayer2Action, this.realServerData)
-            _chai.expect(response[0].channel).to.be.eq(ResponseChannel.KICKED_PLAYER);
-            _chai.expect(response[1].channel).to.be.eq(ResponseChannel.LOBBY_UPDATE)
-            _chai.expect(response[1].data.length).to.be.eq(2);
+            this.response = handleRequest(this.kickPlayer2Action, this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response[0].channel).to.be.eq(ResponseChannel.KICKED_PLAYER);
+        _chai.expect(this.response[1].channel).to.be.eq(ResponseChannel.LOBBY_UPDATE)
+        _chai.expect(this.response[1].data.length).to.be.eq(2);
     }
 
     @test 'Admin player can kick, game starts after kick'() {
         handleRequest(this.readyPlayer1Action, this.realServerData);
         handleRequest(this.readyPlayer3Action, this.realServerData);
         _chai.expect( () => {
-            let response: Response = handleRequest(this.kickPlayer2Action, this.realServerData)
-            _chai.expect(response[0].channel).to.be.eq(ResponseChannel.KICKED_PLAYER);
-            _chai.expect(response[1].channel).to.be.eq(ResponseChannel.GAME_STATUS)
-            _chai.expect(response[1].data.length).to.be.eq(2);
+            this.response = handleRequest(this.kickPlayer2Action, this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response[0].channel).to.be.eq(ResponseChannel.KICKED_PLAYER);
+        _chai.expect(this.response[1].channel).to.be.eq(ResponseChannel.GAME_STATUS)
+        _chai.expect(this.response[1].data.length).to.be.eq(2);
     }
 
     @test 'Not admin player cannot kick'() {
         _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionNotAdmin, this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.NOT_ADMIN);
+            this.response = handleRequest(this.faultyActionNotAdmin, this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.NOT_ADMIN);
     }
 
 
     @test 'Admin cannot kick himself'() {
         _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionKickHimself, this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.KICK_YOURSELF);
+            this.response = handleRequest(this.faultyActionKickHimself, this.realServerData)
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.KICK_YOURSELF);
     }
 
     @test 'Faulty kick action, missing user Id'() {
@@ -115,19 +116,18 @@ _chai.should();
 
     @test 'Faulty kick action, missing game Id'() {
         _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionMissingGameId, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.GAME_NOT_FOUND);
+            this.response = handleRequest(this.faultyActionMissingGameId, this.realServerData);
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.GAME_NOT_FOUND);
     }
 
     @test 'Faulty kick action, user not registered in this game'() {
         _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionUnregistered, this.realServerData);
-            console.log(response)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.USER_NOT_REGISTERED);
+            this.response = handleRequest(this.faultyActionUnregistered, this.realServerData);
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.USER_NOT_REGISTERED);
     }
 
     @test 'Admin tries to kick a player outside the lobby'() {
@@ -135,18 +135,18 @@ _chai.should();
         handleRequest(this.readyPlayer2Action, this.realServerData);
         handleRequest(this.readyPlayer3Action, this.realServerData);
         _chai.expect( () => {
-            let response: Response = handleRequest(this.kickPlayer2Action, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.GAME_STARTED);
+            this.response = handleRequest(this.kickPlayer2Action, this.realServerData);
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.GAME_STARTED);
     }
 
     @test 'Faulty action, kicked user does not exist in this game'() {
         _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionUserNotFound, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.USER_NOT_FOUND);
+            this.response = handleRequest(this.faultyActionUserNotFound, this.realServerData);
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.USER_NOT_FOUND);
     }
 
 }

@@ -32,15 +32,16 @@ _chai.should();
     private faultyActionIncorrectPassword = mockJoinGameAction.faultyAction4;
     private faultyActionAlreadyRegistered = mockJoinGameAction.correctAction1;
 
+    private response: Response | Array<Response>;
     private gameId: string;
     private gameShortId: string;
     private game: Game;
 
     before() {
         // Create the game by User 1 and get the shortId
-        let response = handleRequest(this.createGameAction, this.realServerData);
-        this.gameShortId = response.data[0].sentData.gameShortId;
-        this.gameId = response.data[0].sentData.gameId;
+        this.response = handleRequest(this.createGameAction, this.realServerData);
+        this.gameShortId = this.response.data[0].sentData.gameShortId;
+        this.gameId = this.response.data[0].sentData.gameId;
         this.game = this.realServerData.games[this.gameId];
         // Set the game short Id for all mocked join game actions
         this.correctAction1.actionData.gameShortId = this.gameShortId;
@@ -55,22 +56,7 @@ _chai.should();
         this.readyPlayer2Action.actionData.gameId = this.gameId;
     }
 
-    @test 'Join game by some users'() {
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.correctAction1, this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.JOIN_GAME);
-            _chai.expect(response.data[0].sentData.gameId).to.be.eq(this.gameId);
-            _chai.expect(response.data[0].sentData.playerList.length).to.be.eq(2);
-        }).to.not.throw();
-        _chai.expect(this.game.numberOfPlayers).to.be.eq(2);
-
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.correctAction2, this.realServerData)
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.JOIN_GAME);
-            _chai.expect(response.data[0].sentData.gameId).to.be.eq(this.gameId);
-            _chai.expect(response.data[0].sentData.playerList.length).to.be.eq(3);
-        }).to.not.throw();
-        _chai.expect(this.game.numberOfPlayers).to.be.eq(3);
+    private checkUsersJoinedCorrectly() {
         _chai.expect(this.game.users[0].Id).to.be.eq("486cae9d-dc1c-4e22-9a76-d0a120442f7d");
         _chai.expect(this.game.users[1].Id).to.be.eq("b378d887-b05a-402a-b758-afe9399587ef");
         _chai.expect(this.game.users[2].Id).to.be.eq("44daca2c-4ea7-48c8-9563-b0f12ce6c6f9");
@@ -80,48 +66,73 @@ _chai.should();
         _chai.expect(this.game.status).to.be.eq(GameStatus.NOT_STARTED);
     }
 
+    @test 'Join game by two users'() {
+        _chai.expect( () => {
+            this.response = handleRequest(this.correctAction1, this.realServerData);
+        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.JOIN_GAME);
+        _chai.expect(this.response.data[0].sentData.gameId).to.be.eq(this.gameId);
+        _chai.expect(this.response.data[0].sentData.playerList.length).to.be.eq(2);
+        _chai.expect(this.game.numberOfPlayers).to.be.eq(2);
 
+        _chai.expect( () => {
+            this.response = handleRequest(this.correctAction2, this.realServerData);
+        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.JOIN_GAME);
+        _chai.expect(this.response.data[0].sentData.gameId).to.be.eq(this.gameId);
+        _chai.expect(this.response.data[0].sentData.playerList.length).to.be.eq(3);
+        _chai.expect(this.game.numberOfPlayers).to.be.eq(3);
 
-    @test 'Join game with missing data'() {
+        this.checkUsersJoinedCorrectly();
+    }
+
+    @test 'Faulty join game action, missing user Id' () {
         _chai.expect( () => {
             handleRequest(this.faultyActionMissingUserId, this.realServerData);
         }).to.throw(Error, ErrorMessage.USER_NOT_FOUND);
-
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionMissingUserName, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.USER_NAME);
-        }).to.not.throw();
-
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionMissingGameShortId, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.GAME_SHORT_ID);
-        }).to.not.throw();
-
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionIncorrectPassword, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.PASSWORD);
-        }).to.not.throw();
-
-        _chai.expect( () => {
-            let response: Response = handleRequest(this.faultyActionAlreadyRegistered, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.USER_REGISTERED);
-        }).to.not.throw();
     }
 
+    @test 'Faulty join game action, missing user name' () {
+        _chai.expect( () => {
+            this.response = handleRequest(this.faultyActionMissingUserName, this.realServerData);
+        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.USER_NAME);
+    }
 
+    @test 'Faulty join game action, missing game short id' () {
+        _chai.expect( () => {
+            this.response = handleRequest(this.faultyActionMissingGameShortId, this.realServerData);
+        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.GAME_SHORT_ID);
+    }
+
+    @test 'Faulty join game action, incorrect password' () {
+        _chai.expect( () => {
+            this.response = handleRequest(this.faultyActionIncorrectPassword, this.realServerData);
+        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.PASSWORD);
+    }
+
+    @test 'Faulty join game action, user already registered in a different game' () {
+        _chai.expect( () => {
+            this.response = handleRequest(this.faultyActionAlreadyRegistered, this.realServerData);
+        }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.USER_REGISTERED);
+    }
 
     @test 'Try to join an already started game leads to failure'() {
+        // Join the game and ready both players to start the game
         handleRequest(this.correctAction1, this.realServerData);
         handleRequest(this.readyPlayer1Action, this.realServerData);
         handleRequest(this.readyPlayer2Action, this.realServerData);
         _chai.expect( () => {
-            let response: Response = handleRequest(this.correctAction2, this.realServerData);
-            _chai.expect(response.channel).to.be.eq(ResponseChannel.ERROR);
-            _chai.expect(response.data[0].sentData).to.be.eq(ErrorMessage.GAME_STARTED);
+            this.response = handleRequest(this.correctAction2, this.realServerData);
         }).to.not.throw();
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.ERROR);
+        _chai.expect(this.response.data[0].sentData).to.be.eq(ErrorMessage.GAME_STARTED);
     }
 }

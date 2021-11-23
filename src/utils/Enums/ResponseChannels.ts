@@ -7,5 +7,6 @@ export enum ResponseChannel {
     GAME_STATUS = 'game-status',
     MESSAGE = 'message',
     LOBBY_UPDATE = 'lobby-update',
-    KICKED_PLAYER = 'kicked-player'
+    KICKED_PLAYER = 'kicked-player',
+    CLIENT_REQUEST_OPTION = "select-option"
 }

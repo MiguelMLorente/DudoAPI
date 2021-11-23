@@ -22,9 +22,11 @@ export enum ErrorMessage {
     KILL_NO_BID = "Cannot kill, there is no current bid",
     GENERAL_ERROR = "Error handling the client request. Malformed json response",
     END_GAME_ERROR = "Error handling the end of game action, review code paths",
+    REQUEST_CLIENT_ERROR = "Error handling the client request action, review code paths",
     READY = "Duplicated or incorrect ready information",
     UNKNOWN_ACTION = "Unknown action name",
     GAME_FULL = "Game is full",
     DUPLICATED_NAME = "User name is already under use",
-    KICK_YOURSELF = "User cannot kick himself"
+    KICK_YOURSELF = "User cannot kick himself",
+    UNRECOGNISED_TYPE = "Unrecognised round type"
 }

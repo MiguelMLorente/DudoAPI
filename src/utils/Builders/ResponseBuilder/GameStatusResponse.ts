@@ -1,6 +1,8 @@
 import { Game } from "../../../gameData/Game";
 import { User } from "../../../userData/User";
+import { ErrorMessage } from "../../Enums/ErrorMessage";
 import { ResponseChannel } from "../../Enums/ResponseChannels";
+import { RoundType } from "../../Enums/RoundType";
 import { Response } from "./Responses/Response";
 import { CurrentBid } from "./Responses/ResponseCurrentBid";
 import { ResponseDataModel } from "./Responses/ResponseDataModel";
@@ -34,7 +36,7 @@ function getKnownDicePlayerInfo(players: Array<User>): Array<PlayerInfo> {
     );
 }
 
-function buildGameStatusResponse(game: Game): Array<ResponseDataModel> {
+function buildGameStatusResponse(game: Game, shouldBeKnownDice: Function): Array<ResponseDataModel> {
     let outputResponseDataModelArray: Array<ResponseDataModel> = [];
 
     // Write bid info in case there is a bid stated
@@ -57,18 +59,44 @@ function buildGameStatusResponse(game: Game): Array<ResponseDataModel> {
         );
 
         // Include players info in response (each player must know only their dice info)
-        for (let i = 0; i < game.numberOfPlayers; i++) {
-            if (player === game.users[i]) {
+        let i = 0;
+        shouldBeKnownDice(player).forEach((shouldBeKnown: boolean) => {
+            if (shouldBeKnown) {
                 response.sentData.playersInfo.push(knownDicePlayerInfo[i]);
             } else {
                 response.sentData.playersInfo.push(unknownDicePlayerInfo[i]);
             }
-        }
+            i++;
+        });
         outputResponseDataModelArray.push(response)
     })
     return outputResponseDataModelArray;
 }
 
+function buildNormalGameStatusResponse(game: Game): Array<ResponseDataModel> {
+    let shouldBeKnownDice: Function = ((player: User) =>  game.users.map(user => user === player));
+    return buildGameStatusResponse(game, shouldBeKnownDice);
+}
+
+function buildBlindGameStatusResponse(game: Game): Array<ResponseDataModel> {
+    let shouldBeKnownDice: Function = ((player: User) =>  game.users.map(user => (user === player && user.specialRoundActive)));
+    return buildGameStatusResponse(game, shouldBeKnownDice);
+}
+
+function buildOpenGameStatusResponse(game: Game): Array<ResponseDataModel> {
+    let shouldBeKnownDice: Function = ((player: User) =>  game.users.map(user => user !== player));
+    return buildGameStatusResponse(game, shouldBeKnownDice);
+}
+
 export default function getGameStatusUpdateResponse(game: Game): Response {
-    return new Response(ResponseChannel.GAME_STATUS, buildGameStatusResponse(game));
+    switch (game.roundType) {
+        case RoundType.NORMAL:
+            return new Response(ResponseChannel.GAME_STATUS, buildNormalGameStatusResponse(game));
+        case RoundType.BLIND:
+            return new Response(ResponseChannel.GAME_STATUS, buildBlindGameStatusResponse(game));
+        case RoundType.OPEN:
+            return new Response(ResponseChannel.GAME_STATUS, buildOpenGameStatusResponse(game));
+        default:
+            throw new Error(ErrorMessage.GENERAL_ERROR);
+    }
 }

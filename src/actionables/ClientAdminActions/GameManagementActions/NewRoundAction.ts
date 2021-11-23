@@ -5,6 +5,7 @@ import getInternalErrorResponse from "../../../utils/Builders/ResponseBuilder/In
 import { Response } from "../../../utils/Builders/ResponseBuilder/Responses/Response";
 import { ErrorMessage } from "../../../utils/Enums/ErrorMessage";
 import { GameStatus } from "../../../utils/Enums/GameStatus";
+import { RoundType } from "../../../utils/Enums/RoundType";
 import { Action } from "../../Action";
 
 export class NewRoundAction extends Action {
@@ -33,6 +34,7 @@ export class NewRoundAction extends Action {
     }
 
     public launch(): void {
+        this.game.roundType = RoundType.NORMAL;
         this.game.startRound(false);
     }
 

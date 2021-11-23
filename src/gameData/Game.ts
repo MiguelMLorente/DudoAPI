@@ -1,8 +1,8 @@
 import { User } from "../userData/User";
 import { GameStatus } from "../utils/Enums/GameStatus";
 import { v4 as uuid } from "uuid";
-
 import { Bid } from "./Bid";
+import { RoundType } from "../utils/Enums/RoundType";
 
 export class Game {
     static maxPlayers: number = 8;
@@ -17,6 +17,7 @@ export class Game {
     private currentPlayer: number;
     public currentBid?: Bid;
     public activeRound: boolean;
+    public roundType: String;
     public winner?: User;
 
     constructor(shortId: String, password: String) {
@@ -31,6 +32,7 @@ export class Game {
         this.currentPlayer = 0;
         this.currentBid = undefined;
         this.activeRound = false;
+        this.roundType = RoundType.NORMAL;
     }
 
     public startGame() {
@@ -53,14 +55,9 @@ export class Game {
 
     private setStartingPlayer(): void {
         // Initialize the player that starts.
-        if (this.currentPlayer === 0) {
-            this.currentPlayer = Math.floor(Math.random() * this.numberOfPlayers);
-            this.playerList[this.currentPlayer].isActive = true;
-        } else {
-            this.playerList[this.currentPlayer].isActive = false;
-            this.currentPlayer = Math.floor(Math.random() * this.numberOfPlayers);
-            this.playerList[this.currentPlayer].isActive = true;
-        }
+        this.playerList[this.currentPlayer].isActive = false;
+        this.currentPlayer = Math.floor(Math.random() * this.numberOfPlayers);
+        this.playerList[this.currentPlayer].isActive = true;
     }
 
     public setNextPlayer(newNextPlayer?: User): void {
@@ -89,6 +86,15 @@ export class Game {
 
     public endRound(): void {
         this.activeRound = false;
+        // Remove the special round token if it is active
+        if (this.roundType !== RoundType.NORMAL) {
+            this.playerList.forEach((player) => {
+                if (player.specialRoundActive) {
+                    player.specialRoundActive = false;
+                    player.hasSpecialRoundToken = false;
+                }
+            })
+        }
     }
 
     public addUser(user: User): void {
@@ -152,5 +158,24 @@ export class Game {
 
     public isAnyPlayerConnected(): boolean {
         return this.playerList.some(player => player.isConnected);
+    }
+
+    public shouldBeSpecialRound(): boolean {
+        let activePlayer: User = this.getCurrentPlayer();
+        return (activePlayer.numberOfDice === 1 && activePlayer.hasSpecialRoundToken);
+    }
+
+    public getPlayerToRequest(): User {
+        console.log("This should be removed")
+        let expectedUser: User = this.playerList.filter((user) => (user.numberOfDice === 1 && user.hasSpecialRoundToken))[0];
+        if (expectedUser !== this.getCurrentPlayer()) {
+            throw new Error("Wrong client requested action");
+        } else {
+            return this.getCurrentPlayer();
+        }
+    }
+
+    public isSpecialRound(): boolean {
+        return (this.roundType === RoundType.BLIND || this.roundType === RoundType.OPEN);
     }
 }

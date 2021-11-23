@@ -13,6 +13,8 @@ export class User {
     public isAlive: boolean;
     public isReady: boolean;
     public isConnected: boolean;
+    public hasSpecialRoundToken: boolean;
+    public specialRoundActive: boolean;
 
     constructor(name: String, socketId: String) {
         this.clientId = uuid();
@@ -27,6 +29,8 @@ export class User {
         this.isAlive = true;
         this.isReady = false;
         this.isConnected = true;
+        this.hasSpecialRoundToken = true;
+        this.specialRoundActive = false;
     };
 
     get Id(): String {

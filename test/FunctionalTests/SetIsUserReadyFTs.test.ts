@@ -40,7 +40,6 @@ _chai.should();
     before() {
         // Start a game and get the game data from the response
         this.response = handleRequest(this.createGameAction, this.realServerData);
-        console.log(this.response)
         this.gameShortId = this.response.data[0].sentData.gameShortId;
         this.gameId = this.response.data[0].sentData.gameId;
         this.game = this.realServerData.games[this.gameId];

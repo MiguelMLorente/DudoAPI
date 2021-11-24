@@ -30,10 +30,6 @@ export class CreateGameAction extends Action {
         } else {
             this.isValid = true;
         }
-
-        // Print message
-        let message: String = (this.isValid ? "validated" : "invalid") + " create game action";
-        console.log(message);
     }
 
     public launch(): void {

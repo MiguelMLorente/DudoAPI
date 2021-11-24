@@ -68,8 +68,6 @@ export class BidAction extends Action {
         } else {
             this.isValid = true;
         }
-        let message: String = (this.isValid ? "validated" : "invalid") + " bid action";
-        console.log(message);
     }
 
     public launch(): void {

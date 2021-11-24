@@ -46,9 +46,6 @@ export class CallAction extends Action {
         } else {
             this.isValid = true;
         }
-
-        let message: String = (this.isValid ? "validated" : "invalid") + " call action";
-        console.log(message);
     }
 
     public launch(): void {

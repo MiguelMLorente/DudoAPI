@@ -27,9 +27,6 @@ export class RequestClientOptionAction extends Action {
         } else {
             this.isValid = true;
         }
-
-        let message: String = (this.isValid ? "validated" : "invalid") + " request option action";
-        console.log(message);
     }
 
     public launch(): void {

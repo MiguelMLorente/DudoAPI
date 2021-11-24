@@ -39,9 +39,6 @@ export class SetIsPlayerReadyAction extends Action {
         } else {
             this.isValid = true;
         }
-
-        let message: String = (this.isValid ? "validated" : "invalid") + " set isPlayerReady action";
-        console.log(message);
     }
 
     public launch(): void {

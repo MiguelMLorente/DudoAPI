@@ -46,9 +46,6 @@ export class KillAction extends Action {
         } else {
             this.isValid = true;
         }
-
-        let message: String = (this.isValid ? "validated" : "invalid") + " kill action";
-        console.log(message);
     }
 
     public launch(): void {

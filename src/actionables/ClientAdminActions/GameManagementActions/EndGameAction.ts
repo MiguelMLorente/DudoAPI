@@ -26,10 +26,6 @@ export class EndGameAction extends Action {
         } else {
             this.isValid = true;
         }
-
-        // Print message
-        let message: String = (this.isValid ? "validated" : "invalid") + " end game action";
-        console.log(message);
     }
 
     public launch(): void {

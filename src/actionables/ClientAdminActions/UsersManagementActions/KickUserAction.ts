@@ -44,10 +44,6 @@ export class KickUserAction extends Action {
         } else {
             this.isValid = true;
         }
-
-        // Print message
-        let message: String = (this.isValid ? "validated" : "invalid") + " kick user action";
-        console.log(message);
     }
 
     public launch(): void {

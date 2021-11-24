@@ -27,10 +27,6 @@ export class NewRoundAction extends Action {
         } else {
             this.isValid = true;
         }
-
-        // Print message
-        let message: String = (this.isValid ? "validated" : "invalid") + " new round action";
-        console.log(message);
     }
 
     public launch(): void {

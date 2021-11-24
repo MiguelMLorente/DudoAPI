@@ -43,9 +43,6 @@ export class SelectOptionAction extends Action {
         } else {
             this.isValid = true;
         }
-
-        let message: String = (this.isValid ? "validated" : "invalid") + " set select option action";
-        console.log(message);
     }
 
     public launch(): void {

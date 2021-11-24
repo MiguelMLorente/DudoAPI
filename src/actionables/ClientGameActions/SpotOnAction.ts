@@ -46,9 +46,6 @@ export class SpotOnAction extends Action {
         } else {
             this.isValid = true;
         }
-
-        let message: String = (this.isValid ? "validated" : "invalid") + " spot on action";
-        console.log(message);
     }
 
     public launch(): void {

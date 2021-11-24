@@ -49,10 +49,6 @@ export class JoinGameAction extends Action {
         } else {
             this.isValid = true;
         }
-
-        // Print message
-        let message: String = (this.isValid ? "validated" : "invalid") + " join game action";
-        console.log(message);
     }
 
     public launch(): void {

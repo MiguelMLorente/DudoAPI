@@ -11,6 +11,7 @@ import { JoinGameActionBuilder } from "./JoinGameActionBuilder";
 import { KickUserActionBuilder } from "./KickUserActionBuilder";
 import { KillActionBuilder } from "./KillActionBuilder";
 import { PostRoundActionBuilder } from "./PostRoundActionBuilder";
+import { SelectOptionActionBuilder } from "./SelectOptionActionBuilder";
 import { SetIsPlayerReadyActionBuilder } from "./SetIsPlayerReadyActionBuilder";
 import { SpotOnActionBuilder } from "./SpotOnActionBuilder";
 import { UserAction } from "./UserAction";
@@ -47,6 +48,8 @@ export class ActionBuilder {
                 return new SpotOnActionBuilder(this.jsonAction, this.helper).build();
             case ActionType.KILL:
                 return new KillActionBuilder(this.jsonAction, this.helper).build();
+            case ActionType.SELECT_OPTION:
+                return new SelectOptionActionBuilder(this.jsonAction, this.helper).build();
             // Internal server actions
             case ActionType.POST_ROUND:
                 return new PostRoundActionBuilder(this.jsonAction, this.helper).build();

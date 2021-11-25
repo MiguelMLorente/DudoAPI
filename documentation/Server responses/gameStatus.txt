@@ -1,0 +1,33 @@
+Use cases:
+- All players have readied themselves and game starts
+- Some player has been kicked and the game starts
+- Some players emits a valid BID action
+- New round starts after a end-of-round response is sent
+- New special round starts after a valid SELECT OPTION action
+
+Emmision channel: game-status
+
+Emmited to: all players in the game
+
+Emmited object:
+{
+    currentBid: {
+        diceValue: int,
+        diceNumber: int,
+        doneBy: string
+    } OR null,
+
+    playersInfo: Array<{
+        playerName: String,
+        isActive: boolean,
+        isAlive: boolean,
+        diceNumber: int OR null,
+        diceValue: Array<int> OR null
+    }>
+}
+
+Comments: 
+- CurrentBid may not exist if the round has just started.
+- Dice value and dice number may not be available depending on the
+information that the user should have according to game rules (special
+rounds are also taken into account).

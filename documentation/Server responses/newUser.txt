@@ -1,0 +1,7 @@
+Use case: user connects to server
+
+Emmision channel: new-user
+
+Emmited to: connected user
+
+Emmited object: { userId : string }

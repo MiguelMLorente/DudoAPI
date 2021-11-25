@@ -1,0 +1,7 @@
+Use cases: any invalid action is requested
+
+Emmision channel: error
+
+Emmited to: requester
+
+Emmited object: string

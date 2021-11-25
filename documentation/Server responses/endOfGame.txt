@@ -1,0 +1,8 @@
+Use cases:
+- Game ends after a end-of-round response
+
+Emmision channel: end-of-game
+
+Emmited to: all players in the game
+
+Emmited object: { winner: string }

@@ -1,0 +1,19 @@
+Channel: action
+
+Action name: BID
+
+Utility: basic game action, increase current bid, or create a new one
+
+Sent object:
+{
+    requester: {
+        uuid: string
+    },
+    actionType: "BID",
+    actionData: {
+        gameId: string,
+        diceQuantity: int,
+        diceValue: int
+    }
+}
+

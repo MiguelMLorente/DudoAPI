@@ -1,0 +1,17 @@
+Channel: action
+
+Action name: KILL/CALL/SPOT ON
+
+Utility: finish the round by accepting the current bid
+
+Sent object:
+{
+    requester: {
+        uuid: string
+    },
+    actionType: "KILL" / "CALL" / "SPOT ON",
+    actionData: {
+        gameId: string
+    }
+}
+

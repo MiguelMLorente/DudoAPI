@@ -1,0 +1,18 @@
+Channel: action
+
+Action name: SELECT OPTION
+
+Utility: select the round type when a special round should start
+
+Sent object:
+{
+    requester: {
+        uuid: string
+    },
+    actionType: "SELECT OPTION",
+    actionData: {
+        gameId: string,
+        selectedOption: string
+    }
+}
+

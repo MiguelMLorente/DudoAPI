@@ -1,0 +1,14 @@
+Use cases:
+- A valid KICK PLAYER action has been Emmited
+
+Emmision channel: player-kicked
+
+Emmited to: the kicked player
+
+Emmited object: "" (empty string)
+
+Comments:
+- A lobby update response will be sent to the players
+that remain in the game
+- No information is required in the response, appart
+from the response channel in which it is sent.

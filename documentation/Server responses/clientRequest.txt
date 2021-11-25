@@ -1,0 +1,9 @@
+Use cases:
+- A new special round is about to start, but the player
+has to decide which type of round it will be.
+
+Emmision channel: select-option
+
+Emmited to: all players in the game
+
+Emmited object: { playerRequested: string }

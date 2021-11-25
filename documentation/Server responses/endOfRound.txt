@@ -1,0 +1,32 @@
+Use cases:
+- A valid KILL/CALL/SPOT action has been emmited
+
+Emmision channel: end-of-round
+
+Emmited to: all players in the game
+
+Emmited object:
+{
+    action: string,
+    requesterName: string,
+    winnerName: string,
+    loserName: string,
+
+    currentBid: {
+        diceValue: int,
+        diceNumber: int,
+        doneBy: string
+    },
+
+    playersInfo: Array<{
+        playerName: String,
+        isActive: boolean,
+        isAlive: boolean,
+        diceNumber: int,
+        diceValue: Array<int>
+    }>
+}
+
+Comments: 
+- After this response has been emmited, a new round will start, and
+thus, a game-status response will be sent automatically.

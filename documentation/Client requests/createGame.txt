@@ -1,0 +1,18 @@
+Channel: action
+
+Action name: CREATE GAME
+
+Utility: create a new game
+
+Sent object:
+{
+    requester: {
+        uuid: string,
+        name: string
+    },
+    actionType: "CREATE GAME",
+    actionData: {
+        gamePassword: string
+    }
+}
+

@@ -1,0 +1,19 @@
+Channel: action
+
+Action name: JOIN GAME
+
+Utility: join an existing game knowing the shortId
+
+Sent object:
+{
+    requester: {
+        uuid: string,
+        name: string
+    },
+    actionType: "JOIN GAME",
+    actionData: {
+        gameShortId: string,
+        gamePassword: string
+    }
+}
+

@@ -1,0 +1,18 @@
+Channel: action
+
+Action name: READY PLAYER
+
+Utility: ready/unready this player in the game lobby
+
+Sent object:
+{
+    requester: {
+        uuid: string
+    },
+    actionType: "READY PLAYER",
+    actionData: {
+        gameId: string,
+        ready: boolean
+    }
+}
+

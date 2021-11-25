@@ -1,0 +1,40 @@
+- Dudo is a dice game for 2-8 players
+
+- On game start each player is given 5 dice. 
+- If a player loses all their dice, they lose. 
+- The last remaining player wins the game.
+
+- Each round consists of the following phases:
+    - Players roll their dice
+    - Players watch only their own dice results
+    - Players bet on how many dice of a given value there are 
+    - At any point any player can spot/kill/call the bid
+    - All dice are shown, and the winner and loser are identified
+    - Loser loses a dice (with some specific exception)
+
+- How players bid:
+    - The first player proposes a dice value and a dice quantity.
+    - The next player can increase the quantity of that same dice value, or can bid any ammount of dice of a higher value
+    - The player who is in turn can decide to bid or to end the round by accepting the last player's bet
+
+- How to accept the last player's bet: call/kill/spot:
+    - A bid must exist prior to accepting a bet
+    - CALL: 
+        - The player that calls the latest bid "says" that there are not that many dice of such value.
+        - All the dice of all players are revealed
+        - If there are equal or more dice than the bidded quantity, the bidder wins, and the "caller" loses
+        - If there were less dice of that value than the bidded quantity, the "caller" wins
+        - The loser loses a dice
+    - KILL/SPOT: 
+        - Similarly, the player that kills the latest bid "says" that there are exactly that many dice of such value.
+        - All the dice of all players are revealed
+        - If there is an equal ammount of dice than the bidded quantity, the "killer"/"spotter" wins, and the bidder loses
+        - Else, the bidder wins
+    - KILL: The loser loses a dice
+    - SPOT: The winner wins a dice/extra life (no more than 5 dice can be held at the same time)
+
+- Special rounds:
+    - For each player, the first time that they get to have a single dice (they're about to lose), they can chose an special round type:
+        - BLIND: no player can see their dice excepting for the player that selected the round type
+        - OPEN: each player will reveal their dice to the others, and will not be able to see their own dice
+    - This is a one time event for each player

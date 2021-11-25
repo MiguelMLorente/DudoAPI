@@ -1,0 +1,33 @@
+Use cases: 
+- Any player readies/unreadies themselves without game
+starting (not all players are ready yet)
+- Some player is kicked
+
+Emmision channel: lobby-update
+
+Emmited to: all players in the game
+
+Emmited object: 
+{
+    playerList: Array<{
+        playerName: string,
+        isReady: boolean
+    }>
+}
+
+
+{
+    currentBid: {
+        diceValue: int,
+        diceNumber: int,
+        doneBy: string
+    } OR null,
+
+    playersInfo: Array<{
+        playerName: String,
+        isActive: boolean,
+        isAlive: boolean,
+        diceNumber: int OR null,
+        diceValue: Array<int> OR null
+    }>
+}

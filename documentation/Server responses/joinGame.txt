@@ -1,0 +1,15 @@
+Use case: user emits a valid CREATE GAME or JOIN GAME action
+
+Emmision channel: joined-game
+
+Emmited to: all players in the game
+
+Emmited object: 
+{ 
+    gameId : string,
+    gameShortId: string,
+    playerList: Array<{
+        playerName: string,
+        isReady: boolean
+    }>
+}

@@ -1,0 +1,18 @@
+Channel: action
+
+Action name: KICK USER
+
+Utility: remove a player in the lobby as game admin (game creator)
+
+Sent object:
+{
+    requester: {
+        uuid: string
+    },
+    actionType: "KICK USER",
+    actionData: {
+        gameId: string,
+        kickedUser: string
+    }
+}
+

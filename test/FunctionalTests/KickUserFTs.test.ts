@@ -2,18 +2,21 @@
 import {suite, test} from "@testdeck/mocha";
 import * as _chai from "chai";
 
-import * as mockServerData from "../Mocks/ServerDataMock";
 import { ServerData } from "../../src/ServerData"
+import { Response } from "../../src/utils/Builders/ResponseBuilder/Responses/Response";
+import { Game } from "../../src/gameData/Game"
+
+import { ErrorMessage } from "../../src/utils/Enums/ErrorMessage";
+import { ResponseChannel } from "../../src/utils/Enums/ResponseChannels";
+
 import { handleRequest } from '../Mocks/MockRequestHandlers/ReducedRequestHandler';
+
+import * as mockServerData from "../Mocks/ServerDataMock";
+
 import * as mockCreateGameAction from "../Mocks/ MockActions/CreateGameActionMock"
 import * as mockJoinGameAction from "../Mocks/ MockActions/JoinGameActionMock"
 import * as mockSetIsUserReadyAction from "../Mocks/ MockActions/SetIsUserReadyActionMock"
 import * as mockKickUserAction from "../Mocks/ MockActions/KickUserActionMock"
-import { Response } from "../../src/utils/Builders/ResponseBuilder/Responses/Response";
-import { ErrorMessage } from "../../src/utils/Enums/ErrorMessage";
-import { ResponseChannel } from "../../src/utils/Enums/ResponseChannels";
-import { Game } from "../../src/gameData/Game"
-import { Test } from "mocha";
 
 _chai.should();
 

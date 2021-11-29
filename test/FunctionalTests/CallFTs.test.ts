@@ -2,14 +2,14 @@
 import {suite, test} from "@testdeck/mocha";
 import * as _chai from "chai";
 
-import * as mockServerData from "../mocks/ServerDataMock";
+import * as mockServerData from "../Mocks/ServerDataMock";
 import { ServerData } from "../../src/ServerData"
-import { handleRequest } from '../mocks/ReducedRequestHandler';
-import * as mockCreateGameAction from "../mocks/CreateGameActionMock"
-import * as mockJoinGameAction from "../mocks/JoinGameActionMock"
-import * as mockSetIsUserReadyAction from "../mocks/SetIsUserReadyActionMock"
-import * as mockBidAction from "../mocks/BidActionMock"
-import * as mockCallAction from "../mocks/CallActionMock"
+import { handleRequest } from '../Mocks/MockRequestHandlers/ReducedRequestHandler';
+import * as mockCreateGameAction from "../Mocks/ MockActions/CreateGameActionMock"
+import * as mockJoinGameAction from "../Mocks/ MockActions/JoinGameActionMock"
+import * as mockSetIsUserReadyAction from "../Mocks/ MockActions/SetIsUserReadyActionMock"
+import * as mockBidAction from "../Mocks/ MockActions/BidActionMock"
+import * as mockCallAction from "../Mocks/ MockActions/CallActionMock"
 import { Response } from "../../src/utils/Builders/ResponseBuilder/Responses/Response";
 import { ErrorMessage } from "../../src/utils/Enums/ErrorMessage";
 import { GameStatus } from "../../src/utils/Enums/GameStatus";

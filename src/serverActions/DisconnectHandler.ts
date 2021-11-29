@@ -34,7 +34,7 @@ export function handleDisconnect(socketId: string, serverData: ServerData, io: a
                 } else {
                     // If some player is still not ready, send lobby update
                     response = getLobbyUpdateResponse(game);
-                    if (!disconnectedUser.isAdmin) {
+                    if (disconnectedUser.isAdmin) {
                         // TODO send user promotion to new player
                         // response2 = getLobbyUpdateResponse(game);
                     }

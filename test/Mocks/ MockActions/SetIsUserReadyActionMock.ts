@@ -4,6 +4,7 @@ let correctAction1 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
+        "gameId": "",
         "ready": true
     }
 }
@@ -14,6 +15,7 @@ let correctAction2 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
+        "gameId": "",
         "ready": true
     }
 }
@@ -24,6 +26,7 @@ let correctAction3 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
+        "gameId": "",
         "ready": true
     }
 }
@@ -34,6 +37,7 @@ let correctAction4 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
+        "gameId": "",
         "ready": false
     }
 }
@@ -44,7 +48,7 @@ let faultyAction1 = {
       },
       "actionType": "PLAYER READY",
       "actionData": {
-          "userId": "",
+        "gameId": "",
           "ready": true
       }
 }
@@ -55,6 +59,7 @@ let faultyAction2 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
+        "gameId": "",
         "ready": true
     }
 }
@@ -65,6 +70,7 @@ let faultyAction3 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
+        "gameId": "",
         "ready": true
     }
 }
@@ -75,11 +81,21 @@ let faultyAction4 = {
     },
     "actionType": "PLAYER READY",
     "actionData": {
+        "gameId": "",
         "ready": null
     }
 }
 
-
+let emptyAction = {
+    "requester": {
+      "uuid": ""
+    },
+    "actionType": "PLAYER READY",
+    "actionData": {
+        "gameId": "",
+        "ready": true
+    }
+}
   
 export { correctAction1, 
     correctAction2, 
@@ -88,4 +104,5 @@ export { correctAction1,
     faultyAction1,
     faultyAction2,
     faultyAction3,
-    faultyAction4 };
+    faultyAction4,
+    emptyAction };

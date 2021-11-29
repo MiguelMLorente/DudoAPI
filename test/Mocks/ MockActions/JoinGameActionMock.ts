@@ -82,6 +82,17 @@ let faultyAction4 = {
     }
 }
 
+let emptyAction = {
+    "requester": {
+        "uuid": "",
+        "name": ""
+    },
+    "actionType": "JOIN GAME",
+    "actionData": {
+        "gameShortId": "",
+        "gamePassword": "Password-1"
+    }
+}
 
 export { correctAction1, 
     correctAction2, 
@@ -89,4 +100,5 @@ export { correctAction1,
     faultyAction1, 
     faultyAction2, 
     faultyAction3, 
-    faultyAction4 };
+    faultyAction4,
+    emptyAction };

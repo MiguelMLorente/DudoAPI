@@ -34,8 +34,11 @@ export class JoinGameAction extends Action {
         } else if (!this.helper.checkUserNotRegisteredInAnyGame(this.requester)) {
             // User must not be registered in any game in order to create a new game
             this.errorMessage = ErrorMessage.USER_REGISTERED;
-        } else if ((this.joinedGame === null) || (this.gamePassword !== this.joinedGame.password)) {
-            // Game must exist and have matching password
+        } else if (this.joinedGame === null) {
+            // Game must exist
+            this.errorMessage = ErrorMessage.GAME_NOT_FOUND;
+        } else if (this.gamePassword !== this.joinedGame.password) {
+            // Game must have matching password
             this.errorMessage = ErrorMessage.PASSWORD;
         } else if (this.joinedGame.numberOfPlayers >= Game.maxPlayers) {
             // Game must have space for a new player

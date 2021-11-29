@@ -3,7 +3,7 @@ export enum ErrorMessage {
     USER_NAME = "User name not inserted",
     USER_REGISTERED = "User already registered in a different game",
     USER_NOT_REGISTERED = "User is not registered in this game",
-    PASSWORD = "Incorrect game name or password, try again",
+    PASSWORD = "Incorrect password, try again",
     GAME_STARTED = "Game has already been started",
     GAME_NOT_STARTED = "Game has not started",
     GAME_NOT_FOUND = "Game not found",

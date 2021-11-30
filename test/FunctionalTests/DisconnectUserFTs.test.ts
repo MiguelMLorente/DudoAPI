@@ -151,6 +151,17 @@ _chai.should();
         _chai.expect(this.game.numberOfPlayers).to.be.eq(3);
     }
 
+    @test 'Admin leaves the lobby, the first joiner is promoted'() {
+        this.createGame();
+        this.joinAllPlayers();
+        _chai.expect( () => {
+            this.response = this.disconnectUser(0);
+        }).to.not.throw();
+        this.checkUserRemoved(0);
+        _chai.expect(this.response.channel).to.be.eq(ResponseChannel.LOBBY_UPDATE);
+        _chai.expect(this.serverData.users[this.usersId[1]].isAdmin).to.be.eq(true);
+    }
+
     @test 'Some player leaves the game out of their turn'() {
         this.createAndStartGame();
         _chai.expect( () => {

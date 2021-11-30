@@ -6,9 +6,10 @@ import { LobbyInfo } from "./Responses/ResponseLobbyInfo";
 
 class LobbyUpdateResponse {
     playerList: Array<LobbyInfo>;
-
-    constructor(playerList: Array<LobbyInfo>) {
+    hasAdminPermissions: boolean;
+    constructor(playerList: Array<LobbyInfo>, isAdmin: boolean) {
         this.playerList = playerList;
+        this.hasAdminPermissions = isAdmin;
     }
 }
 
@@ -18,11 +19,11 @@ function buildLobbyUpdateResponse(game: Game): Array<ResponseDataModel> {
     let playerList: Array<LobbyInfo> = [];
     game.users.forEach((player) => {
         playerList.push(new LobbyInfo(player.UserName, player.isReady));
-    })
-    let response: LobbyUpdateResponse = new LobbyUpdateResponse(playerList);
+    });
 
     game.users.forEach((player) => {
         // Build response sent to this specific player
+        let response: LobbyUpdateResponse = new LobbyUpdateResponse(playerList, player.isAdmin);
         let responseModel: ResponseDataModel = new ResponseDataModel(
             player.connectionId,
             response

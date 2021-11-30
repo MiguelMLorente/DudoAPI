@@ -110,6 +110,10 @@ export class Game {
         }
     }
 
+    public promoteFirstPlayerToAdmin(): void {
+        this.playerList[0].grantAdminPermisions();
+    }
+
     get gameId(): String {
         return this.id;
     }

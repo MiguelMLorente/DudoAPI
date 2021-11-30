@@ -33,11 +33,11 @@ export function handleDisconnect(socketId: string, serverData: ServerData, io: a
                     response = getGameStatusUpdateResponse(game);
                 } else {
                     // If some player is still not ready, send lobby update
-                    response = getLobbyUpdateResponse(game);
                     if (disconnectedUser.isAdmin) {
-                        // TODO send user promotion to new player
-                        // response2 = getLobbyUpdateResponse(game);
+                        // If the player was admin, promote the first joiner
+                        game.promoteFirstPlayerToAdmin();
                     }
+                    response = getLobbyUpdateResponse(game);
                 }
             } else if (game.status === GameStatus.CURRENT && disconnectedUser.isAlive) {
                 // If the joined game has started and the player is still alive

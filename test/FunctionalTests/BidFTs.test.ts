@@ -67,7 +67,6 @@ _chai.should();
     private getCorrectAction(diceQ: number, diceVal: number): any {
         let action = mockBidAction.emptyAction;
         action.requester.uuid = this.playersId[this.startingPlayer];
-        action.requester.name = this.playersName[this.startingPlayer];
         action.actionData.gameId = this.gameId;
         action.actionData.diceValue = diceVal;
         action.actionData.diceQuantity = diceQ;

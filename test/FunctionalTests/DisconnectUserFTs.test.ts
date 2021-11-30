@@ -26,7 +26,6 @@ _chai.should();
     private gameId: string;
     private gameShortId: string;
     private game: Game;
-    private startingPlayer: number;
 
     private usersId: Array<string> = ["486cae9d-dc1c-4e22-9a76-d0a120442f7d",
         "b378d887-b05a-402a-b758-afe9399587ef",

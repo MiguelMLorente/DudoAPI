@@ -20,8 +20,6 @@ import * as mockBidAction from "../Mocks/ MockActions/BidActionMock"
 import * as mockCallAction from "../Mocks/ MockActions/CallActionMock"
 import * as mockSelectOptionAction from "../Mocks/ MockActions/SelectOptionActionMock"
 
-
-
 _chai.should();
 
 @suite class EndOfRoundFunctionalTests {

@@ -36,7 +36,6 @@ export class EndGameAction extends Action {
         if (this.isValid) {
             return getEndOfGameResponse(this.game);
         } else {
-            console.log(this.errorMessage)
             return getInternalErrorResponse();
         }
     }

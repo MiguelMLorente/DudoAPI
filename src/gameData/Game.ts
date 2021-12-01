@@ -170,13 +170,7 @@ export class Game {
     }
 
     public getPlayerToRequest(): User {
-        console.log("This should be removed")
-        let expectedUser: User = this.playerList.filter((user) => (user.numberOfDice === 1 && user.hasSpecialRoundToken))[0];
-        if (expectedUser !== this.getCurrentPlayer()) {
-            throw new Error("Wrong client requested action");
-        } else {
-            return this.getCurrentPlayer();
-        }
+        return this.getCurrentPlayer();
     }
 
     public isSpecialRound(): boolean {

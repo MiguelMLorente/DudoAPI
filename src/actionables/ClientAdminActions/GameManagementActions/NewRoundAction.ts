@@ -38,7 +38,6 @@ export class NewRoundAction extends Action {
         if (this.isValid) {
             return getGameStatusUpdateResponse(this.game);
         } else {
-            console.log(this.errorMessage)
             return getInternalErrorResponse();
         }
     }

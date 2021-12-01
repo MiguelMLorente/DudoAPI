@@ -88,10 +88,6 @@ export class ServerDataHelper {
         return game.users.some(player => player === user)
     }
 
-    public checkUsersRegisteredInTheSameGame(user1: User, user2: User): boolean {
-        return user1.joinedGame === user2.joinedGame;
-    }
-
     public checkDuplicatePlayerName(newPlayer: User, game: Game): boolean {
         var output: boolean = false;
         game.users.forEach((player) => {

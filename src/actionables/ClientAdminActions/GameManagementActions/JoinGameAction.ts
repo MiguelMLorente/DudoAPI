@@ -46,7 +46,7 @@ export class JoinGameAction extends Action {
         } else if (this.joinedGame.status !== GameStatus.NOT_STARTED) {
             // Check that the game has not started yet
             this.errorMessage = ErrorMessage.GAME_STARTED;
-        } else if (this.helper.checkDuplicatePlayerName(this.requester, this.joinedGame)) {
+        } else if (this.helper.checkDuplicatePlayerName(<string>this.userName, this.joinedGame)) {
             // Check that the user name does not exist in the current game;
             this.errorMessage = ErrorMessage.DUPLICATED_NAME;
         } else {

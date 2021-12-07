@@ -88,10 +88,12 @@ export class ServerDataHelper {
         return game.users.some(player => player === user)
     }
 
-    public checkDuplicatePlayerName(newPlayer: User, game: Game): boolean {
+    public checkDuplicatePlayerName(newPlayerName: string, game: Game): boolean {
         var output: boolean = false;
         game.users.forEach((player) => {
-            if (player.UserName === newPlayer.UserName) output = true;
+            if (player.UserName === newPlayerName) {
+                output = true;
+            }
         });
         return output;
     }

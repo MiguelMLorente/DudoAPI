@@ -76,7 +76,7 @@ export class KillAction extends Action {
     public response(): Response {
         if (this.isValid) {
             // Respond by revealing the dice values and the winner of the action
-            return getEndOfRoundResponse(this.game, this.winner!, this.loser!, this.requester, ActionType.SPOT_ON);
+            return getEndOfRoundResponse(this.game, this.winner!, this.loser!, this.requester, ActionType.KILL);
         } else {
             return getErrorResponse(this.requester, this.errorMessage);
         }

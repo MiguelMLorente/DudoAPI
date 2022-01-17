@@ -40,7 +40,7 @@ function buildGameStatusResponse(game: Game, shouldBeKnownDice: Function): Array
     let outputResponseDataModelArray: Array<ResponseDataModel> = [];
 
     // Write bid info in case there is a bid stated
-    let bid: CurrentBid | undefined;
+    let bid: CurrentBid | undefined = null as unknown as undefined;
     if (game.currentBid) {
         bid = new CurrentBid(game.currentBid.value,
             game.currentBid.number,

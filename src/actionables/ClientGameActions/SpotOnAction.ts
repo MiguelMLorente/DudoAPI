@@ -61,7 +61,11 @@ export class SpotOnAction extends Action {
         }
 
         // Add a dice/extra life to the loser
-        this.winner.addDie();
+        if (this.requester === this.winner) {
+            this.requester.addDie();
+        } else {
+            this.requester.removeDie();
+        }
         
         // Transfer turn to the loser
         this.game.setNextPlayer(this.loser);

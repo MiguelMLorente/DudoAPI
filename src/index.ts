@@ -6,14 +6,14 @@
 
 import { Server } from 'socket.io';
 import { ServerData } from "./ServerData";
-import { createServer } from "http";
+import { createServer } from "https";
 import { handleRequest } from './serverActions/ResquestHandler';
 import { createUser } from './serverActions/CreateUser';
 import { handleDisconnect } from './serverActions/DisconnectHandler';
+import { readFileSync } from 'fs'
 
-
-let server = createServer();
-let io = new Server(server, {cors: {origin: "*"}})
+let server = createServer({ key: readFileSync("/etc/letsencrypt/live/micodev.ddns.net/privkey.pem"), cert: readFileSync("/etc/letsencrypt/live/micodev.ddns.net/fullchain.pem") });
+let io = new Server(server, { cors: { origin: "*" } })
 
 
 let serverData: ServerData = new ServerData();
@@ -21,7 +21,7 @@ let serverData: ServerData = new ServerData();
 io.on('connection', socket => {
     // create new User
     createUser(socket, serverData);
-    
+
     // handle new User request
     socket.on('action', action => {
         handleRequest(action, serverData, io);
@@ -32,4 +32,4 @@ io.on('connection', socket => {
     });
 })
 
-server.listen(8081);
+server.listen(8082);

@@ -24,8 +24,8 @@
   },
   "scripts": {
     "test": "nyc ./node_modules/.bin/_mocha 'test/**/*.test.ts'",
-    "build": "npx tsc -w",
-    "start": "nodemon ./build/src/index.js"
+    "build": "npx tsc",
+    "start": "node ./build/src/index.js"
   },
   "author": "Pau Costa & Miguel Muñoz",
   "license": "ISC"

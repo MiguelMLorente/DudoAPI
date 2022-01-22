@@ -66,7 +66,11 @@ export class SpotOnAction extends Action {
         } else {
             this.requester.removeDie();
         }
-        
+        // Remove player if no dice are left
+        if (this.loser.numberOfDice === 0) {
+            this.loser.isAlive = false;
+            this.game.alivePlayers --;
+        }
         // Transfer turn to the loser
         this.game.setNextPlayer(this.loser);
         this.game.endRound();
